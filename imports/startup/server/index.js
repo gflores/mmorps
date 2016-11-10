@@ -1,0 +1,1 @@
+import '/imports/api/manage-players/methods.js';
