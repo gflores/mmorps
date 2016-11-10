@@ -1,0 +1,20 @@
+Schemas of the gameData
+
+gameData = {
+    "id1": Player,
+    "id2": Player
+}
+
+Player = {
+    hp: Integer,
+    currentCards: [Card, Card, Card],
+    remainingCardsStack: [Card, Card, ...],
+    action: 'SHIELD' | 'ATTACK'
+    actionCardIndex: 0 | 1 | 2
+}
+
+Card = {
+    value: Integer,
+    element: 'ROCK' | 'PAPER' | 'SCISSOR'
+}
+
