@@ -33,5 +33,22 @@ Meteor.methods({
         Wait(2000);
 
         console.log("A: 3");
+    },
+
+    PlayCard: (playerId, cardIndex) => {
+        gameData = getGameData();
+        if(gameData[playerId]){
+            gameData[playerId].action = 'ATTACK';
+            gameData[playerId].actionCardIndex = cardIndex;
+        }
+        console.log(gameData);
+    },
+
+    PlayShield: (playerId) => {
+        gameData = getGameData();
+        if(gameData[playerId]){
+            gameData[playerId].action = 'SHIELD';
+        }
+        console.log(gameData);
     }
 });
