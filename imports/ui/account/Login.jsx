@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { composeWithTracker } from 'react-komposer';
 
-class Login extends Component {
+export class Login extends Component {
     
     createAccount(event) {
         event.preventDefault();
@@ -15,43 +15,24 @@ class Login extends Component {
         });
         return true;
     }
-    
-    displayLoginUI(){
-        if (Meteor.userId()){
-            return (
-                <span>Welcome, {Meteor.user().username}</span>
-            )
-            
-        } else {
-            return (
-                <div className="registerUser">
-                    <form className="register" onSubmit={this.createAccount.bind(this)}>
-                        <label>Username</label>
-                        <input type="text" ref="username" name="username"/>
-                        <br/>
-                        <input type="submit" value="Start"/>
-                    </form>
-                </div>
-            )
-        }
-    }
-    
+
     render(){
+        console.log('render Login');
         return (
             <div>
-                {this.displayLoginUI()}
+                { Meteor.userId() ?
+                    <span>Welcome, { Meteor.user().username }</span>
+                :
+                    <div className="registerUser">
+                        <form className="register" onSubmit={this.createAccount.bind(this)}>
+                            <label>Username</label>
+                            <input type="text" ref="username" name="username"/>
+                            <br/>
+                            <input type="submit" value="Start"/>
+                        </form>
+                    </div>
+                }
             </div>
         )
     }
 };
-
-export default composeWithTracker((props, onData) => {
-    var userSubscription = Meteor.subscribe("users");
-
-    if (userSubscription.ready()){
-        onData(null, {
-            users: Meteor.users.find().fetch()
-        });
-    }
-
-})(Login);

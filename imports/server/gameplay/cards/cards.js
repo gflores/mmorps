@@ -13,7 +13,7 @@ export const CardElements = {
     PAPER: "PAPER"  
 };
 
-NotLastThreeTheSameElement = function(cards) {
+NotLastThreeTheSameElement = (cards) => {
     var card, element, i, index, len, results;
     if (cards[cards.length - 1].element === cards[cards.length - 2].element && cards[cards.length - 2].element === cards[cards.length - 3].element) {
         element = cards[cards.length - 1].element;

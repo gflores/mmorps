@@ -1,10 +1,10 @@
-import '/imports/startup/client/index.js';
+import '/imports/client/startup.js';
 
 import React from 'react';
 import { render } from 'react-dom';
  
-import App from '/imports/ui/App.jsx';
+import Container from '/imports/ui/Container.jsx';
  
 Meteor.startup(() => {
-    render(<App />, document.getElementById('render-target'));
+    render(<Container />, document.getElementById('render-target'));
 });
