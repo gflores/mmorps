@@ -2,17 +2,17 @@ generateHandlerForSync = (publisher, cursor, collectionName) => {
     cursor.observeChanges({
         added: (id, fields) => {
             publisher.added(collectionName, id, fields)
-        }
+        },
         removed: (id) => {
             publisher.removed(collectionName, id)
-        }
+        },
         changed: (id, fields) => {
             publisher.changed(collectionName, id, fields)
         }
     })
 }
 
-export const publishCursor = function(publicationName, collectionName, getCursorFunc, options = {}) {
+export const publishCustomCursor = function(publicationName, collectionName, getCursorFunc, options = {}) {
     Meteor.publish(publicationName, function (){ //arguments will be the arguments passed to subscribe
         console.log("User:#{this.userId} REQUESTS for subscription to '#{publicationName}'");
 
