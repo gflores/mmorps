@@ -6,6 +6,17 @@ export class GameplayArea extends Component {
         return (
             <div>
                 gameplay
+                <br />
+
+                <button onClick={ () => Meteor.call('testServerMessage_A') }>
+                    testServerMessage_A
+                </button>
+                <br />
+
+                <button onClick={ () => Meteor.call('testServerMessage_B') }>
+                    testServerMessage_B
+                </button>
+                <br />
             </div>
         )
     }

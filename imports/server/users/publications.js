@@ -1,5 +1,3 @@
-//No need so far... we get Meteor.user() is by default
-
-// Meteor.publish('users', () => {
-//     return Meteor.users.find();
-// });
+Meteor.publish('user', () => {
+    return Meteor.users.find({_id: this.userId});
+});

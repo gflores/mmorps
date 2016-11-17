@@ -1,41 +1,33 @@
 import React, {Component} from 'react';
 import { composeWithTracker } from 'react-komposer';
 
+import { autoUserCreate } from '/imports/client/users/auto-user-create.js';
+import { joinMainGame, launchMainGame, resetMainGame} from '/imports/client/manage-game-room/join-game.js';
+
 export class MainOptionsArea extends Component {
     
     createUser() {
-        var id = Math.floor((Math.random() * 1000000000)).toString();
-        var password = "password";
-
-        Accounts.createUser({
-            username: id,
-            password: password
-        });
+        autoUserCreate();
     }
 
     joinGame() {
-        Meteor.call('JoinMainGame');
+        joinMainGame();
     }
 
-    joinGame() {
-        Meteor.call('LaunchMainGame');
+    launchGame() {
+        launchMainGame();
     }
 
     resetGame() {
-        Meteor.call('ResetMainGame');
+        resetMainGame();
     }
 
     render(){
         return (
             <div>
-                <button onClick={ () => this.createUser() }> Create User</button>
-                <br />
                 <button onClick={ () => this.joinGame() }> Join Game</button>
                 <br />
-                <button onClick={ () => this.launchGame() }> Launch Game</button>
-                <br />
                 <button onClick={ () => this.resetGame() }> Reset Game</button>
-
                 <br />
                 user: { Meteor.userId() }
             </div>

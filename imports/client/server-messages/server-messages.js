@@ -1,0 +1,1 @@
+export const ServerMessages = new Mongo.Collection("serverMessages");
