@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { Login } from './account/Login.jsx';
+import { MainOptionsArea } from '/imports/ui/main-options-area/MainOptionsArea.jsx';
+import { GameplayArea } from '/imports/ui/gameplay-area/GameplayArea.jsx';
 
 var app = null;
 
@@ -9,10 +10,10 @@ export class App extends Component {
         app = this;
     }
     render() {
-        console.log('render App');
         return (
             <div className="app">
-                <Login/>
+                <MainOptionsArea />
+                <GameplayArea />
             </div>
         );
     }
