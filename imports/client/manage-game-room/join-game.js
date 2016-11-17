@@ -1,9 +1,5 @@
-import { setupReceiveMessages } from '/imports/client/server-messages/setup-receive-messages.js';
-
 export const joinMainGame = function() {
-    Meteor.call('JoinMainGame', () => {
-        setupReceiveMessages();
-    });
+    Meteor.call('JoinMainGame');
 }
 
 export const launchMainGame = function() {
