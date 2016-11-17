@@ -1,14 +1,14 @@
 export const PlayCard = (playerId, cardIndex, gameData) => {
-    if(gameData[playerId]){
-        gameData[playerId].action = 'ATTACK';
-        gameData[playerId].actionCardIndex = cardIndex;
+    if(gameData.players[playerId]){
+        gameData.players[playerId].action = 'ATTACK';
+        gameData.players[playerId].actionCardIndex = cardIndex;
     }
-    console.log(gameData);
+    console.log("playing card");
 }
 
 export const PlayShield = (playerId, gameData) => {
-    if(gameData[playerId]){
-        gameData[playerId].action = 'SHIELD';
+    if(gameData.players[playerId]){
+        gameData.players[playerId].action = 'SHIELD';
     }
-    console.log(gameData);
+    console.log("playing shield");
 }

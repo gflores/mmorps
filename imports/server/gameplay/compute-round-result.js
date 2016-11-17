@@ -1,22 +1,27 @@
-export const computeRoundResult = () => {
-    gameData = getGameData();
-    playerKeys = getPlayerKeys();
-    playerOne = gameData[playerKeys[0]];
-    playerTwo = gameData[playerKeys[1]];
+attackingToWaitingPlayer = (attackingPlayer, waitingPlayer) => {
+    attackingCard = attackingPlayer.currentCards[attackingPlayer.actionCardIndex];
+    attackValue = attackingCard.value;
+    waitingPlayer.hp -= attackValue;
+    return attackValue;
+};
 
+export const computeRoundResult = (gameData) => {
+
+    var attackingValue, playerOneHpDifference, playerTwoHpDifference, playerOneCard, playerTwoCard, playerOneFinalHp, playerTwoFinalHp;
+    var endRoundMessage = {};
+
+    playerOne = gameData.players[gameData.player_keys[0]];
+    playerTwo = gameData.players[gameData.player_keys[1]];
+    
     console.log("player one's hand", playerOne.currentCards);
     console.log("player two's hand", playerTwo.currentCards);
-    
+
     if (playerOne.action == 'ATTACK' && playerTwo.action == 'ATTACK'){
         playerOneCard = playerOne.currentCards[playerOne.actionCardIndex];
         playerTwoCard = playerTwo.currentCards[playerTwo.actionCardIndex];
+
         result = getResult(playerOneCard.element, playerTwoCard.element);
-        console.log("player one card: ");
-        console.log(playerOneCard);
-        console.log("player two card");
-        console.log(playerTwoCard);
-        console.log("result");
-        console.log(result);
+
 
         if (result == 1) {
             attackValue = playerOneCard.value + playerTwoCard.value;
@@ -54,6 +59,14 @@ export const computeRoundResult = () => {
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == 'SHIELD'){
         playerOne.hp -= 5;
         playerTwo.hp -= 5;
+    } else if (playerOne.action == 'ATTACK' && playerTwo.action == null) {
+        attackingToWaitingPlayer(playerOne, playerTwo);
+    } else if (playerOne.action == null && playerTwo.action == 'ATTACK') {
+        attackingToWaitingPlayer(playerTwo, playerOne);
+    } else if (playerOne.action == 'SHIELD' && playerTwo.action == null ) {
+        playerOne.hp -= 5;
+    } else if (playerOne.action == null && playerTwo.action == 'SHIELD') {
+        playerTwo.hp -= 5;
     } else if (playerOne.action == null && playerTwo.action == null) {
         
     }
@@ -82,4 +95,5 @@ export const computeRoundResult = () => {
     }
 
     console.log(gameData);
+    
 }

@@ -1,24 +1,19 @@
-import { getGameData, resetGameData } from '/imports/server/game-data/game-data.js';
-import { getPlayerKeys, resetPlayerKeys } from '/imports/server/manage-game-room/player-keys.js';
+import { getMainGameData, resetMainGameData } from '/imports/server/global-data/global-data.js';
 
 import { addPlayerToRoom } from '/imports/server/manage-game-room/add-player-to-room.js';
 
 import { launchGame } from '/imports/server/manage-game-room/launch-game.js';
 
 Meteor.methods({
-    JoinGame: () => {
-        addPlayerToRoom(getGameData(), Meteor.userId());
+    JoinMainGame: () => {
+        addPlayerToRoom(getMainGameData(), Meteor.userId());
     },
 
-    ResetGame: () => {
-        resetGameData();
+    ResetMainGame: () => {
+        resetMainGameData();
     },
 
-    ResetKeys: () => {
-        resetPlayerKeys();    
-    },
-
-    LaunchGame: () => {
-        launchGame(getGameData());
+    LaunchMainGame: () => {
+        launchGame(getMainGameData());
     }
 });

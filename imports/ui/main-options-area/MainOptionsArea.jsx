@@ -27,6 +27,8 @@ export class MainOptionsArea extends Component {
             <div>
                 <button onClick={ () => this.joinGame() }> Join Game</button>
                 <br />
+                <button onClick={ () => this.launchGame() }> Launch Game</button>
+                <br />
                 <button onClick={ () => this.resetGame() }> Reset Game</button>
                 <br />
                 user: { Meteor.userId() }
