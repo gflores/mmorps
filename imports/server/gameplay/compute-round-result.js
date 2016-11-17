@@ -1,9 +1,14 @@
-export const computeRoundResult = () => {
-    gameData = getGameData();
-    playerKeys = getPlayerKeys();
+attackingToWaitingPlayer = (attackingPlayer, waitingPlayer) => {
+    attackingCard = attackingPlayer.currentCards[attackingPlayer.actionCardIndex];
+    attackValue = attackingCard.value;
+    waitingPlayer.hp -= attackValue;
+};
+
+export const computeRoundResult = (gameData, playerKeys) => {
+    
     playerOne = gameData[playerKeys[0]];
     playerTwo = gameData[playerKeys[1]];
-
+    
     console.log("player one's hand", playerOne.currentCards);
     console.log("player two's hand", playerTwo.currentCards);
     
@@ -53,6 +58,14 @@ export const computeRoundResult = () => {
         playerTwo.currentCards.splice(playerTwo.actionCardIndex, 1);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == 'SHIELD'){
         playerOne.hp -= 5;
+        playerTwo.hp -= 5;
+    } else if (playerOne.action == 'ATTACK' && playerTwo.action == null) {
+        attackingToWaitingPlayer(playerOne, playerTwo);
+    } else if (playerOne.action == null && playerTwo.action == 'ATTACK') {
+        attackingToWaitingPlayer(playerTwo, playerOne);
+    } else if (playerOne.action == 'SHIELD' && playerTwo.action == null ) {
+        playerOne.hp -= 5;
+    } else if (playerOne.action == null && playerTwo.action == 'SHIELD') {
         playerTwo.hp -= 5;
     } else if (playerOne.action == null && playerTwo.action == null) {
         

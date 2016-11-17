@@ -1,10 +1,10 @@
 import { getPlayerKeys } from '/imports/server/manage-game-room/player-keys.js';
 import { generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 
-export const createNewPlayer = (gameData, userId) => {
+export const createNewPlayer = (userId) => {
     hand = [];
     playerKeys = getPlayerKeys();
-
+    playerKeys.push(userId);
     deck = generateStartingCards();
 
     hand.push(deck.pop());
@@ -12,7 +12,7 @@ export const createNewPlayer = (gameData, userId) => {
     hand.push(deck.pop());
 
     newPlayer = {
-        hp: 100,
+        hp: 5, // 5 health for testing purposes so game ends quick
         currentCards: hand,
         remainingCardsStack: deck,
         action: null,

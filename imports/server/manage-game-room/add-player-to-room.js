@@ -3,4 +3,5 @@ import { createNewPlayer } from '/imports/server/gameplay/players/create-new-pla
 export const addPlayerToRoom = (gameData, userId) => {
     var newPlayer = createNewPlayer(userId);
     gameData[userId] = newPlayer;
+    console.log(gameData);
 }

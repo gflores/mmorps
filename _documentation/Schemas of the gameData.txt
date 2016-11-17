@@ -1,8 +1,15 @@
 Schemas of the gameData
 
+globalData = {
+    mainGame: gameData
+}
+
 gameData = {
-    "id1": Player,
-    "id2": Player
+    players: {
+        "id1": Player,
+        "id2": Player
+    },
+    player_keys: [id1, id2]
 }
 
 Player = {
