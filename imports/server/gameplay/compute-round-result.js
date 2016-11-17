@@ -2,26 +2,26 @@ attackingToWaitingPlayer = (attackingPlayer, waitingPlayer) => {
     attackingCard = attackingPlayer.currentCards[attackingPlayer.actionCardIndex];
     attackValue = attackingCard.value;
     waitingPlayer.hp -= attackValue;
+    return attackValue;
 };
 
-export const computeRoundResult = (gameData, playerKeys) => {
-    
-    playerOne = gameData[playerKeys[0]];
-    playerTwo = gameData[playerKeys[1]];
+export const computeRoundResult = (gameData) => {
+
+    var attackingValue, playerOneHpDifference, playerTwoHpDifference, playerOneCard, playerTwoCard, playerOneFinalHp, playerTwoFinalHp;
+    var endRoundMessage = {};
+
+    playerOne = gameData.players[gameData.player_keys[0]];
+    playerTwo = gameData.players[gameData.player_keys[1]];
     
     console.log("player one's hand", playerOne.currentCards);
     console.log("player two's hand", playerTwo.currentCards);
-    
+
     if (playerOne.action == 'ATTACK' && playerTwo.action == 'ATTACK'){
         playerOneCard = playerOne.currentCards[playerOne.actionCardIndex];
         playerTwoCard = playerTwo.currentCards[playerTwo.actionCardIndex];
+
         result = getResult(playerOneCard.element, playerTwoCard.element);
-        console.log("player one card: ");
-        console.log(playerOneCard);
-        console.log("player two card");
-        console.log(playerTwoCard);
-        console.log("result");
-        console.log(result);
+
 
         if (result == 1) {
             attackValue = playerOneCard.value + playerTwoCard.value;
@@ -95,4 +95,5 @@ export const computeRoundResult = (gameData, playerKeys) => {
     }
 
     console.log(gameData);
+    
 }

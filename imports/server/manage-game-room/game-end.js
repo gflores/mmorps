@@ -1,11 +1,13 @@
-export const gameEnd = (gameData, playerKeys) => {
+export const gameEnd = (gameData) => {
     var gameEnd = false;
-    console.log("inside game end logic", gameData);
+    players = gameData.players;
+    playerKeys = gameData.player_keys;
+    console.log("inside game end logic", players);
     playerKeys.forEach( (playerKey) => {
-       if (gameData[playerKey].hp <= 0) {
+       if (players[playerKey].hp <= 0) {
            gameEnd = true;
        }
-        console.log(gameData[playerKey]);
+        console.log(players[playerKey]);
         console.log("checking to see if hp is below 0");
     });
     return gameEnd;

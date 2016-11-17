@@ -1,10 +1,8 @@
-import { getPlayerKeys } from '/imports/server/manage-game-room/player-keys.js';
 import { generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 
-export const createNewPlayer = (userId) => {
+export const createNewPlayer = () => {
     hand = [];
-    playerKeys = getPlayerKeys();
-    playerKeys.push(userId);
+    
     deck = generateStartingCards();
 
     hand.push(deck.pop());

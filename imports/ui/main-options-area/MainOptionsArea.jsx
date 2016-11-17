@@ -17,7 +17,7 @@ export class MainOptionsArea extends Component {
         Meteor.call('JoinMainGame');
     }
 
-    joinGame() {
+    launchGame() {
         Meteor.call('LaunchMainGame');
     }
 
