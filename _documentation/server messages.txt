@@ -1,0 +1,45 @@
+{
+    functionId: "joined_game"
+}
+
+{
+    functionId: "game_countdown",
+    time: 2000
+}
+
+{
+    functionId: "game_started",
+    players: {
+        "id1:" {
+            hp: Integer,
+            currentCards: [Card, Card, Card]
+        },
+        "id2:" {
+            hp: Integer,
+            currentCards: [Card, Card, Card]
+        }
+    }
+}
+
+{
+    functionId: "new-round",
+    time_limite: Integer
+}
+
+{
+    function: "end-of-round",
+    players: {
+        "id1:" {
+            hp: Integer,
+            currentCards: [Card, Card, Card]
+            action: 'SHIELD' | 'ATTACK',
+            actionCardIndex: 0 | 1 | 2
+        },
+        "id2:" {
+            hp: Integer,
+            currentCards: [Card, Card, Card]
+            action: 'SHIELD' | 'ATTACK',
+            actionCardIndex: 0 | 1 | 2
+        }
+    }
+}
