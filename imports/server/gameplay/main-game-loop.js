@@ -11,7 +11,7 @@ export const mainGameLoop = (gameData) => {
 
     
 
-    // while(!gameEnd(gameData)) {
+    while(!gameEnd(gameData)) {
         console.log("new round");
         // sending server message
         sendMainServerMessage(getNewRoundMessage(8000));
@@ -43,7 +43,7 @@ export const mainGameLoop = (gameData) => {
         Wait(3000);
         console.log("finished animation");
         console.log("result: ", gameData);
-    // }
+    }
 
 
     console.log("player ", gameData.player_keys[0] ,gameData.players[gameData.player_keys[0]].currentCards);
