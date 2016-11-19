@@ -3,7 +3,7 @@ export const PlayCard = (playerId, cardIndex, gameData) => {
         gameData.players[playerId].action = 'ATTACK';
         gameData.players[playerId].actionCardIndex = cardIndex;
     }
-    console.log("playing card");
+    console.log(playerId, "playing card", cardIndex, ": ", gameData.players[playerId].currentCards[cardIndex]);
 }
 
 export const PlayShield = (playerId, gameData) => {

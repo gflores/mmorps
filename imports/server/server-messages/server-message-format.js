@@ -1,46 +1,55 @@
-export const getNewRoundMessage = (gameData) => {
-    var players = gameData.players;
-    var player_keys = gameData.player_keys;
-
-    var playerOne = playerGetFilteredField(players[player_keys[0]], player_keys[0]);
-    var playerTwo = playerGetFilteredField(players[player_keys[1]], player_keys[1]);
+export const getJoinedGameMessage = () => {
     return {
-        type: 'duel_start',
-        players: {
-            playerOne,
-            playerTwo
-        }
+        functionId: "joined_game"
+    }
+};
+
+export const getCountDownMessage = (countdownTime) => {
+    return {
+        functionId: "game_countdown",
+        time: countdownTime
+    }
+};
+
+export const getGameStartedMessage = (gameData) => {
+    var players = {};
+    playerKeys = gameData.player_keys;
+    
+    playerKeys.forEach( (playerkey) => {
+       players[playerkey] = {
+           hp: gameData.players[playerkey].hp,
+           currentCards: gameData.players[playerkey].currentCards
+       } 
+    });
+    
+    return {
+        functionId: "game_started",
+        players: players
+    }
+};
+
+export const getNewRoundMessage = (timeLimit) => {
+    return {
+        functionId: 'new_round',
+        timeLimit: timeLimit
     }
 };
 
 export const getEndRoundMessage = (gameData) => {
-    
-};
-
-export const getEndGameMessage = (gameData) => {
-    var winnerId, loserId, players, playerKeys;
-    players = gameData.players;
     playerKeys = gameData.player_keys;
-
+    players = {};
+    
     playerKeys.forEach( (playerKey) => {
-        if (players[playerKey].hp <= 0) {
-            winner = playerKey;
-        } else {
-            loser = playerKey;
-        }
+       players[playerKey] = {
+           hp: gameData.players[playerKey].hp,
+           currentCards: gameData.players[playerKey].currentCards,
+           action: gameData.players[playerKey].action,
+           actionCardIndex: gameData.players[playerKey].actionCardIndex
+       } 
     });
-
+    
     return {
-        type: 'end_game_result',
-        winnerId: winnerId,
-        loserId: loserId
-    }
-};
-
-playerGetFilteredField= (player, playerId) => {
-    return {
-        id: playerId,
-        currentCards: player.currentCards,
-        hp: player.hp
+        functionId: "end-of-round",
+        players: players
     }
 };

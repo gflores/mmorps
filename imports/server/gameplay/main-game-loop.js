@@ -5,16 +5,18 @@ import { computeRoundResult } from '/imports/server/gameplay/compute-round-resul
 import { gameEnd } from '/imports/server/manage-game-room/game-end.js';
 
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
-import { getDuelStartedMessage, getEndGameMessage } from '/imports/server/server-messages/server-message-format.js';
+import { getNewRoundMessage } from '/imports/server/server-messages/server-message-format.js';
 
 export const mainGameLoop = (gameData) => {
 
+    
 
-    while(!gameEnd(gameData)) {
+    // while(!gameEnd(gameData)) {
         console.log("new round");
         // sending server message
-        sendMainServerMessage(getNewRoundMessage(gameData));
-
+        sendMainServerMessage(getNewRoundMessage(8000));
+        console.log("player ", gameData.player_keys[0] ,gameData.players[gameData.player_keys[0]].currentCards);
+        console.log("player 2 hand", gameData.player_keys[1], gameData.players[gameData.player_keys[1]].currentCards);
         LaunchAsync(()=> {
             console.log("awaiting players input");
             Wait(900);
@@ -41,10 +43,11 @@ export const mainGameLoop = (gameData) => {
         Wait(3000);
         console.log("finished animation");
         console.log("result: ", gameData);
-    }
-    
-    // sending server message
-    sendMainServerMessage(getEndGameMessage(gameData));
+    // }
+
+
+    console.log("player ", gameData.player_keys[0] ,gameData.players[gameData.player_keys[0]].currentCards);
+    console.log("player 2 hand", gameData.player_keys[1], gameData.players[gameData.player_keys[1]].currentCards);
     
     console.log("game has ended");
 }

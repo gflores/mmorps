@@ -12,10 +12,7 @@ export class MainOptionsArea extends Component {
 
     joinGame() {
         joinMainGame();
-    }
 
-    launchGame() {
-        launchMainGame();
     }
 
     resetGame() {
@@ -26,8 +23,6 @@ export class MainOptionsArea extends Component {
         return (
             <div>
                 <button onClick={ () => this.joinGame() }> Join Game</button>
-                <br />
-                <button onClick={ () => this.launchGame() }> Launch Game</button>
                 <br />
                 <button onClick={ () => this.resetGame() }> Reset Game</button>
                 <br />

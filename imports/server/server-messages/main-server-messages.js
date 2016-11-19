@@ -15,7 +15,7 @@ export const cleanupMainServerMessages = function() {
 //testing
 
 Meteor.methods({
-    "testCleanupMainServerMessage": () => {
+    "CleanupMainServerMessage": () => {
         cleanupMainServerMessages();
     },
     "testServerMessage_A": () => {

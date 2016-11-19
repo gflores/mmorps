@@ -4,16 +4,22 @@ import { addPlayerToRoom } from '/imports/server/manage-game-room/add-player-to-
 
 import { launchGame } from '/imports/server/manage-game-room/launch-game.js';
 
+import { LaunchAsync } from '/imports/helpers/async.js';
+
 Meteor.methods({
     JoinMainGame: () => {
         addPlayerToRoom(getMainGameData(), Meteor.userId());
+
+        if (getMainGameData().player_keys.length == 2) {
+            LaunchAsync(()=> {
+                launchGame(getMainGameData());
+            });
+        }
     },
 
     ResetMainGame: () => {
         resetMainGameData();
-    },
-
-    LaunchMainGame: () => {
-        launchGame(getMainGameData());
     }
+    
+    
 });

@@ -1,20 +1,91 @@
+import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
+import { getDuelStartedMessage, getEndRoundMessage } from '/imports/server/server-messages/server-message-format.js';
+
+import { getResult } from '/imports/server/gameplay/cards/cards.js';
+
+strongerToWeakerPlayer = (strongerPlayer, weakerPlayer) => {
+    strongCard = strongerPlayer.currentCards[strongerPlayer.actionCardIndex];
+    weakCard = weakerPlayer.currentCards[weakerPlayer.actionCardIndex];
+    attackValue = strongCard.value + weakCard.value;
+    strongerPlayer.hp += attackValue;
+    weakerPlayer.hp -= attackValue;
+
+    discardPlayedCard(strongerPlayer);
+    discardPlayedCard(weakerPlayer);
+};
+
+sameSuitPlayersDuel = (playerOne, playerTwo) => {
+    attackValue = playerOneCard.value - playerTwoCard.value;
+    if (attackValue > 0) {
+        playerTwo.hp -= attackValue;
+    } else {
+        playerOne.hp += attackValue;
+    }
+
+    discardPlayedCard(playerOne);
+    discardPlayedCard(playerTwo);
+};
+
 attackingToWaitingPlayer = (attackingPlayer, waitingPlayer) => {
     attackingCard = attackingPlayer.currentCards[attackingPlayer.actionCardIndex];
+    console.log("attacking card", attackingCard);
     attackValue = attackingCard.value;
     waitingPlayer.hp -= attackValue;
-    return attackValue;
+
+    discardPlayedCard(attackingPlayer);
+};
+
+defendingToWaitingPlayer = (defendingPlayer) => {
+    defendingPlayer.hp -= 5;
+};
+
+attackingToDefendingPlayer = (attackingPlayer, defendingPlayer) => {
+    attackingCard = attackingPlayer.currentCards[attackingPlayer.actionCardIndex];
+    attackingValue = attackingCard.value;
+    defendingPlayer.hp -= 5;
+    attackingPlayer.hp -= attackingValue;
+
+    discardPlayedCard(attackingPlayer);
+};
+
+defendingToDefendingPlayer = (defendingPlayerOne, defendingPlayerTwo) => {
+    defendingPlayerOne.hp -= 5;
+    defendingPlayerTwo.hp -= 5;
+};
+
+resetPlayerActions = (player) => {
+    player.action = null;
+    player.actionCardIndex = null;
+};
+
+drawCardsIfEmpty = (player) => {
+    // if player's hand is empty, reload 3 new cards
+    if(player.currentCards.length == 0){
+        newCards = [];
+        newCards.push(player.remainingCardsStack.pop());
+        newCards.push(player.remainingCardsStack.pop());
+        newCards.push(player.remainingCardsStack.pop());
+        player.currentCards = newCards;
+    }
+};
+
+// prepareForNextRound = (playerOne, playerTwo) => {
+//     drawCardsIfEmpty(playerOne);
+//     drawCardsIfEmpty(playerTwo);
+//
+//     resetPlayerActions(playerOne);
+//     resetPlayerActions(playerTwo);
+//
+// };
+
+discardPlayedCard = (player) => {
+    player.currentCards.splice(player.actionCardIndex, 1);
 };
 
 export const computeRoundResult = (gameData) => {
 
-    var attackingValue, playerOneHpDifference, playerTwoHpDifference, playerOneCard, playerTwoCard, playerOneFinalHp, playerTwoFinalHp;
-    var endRoundMessage = {};
-
     playerOne = gameData.players[gameData.player_keys[0]];
     playerTwo = gameData.players[gameData.player_keys[1]];
-    
-    console.log("player one's hand", playerOne.currentCards);
-    console.log("player two's hand", playerTwo.currentCards);
 
     if (playerOne.action == 'ATTACK' && playerTwo.action == 'ATTACK'){
         playerOneCard = playerOne.currentCards[playerOne.actionCardIndex];
@@ -22,78 +93,40 @@ export const computeRoundResult = (gameData) => {
 
         result = getResult(playerOneCard.element, playerTwoCard.element);
 
-
         if (result == 1) {
-            attackValue = playerOneCard.value + playerTwoCard.value;
-            playerOne.hp += attackValue;
-            playerTwo.hp -= attackValue;
+            strongerToWeakerPlayer(playerOne, playerTwo);
         } else if (result == 0) {
-            attackValue = playerOneCard.value - playerTwoCard.value;
-            if (attackValue > 0) {
-                playerTwo.hp -= attackValue;
-            } else {
-                playerOne.hp += attackValue;
-            }
+            sameSuitPlayersDuel(playerOne, playerTwo);
         } else if (result == -1) {
-            attackValue = playerOneCard.value + playerTwoCard.value;
-            playerOne.hp -= attackValue;
-            playerTwo.hp += attackValue;
+            strongerToWeakerPlayer(playerTwo, playerOne);
         }
 
-        playerOne.currentCards.splice(playerOne.actionCardIndex, 1);
-        playerTwo.currentCards.splice(playerTwo.actionCardIndex, 1);
     } else if (playerOne.action == 'ATTACK' && playerTwo.action == 'SHIELD') {
-        playerOneCard = playerOne.currentCards[playerOne.actionCardIndex];
-        playerTwo.hp -= 5;
-        attackValue = playerOneCard.value;
-        playerOne.hp -= attackValue;
-
-        playerOne.currentCards.splice(playerOne.actionCardIndex, 1);
+        attackingToDefendingPlayer(playerOne, playerTwo);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == 'ATTACK') {
-        playerTwoCard = playerTwo.currentCards[playerTwo.actionCardIndex];
-        playerTwo.hp -= 5;
-        attackValue = playerTwoCard.value;
-        playerTwo.hp -= attackValue;
-
-        playerTwo.currentCards.splice(playerTwo.actionCardIndex, 1);
+        attackingToDefendingPlayer(playerTwo, playerOne);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == 'SHIELD'){
-        playerOne.hp -= 5;
-        playerTwo.hp -= 5;
+        defendingToDefendingPlayer(playerOne, playerTwo);
     } else if (playerOne.action == 'ATTACK' && playerTwo.action == null) {
         attackingToWaitingPlayer(playerOne, playerTwo);
     } else if (playerOne.action == null && playerTwo.action == 'ATTACK') {
         attackingToWaitingPlayer(playerTwo, playerOne);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == null ) {
-        playerOne.hp -= 5;
+        defendingToWaitingPlayer(playerOne);
     } else if (playerOne.action == null && playerTwo.action == 'SHIELD') {
-        playerTwo.hp -= 5;
+        defendingToWaitingPlayer(playerTwo);
     } else if (playerOne.action == null && playerTwo.action == null) {
         
     }
 
-    // reset player's actions
-    playerOne.action = null;
-    playerOne.actionCardIndex = null;
-    playerTwo.action = null;
-    playerTwo.actionCardIndex = null;
-    
-    // if player's hand is empty, reload 3 new cards
-    if(playerOne.currentCards.length == 0){
-        newCards = [];
-        newCards.push(playerOne.remainingCardStack.pop());
-        newCards.push(playerOne.remainingCardStack.pop());
-        newCards.push(playerOne.remainingCardStack.pop());
-        playerOne.currentCards = newCards;
-    }
+    // reset players Actions and draw cards if hands are empty
+    // prepareForNextRound(playerOne, playerTwo);
 
-    if (playerTwo.currentCards.length == 0) {
-        newCards = [];
-        newCards.push(playerTwo.remainingCardStack.pop());
-        newCards.push(playerTwo.remainingCardStack.pop());
-        newCards.push(playerTwo.remainingCardStack.pop());
-        playerTwo.currentCards = newCards;
-    }
+    drawCardsIfEmpty(playerOne);
+    drawCardsIfEmpty(playerTwo);
 
-    console.log(gameData);
-    
+    sendMainServerMessage(getEndRoundMessage(gameData));
+
+    resetPlayerActions(playerOne);
+    resetPlayerActions(playerTwo);
 }
