@@ -3,7 +3,7 @@ export const gameEnd = (gameData) => {
     players = gameData.players;
     playerKeys = gameData.player_keys;
     playerKeys.forEach( (playerKey) => {
-       if (players[playerKey].hp <= 0) {
+       if (players[playerKey].currentHp <= 0) {
            gameEnd = true;
        }
     });

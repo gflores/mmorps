@@ -1,5 +1,7 @@
 import { generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 
+import { getGameStartPlayerHp, getMaxHp } from '/imports/shared/global-variables.js';
+
 export const createNewPlayer = () => {
     hand = [];
     
@@ -10,7 +12,8 @@ export const createNewPlayer = () => {
     hand.push(deck.pop());
 
     newPlayer = {
-        hp: 5, // 5 health for testing purposes so game ends quick
+        currentHp: getGameStartPlayerHp(), 
+        maxHp: getMaxHp(),
         currentCards: hand,
         remainingCardsStack: deck,
         action: null,

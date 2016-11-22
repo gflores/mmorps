@@ -20,7 +20,16 @@ export const getMainGameData = () => {
 export const resetMainGameData = () => {
     globalData.mainGame = {
         players: {},
-        player_keys: []
+        player_keys: [],
+        canDuelAction: false
     };
+};
+
+export const enableMainGameDuel = () => {
+    globalData.mainGame.canDuelAction = true;
+};
+
+export const disableMainGameDuel = () => {
+    globalData.mainGame.canDuelAction = false;
 };
 

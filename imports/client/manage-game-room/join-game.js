@@ -8,5 +8,4 @@ export const launchMainGame = function() {
 
 export const resetMainGame = function () {
     Meteor.call('ResetMainGame');
-    Meteor.call('CleanupMainServerMessage');
 }
