@@ -1,56 +1,78 @@
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
-import { getDuelStartedMessage, getEndRoundMessage } from '/imports/server/server-messages/server-message-format.js';
+import { getDuelStartedMessage, constructEndRoundMessage } from '/imports/server/server-messages/server-message-format.js';
+import { getShieldHpCost, getMaxHp } from '/imports/shared/global-variables.js';
 
 import { getResult } from '/imports/server/gameplay/cards/cards.js';
 
-strongerToWeakerPlayer = (strongerPlayer, weakerPlayer) => {
-    strongCard = strongerPlayer.currentCards[strongerPlayer.actionCardIndex];
-    weakCard = weakerPlayer.currentCards[weakerPlayer.actionCardIndex];
+function attackToAttack(playerOne, playerTwo) {
+    playerOneCard = getPlayedCard(playerOne);
+    playerTwoCard = getPlayedCard(playerTwo);
+
+    result = getResult(playerOneCard.element, playerTwoCard.element);
+
+    if (result == 1) {
+        strongerToWeakerPlayer(playerOne, playerTwo);
+    } else if (result == 0) {
+        sameSuitPlayersDuel(playerOne, playerTwo);
+    } else if (result == -1) {
+        strongerToWeakerPlayer(playerTwo, playerOne);
+    }
+}
+
+function strongerToWeakerPlayer(strongerPlayer, weakerPlayer) {
+    strongCard = getPlayedCard(strongerPlayer);
+    weakCard = getPlayedCard(weakerPlayer);
     attackValue = strongCard.value + weakCard.value;
-    strongerPlayer.hp += attackValue;
-    weakerPlayer.hp -= attackValue;
+    weakerPlayer.currentHp -= attackValue;
 
     discardPlayedCard(strongerPlayer);
     discardPlayedCard(weakerPlayer);
 };
 
-sameSuitPlayersDuel = (playerOne, playerTwo) => {
-    attackValue = playerOneCard.value - playerTwoCard.value;
-    if (attackValue > 0) {
-        playerTwo.hp -= attackValue;
+function sameSuitPlayersDuel(playerOne, playerTwo) {
+    
+    playerOneAttackPower = getPlayedCard(playerOne).value;
+    playerTwoAttackPower = getPlayedCard(playerTwo).value;
+    
+    if(playerOneAttackPower > playerTwoAttackPower) {
+        strongerPlayer = playerOne;
+        weakerPlayer = playerTwo;
+    } else if (playerOneAttackPower == playerTwoAttackPower ) {
+        
     } else {
-        playerOne.hp += attackValue;
+        strongerPlayer = playerTwo;
+        weakerPlayer = playerOne;
     }
-
-    discardPlayedCard(playerOne);
-    discardPlayedCard(playerTwo);
+    
+    dealingNormalDamage(strongerPlayer, weakerPlayer);
+    healingNormalHealth(weakerPlayer, strongerPlayer);
+    
 };
 
-attackingToWaitingPlayer = (attackingPlayer, waitingPlayer) => {
-    attackingCard = attackingPlayer.currentCards[attackingPlayer.actionCardIndex];
-    console.log("attacking card", attackingCard);
-    attackValue = attackingCard.value;
-    waitingPlayer.hp -= attackValue;
-
+function dealingNormalDamage(attackingPlayer, damagedPlayer){
+    attackingValue = getPlayedCard(attackingPlayer).value;
+    damagedPlayer.currentHp -= attackingValue;
     discardPlayedCard(attackingPlayer);
 };
 
-defendingToWaitingPlayer = (defendingPlayer) => {
-    defendingPlayer.hp -= 5;
+function healingNormalHealth(healer, healedPlayer){
+    healingValue = getPlayedCard(healer).value;
+    healedPlayer.currentHp += healingValue;
+    if (healedPlayer.currentHp >= getMaxHp()){
+        healedPlayer.currentHp = getMaxHp();
+    }
+    discardPlayedCard(healer);
 };
 
-attackingToDefendingPlayer = (attackingPlayer, defendingPlayer) => {
-    attackingCard = attackingPlayer.currentCards[attackingPlayer.actionCardIndex];
-    attackingValue = attackingCard.value;
-    defendingPlayer.hp -= 5;
-    attackingPlayer.hp -= attackingValue;
+function playShield(player) {
+    player.currentHp -= getShieldHpCost();
+};
+
+function attackDeflected(attackingPlayer) {
+    attackingValue = getPlayedCard(attackingPlayer).value;
+    attackingPlayer.currentHp -= attackingValue;
 
     discardPlayedCard(attackingPlayer);
-};
-
-defendingToDefendingPlayer = (defendingPlayerOne, defendingPlayerTwo) => {
-    defendingPlayerOne.hp -= 5;
-    defendingPlayerTwo.hp -= 5;
 };
 
 resetPlayerActions = (player) => {
@@ -58,7 +80,7 @@ resetPlayerActions = (player) => {
     player.actionCardIndex = null;
 };
 
-drawCardsIfEmpty = (player) => {
+function drawCardsIfEmpty(player) {
     // if player's hand is empty, reload 3 new cards
     if(player.currentCards.length == 0){
         newCards = [];
@@ -69,18 +91,13 @@ drawCardsIfEmpty = (player) => {
     }
 };
 
-// prepareForNextRound = (playerOne, playerTwo) => {
-//     drawCardsIfEmpty(playerOne);
-//     drawCardsIfEmpty(playerTwo);
-//
-//     resetPlayerActions(playerOne);
-//     resetPlayerActions(playerTwo);
-//
-// };
-
-discardPlayedCard = (player) => {
+function discardPlayedCard(player) {
     player.currentCards.splice(player.actionCardIndex, 1);
 };
+
+function getPlayedCard(player) {
+    return player.currentCards[player.actionCardIndex];
+}
 
 export const computeRoundResult = (gameData) => {
 
@@ -88,33 +105,24 @@ export const computeRoundResult = (gameData) => {
     playerTwo = gameData.players[gameData.player_keys[1]];
 
     if (playerOne.action == 'ATTACK' && playerTwo.action == 'ATTACK'){
-        playerOneCard = playerOne.currentCards[playerOne.actionCardIndex];
-        playerTwoCard = playerTwo.currentCards[playerTwo.actionCardIndex];
-
-        result = getResult(playerOneCard.element, playerTwoCard.element);
-
-        if (result == 1) {
-            strongerToWeakerPlayer(playerOne, playerTwo);
-        } else if (result == 0) {
-            sameSuitPlayersDuel(playerOne, playerTwo);
-        } else if (result == -1) {
-            strongerToWeakerPlayer(playerTwo, playerOne);
-        }
-
+        attackToAttack(playerOne, playerTwo);
     } else if (playerOne.action == 'ATTACK' && playerTwo.action == 'SHIELD') {
-        attackingToDefendingPlayer(playerOne, playerTwo);
+        playShield(playerTwo);
+        attackDeflected(playerOne);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == 'ATTACK') {
-        attackingToDefendingPlayer(playerTwo, playerOne);
+        playShield(playerOne);
+        attackDeflected(playerTwo);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == 'SHIELD'){
-        defendingToDefendingPlayer(playerOne, playerTwo);
+        playShield(playerOne);
+        playShield(playerTwo);
     } else if (playerOne.action == 'ATTACK' && playerTwo.action == null) {
-        attackingToWaitingPlayer(playerOne, playerTwo);
+        dealingNormalDamage(playerOne, playerTwo);
     } else if (playerOne.action == null && playerTwo.action == 'ATTACK') {
-        attackingToWaitingPlayer(playerTwo, playerOne);
+        dealingNormalDamage(playerTwo, playerOne);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == null ) {
-        defendingToWaitingPlayer(playerOne);
+        playShield(playerOne);
     } else if (playerOne.action == null && playerTwo.action == 'SHIELD') {
-        defendingToWaitingPlayer(playerTwo);
+        playShield(playerTwo);
     } else if (playerOne.action == null && playerTwo.action == null) {
         
     }
@@ -125,7 +133,7 @@ export const computeRoundResult = (gameData) => {
     drawCardsIfEmpty(playerOne);
     drawCardsIfEmpty(playerTwo);
 
-    sendMainServerMessage(getEndRoundMessage(gameData));
+    sendMainServerMessage(constructEndRoundMessage(gameData));
 
     resetPlayerActions(playerOne);
     resetPlayerActions(playerTwo);

@@ -1,23 +1,23 @@
-export const getJoinedGameMessage = () => {
+export const constructJoinedGameMessage = () => {
     return {
         functionId: "joined_game"
     }
 };
 
-export const getCountDownMessage = (countdownTime) => {
+export const constructCountDownMessage = (countdownTime) => {
     return {
         functionId: "game_countdown",
         time: countdownTime
     }
 };
 
-export const getGameStartedMessage = (gameData) => {
+export const constructGameStartedMessage = (gameData) => {
     var players = {};
     playerKeys = gameData.player_keys;
     
     playerKeys.forEach( (playerkey) => {
        players[playerkey] = {
-           hp: gameData.players[playerkey].hp,
+           currentHp: gameData.players[playerkey].currentHp,
            currentCards: gameData.players[playerkey].currentCards
        } 
     });
@@ -28,20 +28,20 @@ export const getGameStartedMessage = (gameData) => {
     }
 };
 
-export const getNewRoundMessage = (timeLimit) => {
+export const constructNewRoundMessage = (timeLimit) => {
     return {
         functionId: 'new_round',
         timeLimit: timeLimit
     }
 };
 
-export const getEndRoundMessage = (gameData) => {
+export const constructEndRoundMessage = (gameData) => {
     playerKeys = gameData.player_keys;
     players = {};
     
     playerKeys.forEach( (playerKey) => {
        players[playerKey] = {
-           hp: gameData.players[playerKey].hp,
+           currentHp: gameData.players[playerKey].currentHp,
            currentCards: gameData.players[playerKey].currentCards,
            action: gameData.players[playerKey].action,
            actionCardIndex: gameData.players[playerKey].actionCardIndex
