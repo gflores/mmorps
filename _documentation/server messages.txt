@@ -23,7 +23,7 @@
 
 {
     functionId: "new-round",
-    time_limite: Integer
+    time_limit: Integer
 }
 
 {

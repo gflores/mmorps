@@ -1,5 +1,23 @@
 State of client:
 
+"loggedIn": Bool,
+"roomJoined": Bool,
+"roomLaunched": Bool,
+"gameStarted": Bool,
+
+"beforeStartCountdown": Integer
+
+"roundTimeLimit": Integer
+
+"currentPhase": "DECIDING_PHASE" | "RESULT_PHASE" | null
+
+"playerAction": 'SHIELD' | 'ATTACK' | null
+"playerActionCardIndex": 0 | 1 | 2
+
+"opponentActionCardIndex": 0 | 1 | 2
+"opponentAction": 'SHIELD' | 'ATTACK' | null
+
+
 "playerCurrentHp": Integer
 "playerMaxHp": Integer
 "playerCard[0]": Card | null

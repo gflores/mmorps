@@ -15,11 +15,11 @@ serverMessagesHandlers = {
 
         var player = message.players[Meteor.userId()];
 
-        setPlayerState("CurrentHp", player.hp);
-        setPlayerState("MaxHp", 5);
+        setPlayerState("CurrentHp", player.currentHp);
+        setPlayerState("MaxHp", 50);
         setPlayerState("Card[0]", player.currentCards[0]);
         setPlayerState("Card[1]", player.currentCards[1]);
-        setPlayerState("Card[2]", player.currentCards[1]);
+        setPlayerState("Card[2]", player.currentCards[2]);
 
         setState({
             gameStarted: true

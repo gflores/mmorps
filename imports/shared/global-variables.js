@@ -1,5 +1,5 @@
-var countDownMessageDelay = 5000;
-var gameStartDelay = 2000;
+var countDownMessageDelay = 500;
+var gameStartDelay = 500;
 var newRoundDelay = 8000;
 var endRoundDelay = 3000;
 var shieldHpCost = 5;

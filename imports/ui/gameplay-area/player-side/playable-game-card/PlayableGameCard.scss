@@ -33,22 +33,35 @@
 
 .playable-game-card {
     background-color: hsla(0,0%,40%,1);
-    margin: 0 0px 6px 12px;
+    margin: 0 0px 0px 12px;
 
     padding: 15px;
     border-radius: 1%;
     border: 6px solid hsla(0,0%,10%,1);
 
-    .game-card {
-        @extend .clickable-block;
-        &.rock {
-            animation: AutoScaleAnimation 3s linear infinite, glowEffectRock 1.5s linear infinite;
+}
+
+.player-side {
+    .playable-game-card {
+        .game-card {
+            &:hover{
+                margin: -2px;                
+                border: 2px solid #2196F3;
+                top: -5px;
+            }
+            @extend .clickable-block;
+            &.rock {
+                animation: AutoScaleAnimation 3s linear infinite, glowEffectRock 1.5s linear infinite;
+            }
+            &.paper {
+                animation: AutoScaleAnimation 3s linear infinite, glowEffectPaper 1.5s linear infinite;
+            }
+            &.scissor {
+                animation: AutoScaleAnimation 3s linear infinite, glowEffectScissor 1.5s linear infinite;
+            }
         }
-        &.paper {
-            animation: AutoScaleAnimation 3s linear infinite, glowEffectPaper 1.5s linear infinite;
-        }
-        &.scissor {
-            animation: AutoScaleAnimation 3s linear infinite, glowEffectScissor 1.5s linear infinite;
+        .empty {
+            width: 130px;
         }
     }
 }
