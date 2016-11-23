@@ -1,0 +1,54 @@
+@import '../../../../scss/_card_elements.scss';
+@import '../../../../scss/_utils.scss';
+
+@keyframes glowEffectRock {
+    0%   {box-shadow: 0px 0px 35px 5px $rockColor;}
+    50%  {box-shadow: 0px 0px 12px 11px $rockColor;}
+    100%   {box-shadow: 0px 0px 35px 5px $rockColor;}
+}
+
+@keyframes glowEffectScissor {
+    0%   {box-shadow: 0px 0px 35px 5px $scissorColor;}
+    50%  {box-shadow: 0px 0px 12px 11px $scissorColor;}
+    100%   {box-shadow: 0px 0px 35px 5px $scissorColor;}
+}
+@keyframes glowEffectPaper {
+    0%   {box-shadow: 0px 0px 35px 5px $paperColor;}
+    50%  {box-shadow: 0px 0px 12px 11px $paperColor;}
+    100%   {box-shadow: 0px 0px 35px 5px $paperColor;}
+}
+
+@mixin glowAnimation($animationName) {
+        animation: $animationName 1.5s linear infinite;
+}
+
+@keyframes AutoScaleAnimation {
+    0%   {transform: scale(1.04);}
+    50%  {transform: scale(0.97);}
+    100%   {transform: scale(1.04);}
+}
+
+
+//
+
+.playable-game-card {
+    background-color: hsla(0,0%,40%,1);
+    margin: 0 0px 6px 12px;
+
+    padding: 15px;
+    border-radius: 1%;
+    border: 6px solid hsla(0,0%,10%,1);
+
+    .game-card {
+        @extend .clickable-block;
+        &.rock {
+            animation: AutoScaleAnimation 3s linear infinite, glowEffectRock 1.5s linear infinite;
+        }
+        &.paper {
+            animation: AutoScaleAnimation 3s linear infinite, glowEffectPaper 1.5s linear infinite;
+        }
+        &.scissor {
+            animation: AutoScaleAnimation 3s linear infinite, glowEffectScissor 1.5s linear infinite;
+        }
+    }
+}

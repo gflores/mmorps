@@ -1,34 +1,18 @@
 import React, {Component} from 'react';
 import { composeWithTracker } from 'react-komposer';
 
+import { getState, getPlayerState} from '/imports/client/global-data/manage-state.js';
+
+import { PlayerSide } from '/imports/ui/gameplay-area/player-side/PlayerSide.jsx'
+
+require("./GameplayArea.scss");
+
 export class GameplayArea extends Component {
-    
-    playCard(index) {
-        Meteor.call('PlayCard', index);
-    }
-    
-    playShield() {
-        Meteor.call('PlayShield');
-    }
     
     render(){
         return (
             <div className="gameplay-area">
-                <button onClick={ () => this.playCard(0) } > Play Card 1</button>
-                <button onClick={ () => this.playCard(1) } > Play Card 2</button>
-                <button onClick={ () => this.playCard(2) } > Play Card 3</button>
-                <button onClick={ () => this.playShield() } > Play Shield</button>
-
-                <br />
-
-                <button onClick={ () => Meteor.call('testServerMessage_A') }>
-                    testServerMessage_A
-                </button>
-                <br />
-
-                <button onClick={ () => Meteor.call('testServerMessage_B') }>
-                    testServerMessage_B
-                </button>
+                <PlayerSide player={ getPlayerState() }/>
             </div>
         )
     }

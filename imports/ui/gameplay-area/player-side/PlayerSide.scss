@@ -1,0 +1,45 @@
+@import '../../../scss/_utils.scss';
+
+@keyframes glowEffectShield {
+    0%   {box-shadow: 0px 0px 50px 20px hsla(0,0%,100%,1);}
+    50%  {box-shadow: 0px 0px 30px 30px hsla(0,0%,10%,1);}
+    100%   {box-shadow: 0px 0px 50px 20px hsla(0,0%,100%,1);}
+}
+
+.player-side {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    .player-controler {
+        display: flex;
+        justify-content: center;
+
+        .playable-cards {
+            display: flex;
+        }
+
+        .mirror-shield-action {
+            @extend .clickable-block;
+
+            overflow: initial !important;
+
+            width: 165px;
+            margin-right: 80px;
+
+            border-radius: 50%;
+            animation: AutoScaleAnimation 4s linear infinite, glowEffectShield 2s linear infinite;
+            background: hsla(0,0%,35%,1);            
+            .image {
+                display: block;
+                width: 100%;
+            }
+        }
+    }
+
+    .healthbar-container {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+}

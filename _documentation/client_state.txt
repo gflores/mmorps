@@ -1,0 +1,13 @@
+State of client:
+
+"playerCurrentHp": Integer
+"playerMaxHp": Integer
+"playerCard[0]": Card | null
+"playerCard[1]": Card | null
+"playerCard[2]": Card | null
+
+"opponentCurrentHp": Integer
+"opponentMaxHp": Integer
+"opponentCard[0]": Card | null
+"opponentCard[1]": Card | null
+"opponentCard[2]": Card | null

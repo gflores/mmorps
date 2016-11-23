@@ -1,0 +1,27 @@
+.game-card {
+    position: relative;
+    border-radius: 5%;
+    width: 130px;
+
+    .card-image {
+        display: block;
+        width: 100%;
+    }
+    .value {
+        position: absolute;
+        font-size: 40px;
+        font-weight: bold;
+        line-height: 120%;
+        color: #ffec00;
+        text-shadow: -1px 1px 1px #000, 1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000, 0px 1px 1px #000, 1px 0px 1px #000, 0px -1px 1px #000, -1px 0px 1px #000;
+    }
+
+    .top {
+        left: 8%;
+        top: 2%;
+    }
+    .bottom {
+        right: 8%;
+        bottom: 2%;
+    }
+}

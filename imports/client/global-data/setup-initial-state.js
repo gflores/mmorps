@@ -5,6 +5,8 @@ export const setupInitialState = function(){
         loggedIn: false,
         roomJoined: false,
         roomLaunched: false,
-        gameStarted: false
+        gameStarted: false,
+
+        test: 1
     });
 };

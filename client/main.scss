@@ -1,0 +1,33 @@
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Titillium Web', sans-serif;
+
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        z-index: -9998;
+
+        background: hsla(0,0%,85%,1);
+
+        overflow: hidden;
+
+        #render-target {
+            width: 100%;
+            height: 100%;
+
+            .app {
+                width: 100%;
+                height: 100%;
+            }
+            .main {
+                width: 100%;
+                height: 100%;
+
+            }
+
+        }
+    }
+}

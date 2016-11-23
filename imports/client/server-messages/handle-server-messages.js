@@ -1,9 +1,35 @@
+import { setState, setPlayerState, setOpponentState } from '/imports/client/global-data/manage-state.js';
+
+//state:
+
+
 serverMessagesHandlers = {
-    "test_a": (message) => {
-        console.log("TEST_A !")
+    "joined_game": (message) => {
+        console.log("joined_game")
     },
-    "test_b": (message) => {
-        console.log("TEST_B !")
+    "game_countdown": (message) => {
+        console.log("game_countdown")
+    },
+    "game_started": (message) => {
+        console.log("game_started")
+
+        var player = message.players[Meteor.userId()];
+
+        setPlayerState("CurrentHp", player.hp);
+        setPlayerState("MaxHp", 5);
+        setPlayerState("Card[0]", player.currentCards[0]);
+        setPlayerState("Card[1]", player.currentCards[1]);
+        setPlayerState("Card[2]", player.currentCards[1]);
+
+        setState({
+            gameStarted: true
+        });
+    },
+    "new_round": (message) => {
+        console.log("new_round")
+    },
+    "end-of-round": (message) => {
+        console.log("end-of-round")
     }
 }
 

@@ -4,6 +4,8 @@ import { composeWithTracker } from 'react-komposer';
 import { autoUserCreate } from '/imports/client/users/auto-user-create.js';
 import { joinMainGame, launchMainGame, resetMainGame} from '/imports/client/manage-game-room/join-game.js';
 
+require("./MainOptionsArea.scss");
+
 export class MainOptionsArea extends Component {
     
     createUser() {
@@ -21,7 +23,7 @@ export class MainOptionsArea extends Component {
 
     render(){
         return (
-            <div>
+            <div className="main-options-area">
                 <button onClick={ () => this.joinGame() }> Join Game</button>
                 <br />
                 <button onClick={ () => this.resetGame() }> Reset Game</button>
