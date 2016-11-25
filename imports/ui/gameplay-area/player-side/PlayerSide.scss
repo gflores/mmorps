@@ -44,15 +44,43 @@
 
     .player-controler {
         .mirror-shield-action {
-            @extend .clickable-block;
-            &:hover{
+            background: hsla(0,0%,35%,1);
+
+            &.selected {
+                position: relative;
+                
                 border: 2px solid #2196F3;
                 margin-bottom: -2px;
                 margin-right: 76px;
+                animation: glowEffectShield 2s linear infinite;
+
+                &::after {
+                    position:absolute;
+                    display:block;
+                    z-index: 9;
+                    background-color: black;
+                    opacity: 0.4;
+                    left: 0;
+                    top: 0;
+                    height: 100%;
+                    width: 100%;
+                    content: '';
+                    cursor: pointer;
+                    border-radius: inherit;
+                }
+
             }
 
-            animation: AutoScaleAnimation 4s linear infinite, glowEffectShield 2s linear infinite;
-            background: hsla(0,0%,35%,1);
+            &:not(.selected){
+                @extend .clickable-block;
+                &:hover{
+                    border: 2px solid #2196F3;
+                    margin-bottom: -2px;
+                    margin-right: 76px;
+                }
+
+                animation: AutoScaleAnimation 4s linear infinite, glowEffectShield 2s linear infinite;
+            }
         }
     }
 

@@ -26,9 +26,9 @@ export class OpponentSide extends Component {
                         <img className="image" src={ "/images/mirror_shield.png" }/>
                     </div>
                     <div className="playable-cards">
-                        <PlayableGameCard gameCard={ this.getCard(0) } index={ 0 } preventClick={ true }/>
-                        <PlayableGameCard gameCard={ this.getCard(1) } index={ 1 } preventClick={ true }/>
-                        <PlayableGameCard gameCard={ this.getCard(2) } index={ 2 } preventClick={ true }/>
+                        <PlayableGameCard gameCard={ this.getCard(0) } index={ 0 } isPlayerSide={ false }/>
+                        <PlayableGameCard gameCard={ this.getCard(1) } index={ 1 } isPlayerSide={ false }/>
+                        <PlayableGameCard gameCard={ this.getCard(2) } index={ 2 } isPlayerSide={ false }/>
                     </div>
                 </div>
             </div>

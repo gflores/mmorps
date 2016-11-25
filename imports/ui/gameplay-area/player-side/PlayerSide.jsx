@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { composeWithTracker } from 'react-komposer';
 
-import { getState } from '/imports/client/global-data/manage-state.js';
+import { getState, getPlayerState} from '/imports/client/global-data/manage-state.js';
 
-import { playShield } from '/imports/client/gameplay/player-actions.js';
+import { decidePlayShield } from '/imports/client/gameplay/player-actions.js';
 
 import { PlayableGameCard } from './playable-game-card/PlayableGameCard.jsx'
 import { Healthbar } from './healthbar/Healthbar.jsx'
@@ -13,24 +13,31 @@ require("./PlayerSide.scss");
 export class PlayerSide extends Component {
     
     playShield() {
-        playShield();
+        decidePlayShield();
     }
     
     getCard(index){
         return this.props.player["Card["+index+"]"];
     }
 
+    getSelectedClassName() {
+        var playerState = getPlayerState();
+        if (playerState.Action == "SHIELD")
+            return " selected"
+        return "";
+    }
+
     render(){
         return (
             <div className="player-side game-player-side">
                 <div className="player-controler">
-                    <div className="mirror-shield-action" onClick={ () => this.playShield() }>
+                    <div className={ "mirror-shield-action" + this.getSelectedClassName() } onClick={ () => this.playShield() }>
                         <img className="image" src={ "/images/mirror_shield.png" }/>
                     </div>
                     <div className="playable-cards">
-                        <PlayableGameCard gameCard={ this.getCard(0) } index={ 0 }/>
-                        <PlayableGameCard gameCard={ this.getCard(1) } index={ 1 }/>
-                        <PlayableGameCard gameCard={ null } index={ 2 }/>
+                        <PlayableGameCard gameCard={ this.getCard(0) } index={ 0 } isPlayerSide={ true }/>
+                        <PlayableGameCard gameCard={ this.getCard(1) } index={ 1 } isPlayerSide={ true }/>
+                        <PlayableGameCard gameCard={ this.getCard(2) } index={ 2 } isPlayerSide={ true }/>
                     </div>
                 </div>
 

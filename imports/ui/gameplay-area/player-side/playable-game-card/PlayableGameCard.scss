@@ -45,10 +45,32 @@
     .playable-game-card {
         .game-card {
             &:hover{
-                margin: -2px;                
+                margin: -2px;
                 border: 2px solid #2196F3;
                 top: -5px;
             }
+        }
+
+        &.selected .game-card{
+            margin: -2px;
+            border: 2px solid #2196F3;
+            &::after {
+                position:absolute;
+                display:block;
+                z-index: 9;
+                background-color: black;
+                opacity: 0.4;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                content: '';
+                cursor: pointer;
+                border-radius: inherit;
+            }
+        }
+
+        &:not(.selected) .game-card {
             @extend .clickable-block;
             &.rock {
                 animation: AutoScaleAnimation 3s linear infinite, glowEffectRock 1.5s linear infinite;
@@ -58,8 +80,9 @@
             }
             &.scissor {
                 animation: AutoScaleAnimation 3s linear infinite, glowEffectScissor 1.5s linear infinite;
-            }
+            }            
         }
+
         .empty {
             width: 130px;
         }

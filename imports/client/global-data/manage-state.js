@@ -18,7 +18,9 @@ getGamePlayerState = function (playerType) {
         "MaxHp": state[playerType + "MaxHp"],
         "Card[0]": state[playerType + "Card[0]"],
         "Card[1]": state[playerType + "Card[1]"],
-        "Card[2]": state[playerType + "Card[2]"]
+        "Card[2]": state[playerType + "Card[2]"],
+        "Action": state[playerType + "Action"],
+        "ActionCardIndex": state[playerType + "ActionCardIndex"]
     };
 }
 
