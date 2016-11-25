@@ -2,7 +2,9 @@ import { sendMainServerMessage } from '/imports/server/server-messages/main-serv
 import { getDuelStartedMessage, constructEndRoundMessage } from '/imports/server/server-messages/server-message-format.js';
 import { getShieldHpCost, getMaxHp } from '/imports/shared/global-variables.js';
 
-import { getResult } from '/imports/server/gameplay/cards/cards.js';
+
+import { getResult, generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
+import { isCurrentHandEmpty } from '/imports/server/gameplay/players/is-current-hand-empty.js';
 
 function attackToAttack(playerOne, playerTwo) {
     playerOneCard = getPlayedCard(playerOne);
@@ -38,7 +40,9 @@ function sameSuitPlayersDuel(playerOne, playerTwo) {
         strongerPlayer = playerOne;
         weakerPlayer = playerTwo;
     } else if (playerOneAttackPower == playerTwoAttackPower ) {
-        
+        discardPlayedCard(playerOne);
+        discardPlayedCard(playerTwo);
+        return;
     } else {
         strongerPlayer = playerTwo;
         weakerPlayer = playerOne;
@@ -75,14 +79,14 @@ function attackDeflected(attackingPlayer) {
     discardPlayedCard(attackingPlayer);
 };
 
-resetPlayerActions = (player) => {
+function resetPlayerActions(player) {
     player.action = null;
     player.actionCardIndex = null;
 };
 
 function drawCardsIfEmpty(player) {
     // if player's hand is empty, reload 3 new cards
-    if(player.currentCards.length == 0){
+    if(isCurrentHandEmpty(player)){
         newCards = [];
         newCards.push(player.remainingCardsStack.pop());
         newCards.push(player.remainingCardsStack.pop());
@@ -91,8 +95,14 @@ function drawCardsIfEmpty(player) {
     }
 };
 
+function generateNewDeckIfEmpty(player){
+    if(player.remainingCardsStack.length == 0){
+        player.remainingCardsStack = generateStartingCards();
+    }
+}
+
 function discardPlayedCard(player) {
-    player.currentCards.splice(player.actionCardIndex, 1);
+    player.currentCards[player.actionCardIndex] = null;
 };
 
 function getPlayedCard(player) {
@@ -129,9 +139,11 @@ export const computeRoundResult = (gameData) => {
 
     // reset players Actions and draw cards if hands are empty
     // prepareForNextRound(playerOne, playerTwo);
-
     drawCardsIfEmpty(playerOne);
     drawCardsIfEmpty(playerTwo);
+
+    generateNewDeckIfEmpty(playerOne);
+    generateNewDeckIfEmpty(playerTwo);
 
     sendMainServerMessage(constructEndRoundMessage(gameData));
 

@@ -27,7 +27,7 @@
 }
 
 {
-    function: "end-of-round",
+    functionId: "end-of-round",
     players: {
         "id1:" {
             hp: Integer,

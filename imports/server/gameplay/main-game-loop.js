@@ -52,7 +52,7 @@ export const mainGameLoop = (gameData) => {
         console.log("result: ", gameData);
     }
 
-
+    
     console.log("player ", gameData.player_keys[0] ,gameData.players[gameData.player_keys[0]].currentCards);
     console.log("player 2 hand", gameData.player_keys[1], gameData.players[gameData.player_keys[1]].currentCards);
     

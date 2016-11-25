@@ -1,0 +1,32 @@
+end-of-round
+
+[ currentPhase ]
+[opponentAction, opponentActionCardIndex]
+
+showSelectedAction(both)
+
+createFakeAction(both)
+[playerCards, opponentCards]
+
+minimizeController(both)
+
+selectedActionMoveCenter(both)
+
+ActionDoMove(player, opponent)
+
+[ opponentCurrentHp ]
+shake(opponent)
+
+ActionDoBack(player, opponent)
+
+
+ActionDoMove(opponent, player)
+
+[ playerCurrentHp ]
+shake(player)
+
+ActionDoBack(opponent)
+
+DestroyFake(both)
+
+maximizeController(both)
