@@ -1,4 +1,4 @@
-import { getMainGameData, resetMainGameData } from '/imports/server/global-data/global-data.js';
+import { getMainGameData, resetMainGameData, endMainGame } from '/imports/server/global-data/global-data.js';
 
 import { addPlayerToRoom } from '/imports/server/manage-game-room/add-player-to-room.js';
 
@@ -22,6 +22,10 @@ Meteor.methods({
     ResetMainGame: () => {
         resetMainGameData();
         cleanupMainServerMessages();
+    },
+    
+    EndMainGame: () => {
+        endMainGame();
     }
     
     

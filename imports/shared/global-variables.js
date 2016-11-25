@@ -3,7 +3,7 @@ var gameStartDelay = 500;
 var newRoundDelay = 8000;
 var endRoundDelay = 3000;
 var shieldHpCost = 5;
-var gameStartPlayerHp = 50;
+var gameStartPlayerHp = 5;
 var maxHp = 50;
 
 

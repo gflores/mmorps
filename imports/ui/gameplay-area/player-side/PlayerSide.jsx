@@ -23,14 +23,14 @@ export class PlayerSide extends Component {
     render(){
         return (
             <div className="player-side game-player-side">
-                <div className="player-controler">
+                <div className="player-controler player-hand">
                     <div className="mirror-shield-action" onClick={ () => this.playShield() }>
                         <img className="image" src={ "/images/mirror_shield.png" }/>
                     </div>
                     <div className="playable-cards">
                         <PlayableGameCard gameCard={ this.getCard(0) } index={ 0 }/>
                         <PlayableGameCard gameCard={ this.getCard(1) } index={ 1 }/>
-                        <PlayableGameCard gameCard={ null } index={ 2 }/>
+                        <PlayableGameCard gameCard={ this.getCard(2) } index={ 2 }/>
                     </div>
                 </div>
 

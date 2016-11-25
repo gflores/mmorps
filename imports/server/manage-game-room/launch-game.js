@@ -6,7 +6,6 @@ import { constructCountDownMessage, constructGameStartedMessage } from '/imports
 import { Wait } from '/imports/helpers/wait.js';
 import { getCountDownMessageDelay, getGameStartDelay } from '/imports/shared/global-variables.js';
 
-
 export const launchGame = (gameData) => {
 
     sendMainServerMessage(constructCountDownMessage(getCountDownMessageDelay()));

@@ -18,6 +18,7 @@ export const constructGameStartedMessage = (gameData) => {
     playerKeys.forEach( (playerkey) => {
        players[playerkey] = {
            currentHp: gameData.players[playerkey].currentHp,
+           maxHp: gameData.players[playerkey].maxHp,
            currentCards: gameData.players[playerkey].currentCards
        } 
     });
@@ -42,6 +43,7 @@ export const constructEndRoundMessage = (gameData) => {
     playerKeys.forEach( (playerKey) => {
        players[playerKey] = {
            currentHp: gameData.players[playerKey].currentHp,
+           maxHp: gameData.players[playerKey].maxHp,
            currentCards: gameData.players[playerKey].currentCards,
            action: gameData.players[playerKey].action,
            actionCardIndex: gameData.players[playerKey].actionCardIndex
