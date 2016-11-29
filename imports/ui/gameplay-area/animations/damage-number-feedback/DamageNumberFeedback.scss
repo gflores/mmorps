@@ -1,0 +1,26 @@
+.damage-number-feedback {
+    position: absolute;
+    font-weight: bold;
+    font-size: 60px;
+    z-index: 10;
+
+    transition-timing-function: linear;
+
+    transition: all 1.5s;
+    color: hsla(0,0%,90%,1);
+    text-shadow: -1px 1px 3px #000, 1px 1px 3px #000, 1px -1px 3px #000, -1px -1px 3px #000, 0px 1px 3px #000, 1px 0px 3px #000, 0px -1px 3px #000, -1px 0px 3px #000;    
+}
+
+.player-side {
+    .damage-number-feedback {
+        right: 42%;
+        bottom: 63%;
+    }
+}
+
+.opponent-side {
+    .damage-number-feedback {
+        left: 42%;
+        top: 63%;
+    }
+}

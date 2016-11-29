@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { render } from 'react-dom';
+
 import { composeWithTracker } from 'react-komposer';
 
 import { getState, getPlayerState} from '/imports/client/global-data/manage-state.js';
@@ -7,6 +9,8 @@ import { decidePlayShield } from '/imports/client/gameplay/player-actions.js';
 
 import { PlayableGameCard } from './playable-game-card/PlayableGameCard.jsx'
 import { Healthbar } from './healthbar/Healthbar.jsx'
+
+import { DamageNumberFeedback } from '/imports/ui/gameplay-area/animations/damage-number-feedback/DamageNumberFeedback.jsx';
 
 require("./PlayerSide.scss");
 
@@ -27,9 +31,18 @@ export class PlayerSide extends Component {
         return "";
     }
 
+    componentDidMount(){
+        render(
+            <DamageNumberFeedback value={ 7 } />,
+            document.getElementById('damage-number-feedback')
+        );
+    }
+
     render(){
         return (
             <div className="player-side game-player-side">
+                <div id="damage-number-feedback">
+                </div>
                 <div className="player-controler">
                     <div className={ "mirror-shield-action" + this.getSelectedClassName() } onClick={ () => this.playShield() }>
                         <img className="image" src={ "/images/mirror_shield.png" }/>
