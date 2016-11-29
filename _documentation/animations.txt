@@ -19,7 +19,6 @@ shake(opponent)
 
 ActionDoBack(player, opponent)
 
-
 ActionDoMove(opponent, player)
 
 [ playerCurrentHp ]

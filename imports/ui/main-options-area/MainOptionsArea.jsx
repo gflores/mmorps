@@ -4,7 +4,8 @@ import { composeWithTracker } from 'react-komposer';
 import { autoUserCreate } from '/imports/client/users/auto-user-create.js';
 import { joinMainGame, resetMainGame, endMainGame} from '/imports/client/manage-game-room/join-game.js';
 
-import { playerAreaMinimized, playerAreaMaximized} from '/imports/ui/gameplay-area/animations/animations.js';
+import { playerActionCardAnimate} from '/imports/ui/gameplay-area/animations/player-animations.js';
+import { opponentActionCardAnimate } from '/imports/ui/gameplay-area/animations/opponent-animations.js';
 
 require("./MainOptionsArea.scss");
 
@@ -23,16 +24,9 @@ export class MainOptionsArea extends Component {
     resetGame() {
         resetMainGame();
     }
-
-    playerAreaMinimized() {
-/*        bindPlayerHand();*/
-        console.log("player-hand-minimized clicked");
-        playerAreaMinimized();
-    }
-
-    playerAreaMaximized() {
+    animatePlayerCard() {
         console.log("player-hand-maximized clicked");
-        playerAreaMaximized();
+        playerActionCardAnimate();
     }
 
     render(){
@@ -44,9 +38,7 @@ export class MainOptionsArea extends Component {
                 <br />
                 <button onClick={ () => this.endGame() }> End Game </button>
                 <br />
-                <button onClick={ () => this.playerAreaMinimized() }> Player Hand Minimized </button>
-                <br />
-                <button onClick={ () => this.playerAreaMaximized() }> Player Hand Maximized </button>
+                <button onClick={ () => this.animatePlayerCard() }> Player Action Card Animate </button>
                 user: { Meteor.userId() }
             </div>
         )

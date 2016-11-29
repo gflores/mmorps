@@ -30,6 +30,7 @@ export class DecidingPhaseCountdown extends Component {
 
     componentWillUnmount(){
         Meteor.clearInterval(this.handler);
+        Meteor.clearInterval(this.intervalId);
     }
 
     getRatio(){

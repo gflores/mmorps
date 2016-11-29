@@ -1,5 +1,7 @@
 import { getState, setState, setPlayerState, setOpponentState } from '/imports/client/global-data/manage-state.js';
 
+import { duelAnimation } from '/imports/ui/gameplay-area/animations/duel-animation.js';
+
 //state:
 
 function setPlayersStates(message) {
@@ -64,8 +66,7 @@ serverMessagesHandlers = {
         setState({
             currentPhase: "RESULT_PHASE"
         });
-        setPlayersStates(message);
-        console.log(getState());
+        duelAnimation(message);
     }
 }
 
