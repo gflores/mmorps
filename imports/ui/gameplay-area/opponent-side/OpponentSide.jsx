@@ -27,6 +27,9 @@ export class OpponentSide extends Component {
                     <Healthbar currentHp={ this.props.player.CurrentHp } maxHp={ this.props.player.MaxHp }/>
                 </div>
 
+                <div className="damage-number-feedback">
+                </div>
+
                 <div className="player-controler">
                     <div className="mirror-shield-action">
                         <img className="image" src={ "/images/mirror_shield.png" }/>

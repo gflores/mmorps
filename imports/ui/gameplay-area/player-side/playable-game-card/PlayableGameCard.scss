@@ -39,6 +39,9 @@
     border-radius: 1%;
     border: 6px solid hsla(0,0%,10%,1);
 
+    .empty {
+        width: 130px;
+    }
 }
 
 .player-side {
@@ -81,10 +84,6 @@
             &.scissor {
                 animation: AutoScaleAnimation 3s linear infinite, glowEffectScissor 1.5s linear infinite;
             }            
-        }
-
-        .empty {
-            width: 130px;
         }
     }
 }

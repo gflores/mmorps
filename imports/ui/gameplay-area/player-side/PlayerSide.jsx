@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { render } from 'react-dom';
+
 import { composeWithTracker } from 'react-komposer';
 
 import { getState, getPlayerState} from '/imports/client/global-data/manage-state.js';
@@ -50,6 +52,10 @@ export class PlayerSide extends Component {
                         null
                     }
                 </div>
+
+                <div className="damage-number-feedback">
+                </div>
+
                 <div className="player-controler">
                     <div className={ "mirror-shield-action" + this.getSelectedClassName() } onClick={ () => this.playShield() }>
                         <img className="image" src={ "/images/mirror_shield.png" }/>

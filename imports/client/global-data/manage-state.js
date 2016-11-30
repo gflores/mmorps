@@ -50,6 +50,32 @@ export const setOpponentState = function(key, value) {
     getApp().setState(newChange);
 }
 
+export const isGameFinished = function(){
+    var state = getApp().state;
+
+    if (state.playerCurrentHp <= 0 || state.opponentCurrentHp <= 0)
+        return true;
+
+    return false;
+}
+
+export const isLoser = function(){
+    var state = getApp().state;
+
+    if (state.playerCurrentHp <= 0)
+        return true;
+
+    return false;
+}
+
+export const isWinner = function(){
+    var state = getApp().state;
+
+    if (state.opponentCurrentHp <= 0)
+        return true;
+    
+    return false;
+}
 
 // debug
 
