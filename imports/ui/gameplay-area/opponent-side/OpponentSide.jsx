@@ -43,6 +43,13 @@ export class OpponentSide extends Component {
                         <GameCard gameCard={ this.getActionCard() } />:
                         null
                     }
+                    { this.props.player.Action == 'SHIELD'?
+                        <div className="mirror-shield-action">
+                            <img className="image" src={ "/images/mirror_shield.png" }/>
+                        </div>
+                        :
+                        null
+                    }
                 </div>
             </div>
         )

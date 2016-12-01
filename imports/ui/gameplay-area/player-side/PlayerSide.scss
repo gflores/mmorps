@@ -106,3 +106,16 @@
         opacity: 0;
     }
 }
+
+.mirror-shield-action {
+    overflow: initial !important;
+
+    width: 165px;
+    margin-right: 80px;
+
+    border-radius: 50%;
+    .image {
+        display: block;
+        width: 100%;
+    }
+}

@@ -1,15 +1,17 @@
 import { playerShowSelectedAction, playerAreaMinimized, playerSelectedActionMoveCenter,
          playerActionDoMove, opponentHealthbarShake, playerActionDoBack,
-         playerAreaMaximized } from '/imports/ui/gameplay-area/animations/player-animations.js';
+         playerActionContainerDisappear, playerAreaMaximized, playerActionCardAreaMinimized,
+         playerActionCardAreaMaximized } from '/imports/ui/gameplay-area/animations/player-animations.js';
 import { opponentShowSelectedAction, opponentAreaMinimized, opponentSelectedActionMoveCenter,
          opponentActionDoMove, playerHealthbarShake, opponentActionDoBack,
-         opponentAreaMaximized } from '/imports/ui/gameplay-area/animations/opponent-animations.js';
+         opponentActionContainerDisappear, opponentAreaMaximized, opponentActionCardAreaMinimized,
+         opponentActionCardAreaMaximized } from '/imports/ui/gameplay-area/animations/opponent-animations.js';
 
 export const duelAnimation = (message) => {
     var timeline = new TimelineLite();
     var playerId, opponentId;
-    var playerCardPlayed = false;
-    var opponentCardPlayed = false;
+    var playerAction;
+    var opponentAction;
     
     players = message.players;
     for (playerIdentification in players){
@@ -24,53 +26,96 @@ export const duelAnimation = (message) => {
     setOpponentState("ActionCardIndex", players[opponentId].actionCardIndex);
     
     if (getPlayerState().Action == 'ATTACK') {
-        playerCardPlayed = true;
+        playerAction = 'ATTACK';
+    } else if (getPlayerState().Action == 'SHIELD'){
+        playerAction = 'SHIELD';
     }
     
     if (getOpponentState().Action == 'ATTACK'){
-        opponentCardPlayed = true;
+        opponentAction = 'ATTACK';
+    } else if (getOpponentState().Action == 'SHIELD'){
+        opponentAction = 'SHIELD';
     }
     
-    timeline.add(
-        playerShowSelectedAction(playerCardPlayed)
+    console.log("player action", playerAction);
+    console.log("opponent action", opponentAction);
+    
+    timeline.addLabel(
+        "reveal cards"
     ).add(
-        opponentShowSelectedAction(opponentCardPlayed)
+        playerShowSelectedAction(playerAction),
+        "reveal cards"
     ).add(
-        playerAreaMinimized()
+        opponentShowSelectedAction(opponentAction),
+        "reveal cards"
+    ).addLabel(
+        "minimize hands"
     ).add(
-        opponentAreaMinimized()
+        playerAreaMinimized(),
+        "minimize hands"
     ).add(
-        playerSelectedActionMoveCenter(playerCardPlayed)
+        opponentAreaMinimized(),
+        "minimize hands"
     ).add(
-        opponentSelectedActionMoveCenter(opponentCardPlayed)
+        playerActionCardAreaMinimized(),
+        "minimize hands"
     ).add(
-        playerActionDoMove(playerCardPlayed).add( () => {
+        opponentActionCardAreaMinimized(),
+        "minimize hands"
+    ).addLabel(
+        "card to center"
+    ).add(
+        playerSelectedActionMoveCenter(playerAction),
+        "card to center"
+    ).add(
+        opponentSelectedActionMoveCenter(opponentAction),
+        "card to center"
+    ).add(
+        playerActionDoMove(playerAction).add( () => {
             setOpponentState("CurrentHp", players[opponentId].currentHp);
         })
     ).add(
-        opponentHealthbarShake(playerCardPlayed)
+        opponentHealthbarShake(playerAction)
     ).add(
-        playerActionDoBack(playerCardPlayed).add ( () => {
-            setPlayerState("Card[0]", players[playerId].currentCards[0]);
-            setPlayerState("Card[1]", players[playerId].currentCards[1]);
-            setPlayerState("Card[2]", players[playerId].currentCards[2]);
-        })
+        playerActionDoBack(playerAction)
     ).add(
-        opponentActionDoMove(opponentCardPlayed).add ( () => {
+        opponentActionDoMove(opponentAction).add ( () => {
             setPlayerState("CurrentHp", players[playerId].currentHp)
         })
     ).add(
-        playerHealthbarShake(opponentCardPlayed)
+        playerHealthbarShake(opponentAction)
     ).add(
-        opponentActionDoBack(opponentCardPlayed).add ( () => {
+        opponentActionDoBack(opponentAction)
+    ).addLabel(
+        "card disappear"
+    ).add(
+        playerActionContainerDisappear(playerAction).add ( () => {
+            setPlayerState("Card[0]", players[playerId].currentCards[0]);
+            setPlayerState("Card[1]", players[playerId].currentCards[1]);
+            setPlayerState("Card[2]", players[playerId].currentCards[2]);
+        }),
+        "card disappear"
+    ).add(
+        opponentActionContainerDisappear(opponentAction).add ( () => {
             setOpponentState("Card[0]", players[opponentId].currentCards[0]);
             setOpponentState("Card[1]", players[opponentId].currentCards[1]);
             setOpponentState("Card[2]", players[opponentId].currentCards[2]);
-        })
+        }),
+        "card disappear"
+    ).addLabel(
+        "maximize hand"
     ).add(
-        playerAreaMaximized()
+        playerActionCardAreaMaximized(),
+        "maximize hand"
     ).add(
-        opponentAreaMaximized()
+        opponentActionCardAreaMaximized(),
+        "maximize hand"
+    ).add(
+        playerAreaMaximized(),
+        "maximize hand"
+    ).add(
+        opponentAreaMaximized(),
+        "maximize hand"
     ).add( () => {
         setPlayerState("Action", null);
         setPlayerState("ActionCardIndex", null);
