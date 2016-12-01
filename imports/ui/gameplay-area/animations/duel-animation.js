@@ -7,6 +7,9 @@ import { opponentShowSelectedAction, opponentAreaMinimized, opponentSelectedActi
          opponentActionContainerDisappear, opponentAreaMaximized, opponentActionCardAreaMinimized,
          opponentActionCardAreaMaximized } from '/imports/ui/gameplay-area/animations/opponent-animations.js';
 
+import { executeHealNumberFeedbackForOpponent, executeHealNumberFeedbackForPlayer, executeDamageNumberFeedbackForOpponent, executeDamageNumberFeedbackForPlayer
+    } from '/imports/client/animations/damage-number-feedback.js';
+
 export const duelAnimation = (message) => {
     var timeline = new TimelineLite();
     var playerId, opponentId;
@@ -72,7 +75,15 @@ export const duelAnimation = (message) => {
         "card to center"
     ).add(
         playerActionDoMove(playerAction).add( () => {
-            setOpponentState("CurrentHp", players[opponentId].currentHp);
+            var newLife = players[opponentId].currentHp;
+            var lifeDifference = newLife - getOpponentState().CurrentHp
+
+            if (lifeDifference > 0)
+                executeHealNumberFeedbackForOpponent(lifeDifference);
+            else
+                executeDamageNumberFeedbackForOpponent(-lifeDifference);
+
+            setOpponentState("CurrentHp", newLife);
         })
     ).add(
         opponentHealthbarShake(playerAction)
@@ -80,7 +91,18 @@ export const duelAnimation = (message) => {
         playerActionDoBack(playerAction)
     ).add(
         opponentActionDoMove(opponentAction).add ( () => {
-            setPlayerState("CurrentHp", players[playerId].currentHp)
+
+            var newLife = players[playerId].currentHp;
+            var lifeDifference = newLife - getPlayerState().CurrentHp
+
+            if (lifeDifference > 0)
+                executeHealNumberFeedbackForPlayer(lifeDifference);
+            else
+                executeDamageNumberFeedbackForPlayer(-lifeDifference);
+
+
+
+            setPlayerState("CurrentHp", newLife);
         })
     ).add(
         playerHealthbarShake(opponentAction)
