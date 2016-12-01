@@ -34,12 +34,16 @@ export class PlayerSide extends Component {
     getActionCard() {
         return this.props.player["Card[" + this.props.player.ActionCardIndex + "]"];
     }
+    
+    getShield() {
+        
+    }
 
     showCSSProperty() {
         var property = $('.action-card-container .game-card').position();
         console.log(property);
         var controllerActionCardPosition =
-            $('.player-side .player-controler .playable-cards .playable-game-card:nth-child(' + (getPlayerState("player").ActionCardIndex+1) +')').position();
+            $('.player-side .player-controler .mirror-shield-action').position();
         console.log(controllerActionCardPosition);
     }
 
@@ -49,6 +53,13 @@ export class PlayerSide extends Component {
                 <div className="action-card-container" onClick={ () => this.showCSSProperty() }>
                     { this.props.player["Card[" + this.props.player.ActionCardIndex + "]"]?
                         <GameCard gameCard={this.getActionCard()} />:
+                        null
+                    }
+                    { this.props.player.Action == 'SHIELD'?
+                        <div className={ "mirror-shield-action" + this.getSelectedClassName() } onClick={ () => this.playShield() }>
+                            <img className="image" src={ "/images/mirror_shield.png" }/>
+                        </div>
+                        :
                         null
                     }
                 </div>
