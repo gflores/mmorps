@@ -16,6 +16,12 @@ export class DecidingPhaseCountdown extends Component {
     }
 
     componentDidMount(){
+
+        var newCurrentTime = this.state.currentTime - 1;
+        this.setState({
+            currentTime: newCurrentTime
+        });
+
         this.intervalId = Meteor.setInterval(() =>{
             var newCurrentTime = this.state.currentTime - 1;
             this.setState({
