@@ -33,6 +33,9 @@ export const duelAnimation = (message) => {
     
     setOpponentState("Action", players[opponentId].action);
     setOpponentState("ActionCardIndex", players[opponentId].actionCardIndex);
+
+    setPlayerState("Action", players[playerId].action);
+    setPlayerState("ActionCardIndex", players[playerId].actionCardIndex);
     
     var opponentNewLife = players[opponentId].currentHp;
     var opponentLifeDifference = opponentNewLife - getOpponentState().CurrentHp;

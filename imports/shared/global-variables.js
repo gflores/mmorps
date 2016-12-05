@@ -1,6 +1,6 @@
 var countDownMessageDelay = 500;
 var gameStartDelay = 500;
-var newRoundDelay = 8000;
+var newRoundDelay = 9000;
 var endRoundDelay = 5000;
 var shieldHpCost = 5;
 var passiveHealAmount = 1;

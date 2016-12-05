@@ -5,6 +5,9 @@ import { getState } from '/imports/client/global-data/manage-state.js';
 
 import { FillingBar } from '/imports/ui/gameplay-area/filling-bar/FillingBar.jsx';
 
+import { setState } from '/imports/client/global-data/manage-state.js';
+
+
 require("./DecidingPhaseCountdown.scss");
 
 export class DecidingPhaseCountdown extends Component {
@@ -32,6 +35,13 @@ export class DecidingPhaseCountdown extends Component {
                 Meteor.clearInterval(this.intervalId);
             }
         }, 1000)
+
+        Meteor.setTimeout(() => {
+            setState({
+                currentPhase: "RESULT_PHASE"
+            });
+
+        }, newCurrentTime * 1000 + 200)
     }
 
     componentWillUnmount(){
