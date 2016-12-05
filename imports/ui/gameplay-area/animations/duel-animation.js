@@ -25,9 +25,20 @@ export const duelAnimation = (message) => {
         }
     }
     
+    console.log("in duel animation");
+    console.log(players[playerId]);
+    console.log(players[opponentId]);
+    
     setOpponentState("Action", players[opponentId].action);
     setOpponentState("ActionCardIndex", players[opponentId].actionCardIndex);
     
+    var opponentNewLife = players[opponentId].currentHp;
+    var opponentLifeDifference = opponentNewLife - getOpponentState().CurrentHp;
+
+    var playerNewLife = players[playerId].currentHp;
+    var playerLifeDifference = playerNewLife - getPlayerState().CurrentHp;
+
+
     if (getPlayerState().Action == 'ATTACK') {
         playerAction = 'ATTACK';
     } else if (getPlayerState().Action == 'SHIELD'){
@@ -42,7 +53,9 @@ export const duelAnimation = (message) => {
     
     console.log("player action", playerAction);
     console.log("opponent action", opponentAction);
-    
+
+
+
     timeline.addLabel(
         "reveal cards"
     ).add(
@@ -60,10 +73,10 @@ export const duelAnimation = (message) => {
         opponentAreaMinimized(),
         "minimize hands"
     ).add(
-        playerActionCardAreaMinimized(),
+        playerActionCardAreaMinimized(playerAction, playerLifeDifference, playerNewLife),
         "minimize hands"
     ).add(
-        opponentActionCardAreaMinimized(),
+        opponentActionCardAreaMinimized(opponentAction, opponentLifeDifference, opponentNewLife),
         "minimize hands"
     ).addLabel(
         "card to center"
@@ -74,36 +87,13 @@ export const duelAnimation = (message) => {
         opponentSelectedActionMoveCenter(opponentAction),
         "card to center"
     ).add(
-        playerActionDoMove(playerAction).add( () => {
-            var newLife = players[opponentId].currentHp;
-            var lifeDifference = newLife - getOpponentState().CurrentHp
-
-            if (lifeDifference > 0)
-                executeHealNumberFeedbackForOpponent(lifeDifference);
-            else
-                executeDamageNumberFeedbackForOpponent(-lifeDifference);
-
-            setOpponentState("CurrentHp", newLife);
-        })
+        playerActionDoMove(playerAction, opponentAction, opponentLifeDifference, opponentNewLife, playerLifeDifference, playerNewLife)
     ).add(
         opponentHealthbarShake(playerAction)
     ).add(
         playerActionDoBack(playerAction)
     ).add(
-        opponentActionDoMove(opponentAction).add ( () => {
-
-            var newLife = players[playerId].currentHp;
-            var lifeDifference = newLife - getPlayerState().CurrentHp
-
-            if (lifeDifference > 0)
-                executeHealNumberFeedbackForPlayer(lifeDifference);
-            else
-                executeDamageNumberFeedbackForPlayer(-lifeDifference);
-
-
-
-            setPlayerState("CurrentHp", newLife);
-        })
+        opponentActionDoMove(opponentAction, playerAction, playerLifeDifference, playerNewLife, opponentLifeDifference, opponentNewLife)
     ).add(
         playerHealthbarShake(opponentAction)
     ).add(
@@ -143,7 +133,16 @@ export const duelAnimation = (message) => {
         setPlayerState("ActionCardIndex", null);
         setOpponentState("Action", null);
         setOpponentState("ActionCardIndex", null);
+        setPlayerState("CanPlayShield", players[playerId].canPlayShield);
+        setOpponentState("CanPlayShield", players[opponentId].canPlayShield);
+        setPlayerState("CurrentHp", players[playerId].currentHp);
+        setOpponentState("CurrentHp", players[opponentId].currentHp);
     });
 
+    
+    
     timeline.play();
+
+    console.log("end duel animation");
+    console.log(players);
 };

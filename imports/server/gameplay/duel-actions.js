@@ -12,7 +12,7 @@ export const PlayCard = (playerId, cardIndex, gameData) => {
 }   
 
 export const PlayShield = (playerId, gameData) => {
-    if(gameData.players[playerId] && gameData.canDuelAction == true){
+    if(gameData.players[playerId].canPlayShield && gameData.canDuelAction == true){
         gameData.players[playerId].action = 'SHIELD';
         console.log("playing shield");
     } else {

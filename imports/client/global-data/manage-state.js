@@ -20,7 +20,8 @@ getGamePlayerState = function (playerType) {
         "Card[1]": state[playerType + "Card[1]"],
         "Card[2]": state[playerType + "Card[2]"],
         "Action": state[playerType + "Action"],
-        "ActionCardIndex": state[playerType + "ActionCardIndex"]
+        "ActionCardIndex": state[playerType + "ActionCardIndex"],
+        "CanPlayShield": state[playerType + "CanPlayShield"]
     };
 }
 
@@ -38,6 +39,8 @@ export const setPlayerState = function(key, value) {
     var newChange = {};
 
     newChange["player" + key] = value;
+
+    console.log("player setting ", key, " to ", value);
 
     getApp().setState(newChange);
 }

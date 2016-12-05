@@ -1,7 +1,6 @@
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 import { getDuelStartedMessage, constructEndRoundMessage } from '/imports/server/server-messages/server-message-format.js';
-import { getShieldHpCost, getMaxHp } from '/imports/shared/global-variables.js';
-
+import { getShieldHpCost, getMaxHp, getPassiveHealAmount } from '/imports/shared/global-variables.js';
 
 import { getResult, generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 import { isCurrentHandEmpty } from '/imports/server/gameplay/players/is-current-hand-empty.js';
@@ -19,6 +18,9 @@ function attackToAttack(playerOne, playerTwo) {
     } else if (result == -1) {
         strongerToWeakerPlayer(playerTwo, playerOne);
     }
+    
+    enablePlayerShield(playerOne);
+    enablePlayerShield(playerTwo);
 }
 
 function strongerToWeakerPlayer(strongerPlayer, weakerPlayer) {
@@ -57,6 +59,7 @@ function dealingNormalDamage(attackingPlayer, damagedPlayer){
     attackingValue = getPlayedCard(attackingPlayer).value;
     damagedPlayer.currentHp -= attackingValue;
     discardPlayedCard(attackingPlayer);
+    enablePlayerShield(attackingPlayer);
 };
 
 function healingNormalHealth(healer, healedPlayer){
@@ -66,10 +69,20 @@ function healingNormalHealth(healer, healedPlayer){
         healedPlayer.currentHp = getMaxHp();
     }
     discardPlayedCard(healer);
+    enablePlayerShield(healer);
+};
+
+function healPassivePlayer(passivePlayer){
+    passivePlayer.currentHp += getPassiveHealAmount();
+    if(passivePlayer.currentHp >= getMaxHp()){
+        passivePlayer.currentHp = getMaxHp();
+    }
+    enablePlayerShield(passivePlayer);
 };
 
 function playShield(player) {
     player.currentHp -= getShieldHpCost();
+    disablePlayerShield(player);
 };
 
 function attackDeflected(attackingPlayer) {
@@ -77,7 +90,16 @@ function attackDeflected(attackingPlayer) {
     attackingPlayer.currentHp -= attackingValue;
 
     discardPlayedCard(attackingPlayer);
+    enablePlayerShield(attackingPlayer);
 };
+
+function enablePlayerShield(player){
+    player.canPlayShield = true;
+};
+
+function disablePlayerShield(player){
+    player.canPlayShield = false;
+}
 
 function resetPlayerActions(player) {
     player.action = null;
@@ -127,14 +149,19 @@ export const computeRoundResult = (gameData) => {
         playShield(playerTwo);
     } else if (playerOne.action == 'ATTACK' && playerTwo.action == null) {
         dealingNormalDamage(playerOne, playerTwo);
+        healPassivePlayer(playerTwo);
     } else if (playerOne.action == null && playerTwo.action == 'ATTACK') {
         dealingNormalDamage(playerTwo, playerOne);
+        healPassivePlayer(playerOne);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == null ) {
         playShield(playerOne);
+        healPassivePlayer(playerTwo);
     } else if (playerOne.action == null && playerTwo.action == 'SHIELD') {
         playShield(playerTwo);
+        healPassivePlayer(playerOne);
     } else if (playerOne.action == null && playerTwo.action == null) {
-        
+        healPassivePlayer(playerOne);
+        healPassivePlayer(playerTwo);
     }
 
     // reset players Actions and draw cards if hands are empty

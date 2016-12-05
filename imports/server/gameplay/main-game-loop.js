@@ -8,7 +8,7 @@ import { sendMainServerMessage } from '/imports/server/server-messages/main-serv
 import { constructNewRoundMessage } from '/imports/server/server-messages/server-message-format.js';
 
 import { getNewRoundDelay, getEndRoundDelay } from '/imports/shared/global-variables.js';
-import { enableMainGameDuel, disableMainGameDuel } from '/imports/server/global-data/global-data.js';
+import { enableMainGameDuel, disableMainGameDuel, resetMainGameData } from '/imports/server/global-data/global-data.js';
 
 export const mainGameLoop = (gameData) => {
 
@@ -51,10 +51,8 @@ export const mainGameLoop = (gameData) => {
         console.log("finished animation");
         console.log("result: ", gameData);
     }
-
-    
-    console.log("player ", gameData.player_keys[0] ,gameData.players[gameData.player_keys[0]].currentCards);
-    console.log("player 2 hand", gameData.player_keys[1], gameData.players[gameData.player_keys[1]].currentCards);
     
     console.log("game has ended");
+    
+    resetMainGameData();
 }

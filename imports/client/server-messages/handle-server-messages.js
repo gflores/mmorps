@@ -15,22 +15,17 @@ function setPlayersStates(message) {
             setPlayerState("Card[0]", players[playerId].currentCards[0]);
             setPlayerState("Card[1]", players[playerId].currentCards[1]);
             setPlayerState("Card[2]", players[playerId].currentCards[2]);
-            if(message.functionId == "end-of-round"){
-                setPlayerState("Action", players[playerId].action);
-                setPlayerState("ActionCardIndex", players[playerId].actionCardIndex);
-            }
+            setPlayerState("CanPlayShield", players[playerId].canPlayShield);
+            console.log("getting game started message");
+            console.log(players);
         } else {
             setOpponentState("CurrentHp", players[playerId].currentHp);
             setOpponentState("MaxHp", players[playerId].maxHp);
             setOpponentState("Card[0]", players[playerId].currentCards[0]);
             setOpponentState("Card[1]", players[playerId].currentCards[1]);
             setOpponentState("Card[2]", players[playerId].currentCards[2]);
-            if(message.functionId == "end-of-round"){
-                setOpponentState("Action", players[playerId].action);
-                setOpponentState("ActionCardIndex", players[playerId].actionCardIndex);
-            }
+            setOpponentState("CanPlayShield", players[playerId].canPlayShield);
         }
-
     }
 }
 

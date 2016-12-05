@@ -100,10 +100,15 @@
 }
 
 .action-card-container {
+    z-index: 5;
     display: flex;
     justify-content: center;
     .game-card {
         opacity: 0;
+    }
+    .mirror-shield-action {
+        opacity: 0;
+        margin-right: 0;
     }
 }
 

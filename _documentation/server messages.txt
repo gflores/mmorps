@@ -12,18 +12,21 @@
     players: {
         "id1:" {
             hp: Integer,
-            currentCards: [Card, Card, Card]
+            currentCards: [Card, Card, Card],
+            canPlayShield
         },
         "id2:" {
             hp: Integer,
-            currentCards: [Card, Card, Card]
+            currentCards: [Card, Card, Card],
+            canPlayShield: true | false
         }
     }
 }
 
 {
     functionId: "new-round",
-    time_limit: Integer
+    time_limit: Integer,
+
 }
 
 {
@@ -33,13 +36,15 @@
             hp: Integer,
             currentCards: [Card, Card, Card]
             action: 'SHIELD' | 'ATTACK',
-            actionCardIndex: 0 | 1 | 2
+            actionCardIndex: 0 | 1 | 2,
+            canPlayShield: true | false
         },
         "id2:" {
             hp: Integer,
             currentCards: [Card, Card, Card]
             action: 'SHIELD' | 'ATTACK',
-            actionCardIndex: 0 | 1 | 2
+            actionCardIndex: 0 | 1 | 2,
+            canPlayShield: true | false
         }
     }
 }

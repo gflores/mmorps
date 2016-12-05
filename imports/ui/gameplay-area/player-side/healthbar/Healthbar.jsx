@@ -9,7 +9,8 @@ require("./Healthbar.scss");
 
 export class Healthbar extends Component {
     healthToRatio(){
-        return this.props.currentHp / this.props.maxHp;
+        currentHp = this.props.currentHp < 0 ? 0 : this.props.currentHp;
+        return currentHp / this.props.maxHp;
     }
     render(){
         return (

@@ -20,10 +20,15 @@ export class OpponentSide extends Component {
         return this.props.player["Card[" + this.props.player.ActionCardIndex + "]"];
     }
 
+    checkShield() {
+        console.log("checking for shield");
+        console.log(this.props.player);
+    }
+    
     render(){
         return (
             <div className="opponent-side game-player-side">
-                <div className="healthbar-container">
+                <div className="healthbar-container" onClick={ () => this.checkShield() }>
                     <Healthbar currentHp={ this.props.player.CurrentHp } maxHp={ this.props.player.MaxHp }/>
                 </div>
 
@@ -31,9 +36,14 @@ export class OpponentSide extends Component {
                 </div>
 
                 <div className="player-controler">
-                    <div className="mirror-shield-action">
-                        <img className="image" src={ "/images/mirror_shield.png" }/>
-                    </div>
+                    { this.props.player.CanPlayShield ?
+                        <div className="mirror-shield-action">
+                            <img className="image" src={ "/images/mirror_shield.png" }/>
+                        </div>
+                        :
+                        null             
+                    }
+                    
                     <div className="playable-cards">
                         <PlayableGameCard gameCard={ this.getCard(0) } index={ 0 } isPlayerSide={ false }/>
                         <PlayableGameCard gameCard={ this.getCard(1) } index={ 1 } isPlayerSide={ false }/>

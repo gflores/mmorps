@@ -17,7 +17,8 @@ export const createNewPlayer = () => {
         currentCards: hand,
         remainingCardsStack: deck,
         action: null,
-        actionCardIndex: null
+        actionCardIndex: null,
+        canPlayShield: true
     };
     return newPlayer;
 }

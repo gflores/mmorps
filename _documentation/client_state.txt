@@ -13,10 +13,11 @@ State of client:
 
 "playerAction": 'SHIELD' | 'ATTACK' | null
 "playerActionCardIndex": 0 | 1 | 2
+"playerCanPlayShield": true | false
 
 "opponentActionCardIndex": 0 | 1 | 2
 "opponentAction": 'SHIELD' | 'ATTACK' | null
-
+"opponentCanPlayShield": true | false
 
 "playerCurrentHp": Integer
 "playerMaxHp": Integer
