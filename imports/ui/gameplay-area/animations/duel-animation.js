@@ -7,6 +7,8 @@ import { opponentShowSelectedAction, opponentAreaMinimized, opponentSelectedActi
          opponentActionContainerDisappear, opponentAreaMaximized, opponentActionCardAreaMinimized,
          opponentActionCardAreaMaximized } from '/imports/ui/gameplay-area/animations/opponent-animations.js';
 
+import { getActionSelectedTimeDelay, getActionDoMoveTimeDelay } from '/imports/shared/global-variables.js';
+
 import { executeHealNumberFeedbackForOpponent, executeHealNumberFeedbackForPlayer, executeDamageNumberFeedbackForOpponent, executeDamageNumberFeedbackForPlayer
     } from '/imports/client/animations/damage-number-feedback.js';
 
@@ -65,7 +67,7 @@ export const duelAnimation = (message) => {
         opponentShowSelectedAction(opponentAction),
         "reveal cards"
     ).addLabel(
-        "minimize hands"
+        "minimize hands", "+=" + getActionSelectedTimeDelay()
     ).add(
         playerAreaMinimized(),
         "minimize hands"
@@ -87,13 +89,15 @@ export const duelAnimation = (message) => {
         opponentSelectedActionMoveCenter(opponentAction),
         "card to center"
     ).add(
-        playerActionDoMove(playerAction, opponentAction, opponentLifeDifference, opponentNewLife, playerLifeDifference, playerNewLife)
+        playerActionDoMove(playerAction, opponentAction, opponentLifeDifference, opponentNewLife, playerLifeDifference, playerNewLife),
+        "+=" + getActionDoMoveTimeDelay()
     ).add(
         opponentHealthbarShake(playerAction)
     ).add(
         playerActionDoBack(playerAction)
     ).add(
-        opponentActionDoMove(opponentAction, playerAction, playerLifeDifference, playerNewLife, opponentLifeDifference, opponentNewLife)
+        opponentActionDoMove(opponentAction, playerAction, playerLifeDifference, playerNewLife, opponentLifeDifference, opponentNewLife),
+        "+=" + getActionDoMoveTimeDelay()
     ).add(
         playerHealthbarShake(opponentAction)
     ).add(

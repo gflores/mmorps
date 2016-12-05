@@ -148,17 +148,17 @@ export const computeRoundResult = (gameData) => {
         playShield(playerOne);
         playShield(playerTwo);
     } else if (playerOne.action == 'ATTACK' && playerTwo.action == null) {
+        healPassivePlayer(playerTwo);
         dealingNormalDamage(playerOne, playerTwo);
-        healPassivePlayer(playerTwo);
     } else if (playerOne.action == null && playerTwo.action == 'ATTACK') {
+        healPassivePlayer(playerOne);
         dealingNormalDamage(playerTwo, playerOne);
-        healPassivePlayer(playerOne);
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == null ) {
-        playShield(playerOne);
         healPassivePlayer(playerTwo);
+        playShield(playerOne);
     } else if (playerOne.action == null && playerTwo.action == 'SHIELD') {
-        playShield(playerTwo);
         healPassivePlayer(playerOne);
+        playShield(playerTwo);
     } else if (playerOne.action == null && playerTwo.action == null) {
         healPassivePlayer(playerOne);
         healPassivePlayer(playerTwo);

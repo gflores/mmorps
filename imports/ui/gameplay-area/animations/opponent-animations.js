@@ -6,7 +6,8 @@ import { getPassiveHealAmount, getMaxHp,
          getHandMinimizedTime, getHandMaximizedTime,
          getActionSelectedTime, getActionMoveToCenterTime,
          getActionDoMoveTime, getActionDoBackTime,
-         getHealthbarShakeTime, getPlayActionContainerDisappearTime } from '/imports/shared/global-variables.js';
+         getHealthbarShakeTime, getPlayActionContainerDisappearTime,
+         getActionReappearTime } from '/imports/shared/global-variables.js';
 
 export const opponentAreaMinimized = () => {
     var opponentHand = new TimelineLite();
@@ -85,7 +86,7 @@ const opponentShowSelectedShield = () => {
         zIndex: 10
     }).to('.opponent-side .action-card-container .mirror-shield-action', getActionSelectedTime(), {
         autoAlpha: 1,
-        scale: 1.3
+        scale: 1.5
     });
     return timeline;
 };
@@ -103,7 +104,7 @@ const opponentShowSelectedCard = () => {
         zIndex: 10
     }).to('.opponent-side .action-card-container .game-card', getActionSelectedTime(), {
         autoAlpha: 1,
-        scale: 1.3
+        scale: 1.5
     });
     
     return timeline;
@@ -211,7 +212,7 @@ export const playerHealthbarShake = (opponentAction) => {
 const opponentCardDoBack = () => {
     var timeline = new TimelineLite();
 
-    timeline.to('.opponent-side .action-card-container .game-card', .5, {
+    timeline.to('.opponent-side .action-card-container .game-card', getActionReappearTime(), {
         autoAlpha: 1
     }).to('.opponent-side .action-card-container .game-card', getActionDoBackTime(), {
         y: '-=' + 150

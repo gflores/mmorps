@@ -6,7 +6,8 @@ import { getPassiveHealAmount, getMaxHp,
          getHandMinimizedTime, getHandMaximizedTime,
          getActionSelectedTime, getActionMoveToCenterTime,
          getActionDoMoveTime, getActionDoBackTime,
-         getHealthbarShakeTime, getPlayActionContainerDisappearTime } from '/imports/shared/global-variables.js';
+         getHealthbarShakeTime, getPlayActionContainerDisappearTime,
+         getActionReappearTime } from '/imports/shared/global-variables.js';
 
 
 
@@ -88,7 +89,7 @@ const playerShowSelectedShield = () => {
         zIndex: 10
     }).to('.player-side .action-card-container .mirror-shield-action', getActionSelectedTime(), {
         autoAlpha: 1,
-        scale: 1.3
+        scale: 1.5
     });
     return timeline;
 };
@@ -106,13 +107,13 @@ const playerShowSelectedCard = () => {
         zIndex: 10
     }).to('.player-side .action-card-container .game-card', getActionSelectedTime(), {
         autoAlpha: 1,
-        scale: 1.3
+        scale: 1.5
     });
 
     return timeline;
 };
 
-export const playerShowSelectedAction = (playerAction, opponentLifeDifference, opponentNewLife) => {
+export const playerShowSelectedAction = (playerAction) => {
   if(playerAction == 'ATTACK'){
       return playerShowSelectedCard();
   } else if (playerAction == 'SHIELD'){
@@ -218,7 +219,7 @@ const playerCardDoBack = () => {
     var actionCardAtHandPosition = $('.player-side .player-controler .playable-cards ' +
         '.playable-game-card:nth-child(' + (getPlayerState("player").ActionCardIndex+1) +') .game-card').position();
 
-    timeline.to('.player-side .action-card-container .game-card', .5, {
+    timeline.to('.player-side .action-card-container .game-card', getActionReappearTime(), {
         autoAlpha: 1
     }).to('.player-side .action-card-container .game-card', getActionDoBackTime(), {
         y: '+=' + (150)
