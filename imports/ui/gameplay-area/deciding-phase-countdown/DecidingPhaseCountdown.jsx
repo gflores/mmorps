@@ -38,7 +38,7 @@ export class DecidingPhaseCountdown extends Component {
 
         Meteor.setTimeout(() => {
             setState({
-                currentPhase: "RESULT_PHASE"
+                currentPhase: "TRANSITION_PHASE"
             });
 
         }, newCurrentTime * 1000 + 200)

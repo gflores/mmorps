@@ -9,7 +9,7 @@ export class DamageNumberFeedback extends Component {
     componentDidMount(){
         Meteor.setTimeout(() => {
             unmountComponentAtNode(this.props.rootDom);
-        }, 2000);
+        }, 1800);
 
         console.log("this.refs: ", this.refs, "this.refs-damage-number-feedback: ", this.refs["damage-number-feedback"]);
         feedback = $(this.refs["damage-number-feedback"]);
@@ -19,12 +19,12 @@ export class DamageNumberFeedback extends Component {
         }, 200);
 
         Meteor.setTimeout(() => {
-            feedback.css("font-size", "80px")
-        }, 200);
+            feedback.css("font-size", "110px")
+        }, 300);
 
-        Meteor.setTimeout(() => {
-            feedback.css("opacity", "0")
-        }, 1500);
+        // Meteor.setTimeout(() => {
+        //     feedback.css("opacity", "0")
+        // }, 1500);
     }
 
     getValue(){

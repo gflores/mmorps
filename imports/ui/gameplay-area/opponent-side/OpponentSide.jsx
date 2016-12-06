@@ -40,8 +40,9 @@ export class OpponentSide extends Component {
                         <div className="mirror-shield-action">
                             <img className="image" src={ "/images/mirror_shield.png" }/>
                         </div>
-                        :
-                        null             
+                    :
+                        <div className="empty-mirror-shield">
+                        </div>
                     }
                     
                     <div className="playable-cards">

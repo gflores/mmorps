@@ -12,7 +12,7 @@ require("./PlayableGameCard.scss");
 export class PlayableGameCard extends Component {
     
     playCard() {
-        if (this.props.isPlayerSide == true){
+        if (this.props.isPlayerSide == true && getState().currentPhase == "DECIDING_PHASE"){
             decidePlayCard(this.props.index);
         }
     }

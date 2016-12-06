@@ -34,11 +34,8 @@ export class MainOptionsArea extends Component {
             <div className="main-options-area">
                 <button onClick={ () => this.joinGame() }> Join Game</button>
                 <br />
-                <button onClick={ () => this.resetGame() }> Reset Game</button>
-                <br />
                 <button onClick={ () => this.endGame() }> End Game </button>
                 <br />
-                <button onClick={ () => this.animatePlayerCard() }> Player Action Card Animate </button>
                 user: { Meteor.userId() }
             </div>
         )

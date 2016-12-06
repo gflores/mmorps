@@ -17,7 +17,8 @@ require("./PlayerSide.scss");
 export class PlayerSide extends Component {
     
     playShield() {
-        decidePlayShield();
+        if (getState().currentPhase == "DECIDING_PHASE")
+            decidePlayShield();
     }
     
     getCard(index){
@@ -48,9 +49,14 @@ export class PlayerSide extends Component {
         console.log(controllerActionCardPosition);
     }
 
+    getCanPlayClass(){
+        var state = getState();
+
+        return state.currentPhase == "DECIDING_PHASE" ? "can-play" : "";
+    }
     render(){
         return (
-            <div className="player-side game-player-side">
+            <div className={"player-side game-player-side " + this.getCanPlayClass()}>
                 <div className="action-card-container" onClick={ () => this.showCSSProperty() }>
                     { this.props.player["Card[" + this.props.player.ActionCardIndex + "]"]?
                         <GameCard gameCard={this.getActionCard()} />:
@@ -73,8 +79,9 @@ export class PlayerSide extends Component {
                         <div className={ "mirror-shield-action" + this.getSelectedClassName() } onClick={ () => this.playShield() }>
                             <img className="image" src={ "/images/mirror_shield.png" }/>
                         </div>    
-                        :
-                        null
+                    :
+                        <div className="empty-mirror-shield">
+                        </div>
                     }
                     
                     <div className="playable-cards">

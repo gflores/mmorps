@@ -46,17 +46,9 @@
 
 .player-side {
     .playable-game-card {
-        .game-card {
-            &:hover{
-                margin: -2px;
-                border: 2px solid #2196F3;
-                top: -5px;
-            }
-        }
-
         &.selected .game-card{
-            margin: -2px;
-            border: 2px solid #2196F3;
+            margin: -8px;
+            border: 8px solid #2196F3;
             &::after {
                 position:absolute;
                 display:block;
@@ -68,13 +60,26 @@
                 height: 100%;
                 width: 100%;
                 content: '';
-                cursor: pointer;
                 border-radius: inherit;
             }
+        }
+    }
+
+    &.can-play .playable-game-card {
+
+        .game-card {
         }
 
         &:not(.selected) .game-card {
             @extend .clickable-block;
+
+
+            &:hover{
+                margin: -2px;
+                border: 2px solid #2196F3;
+                top: -5px;
+            }
+
             &.rock {
                 animation: AutoScaleAnimation 3s linear infinite, glowEffectRock 1.5s linear infinite;
             }
@@ -85,5 +90,6 @@
                 animation: AutoScaleAnimation 3s linear infinite, glowEffectScissor 1.5s linear infinite;
             }            
         }
+
     }
 }
