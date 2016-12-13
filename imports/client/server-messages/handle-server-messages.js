@@ -1,9 +1,5 @@
 import { getState, setState, setPlayerState, setOpponentState } from '/imports/client/global-data/manage-state.js';
 
-import { duelAnimation } from '/imports/ui/gameplay-area/animations/duel-animation.js';
-
-import { executeDamageNumberFeedbackForPlayer } from '/imports/client/animations/damage-number-feedback.js';
-
 //state:
 
 function setPlayersStates(message) {
@@ -63,7 +59,7 @@ serverMessagesHandlers = {
         setState({
             currentPhase: "RESULT_PHASE"
         });
-        duelAnimation(message);
+        // duelAnimation(message);
     }
 }
 

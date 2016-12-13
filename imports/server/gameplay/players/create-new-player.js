@@ -18,7 +18,11 @@ export const createNewPlayer = () => {
         remainingCardsStack: deck,
         action: null,
         actionCardIndex: null,
-        canPlayShield: true
+        canPlayShield: true,
+        lastPosition: null,
+        lastUpdatedTime: null,
+        currentVelocity: null,
+        finalWantedPosition: null
     };
     return newPlayer;
 }

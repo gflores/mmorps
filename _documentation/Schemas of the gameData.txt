@@ -17,7 +17,11 @@ Player = {
     currentCards: [Card, Card, Card],
     remainingCardsStack: [Card, Card, ...],
     action: 'SHIELD' | 'ATTACK'
-    actionCardIndex: 0 | 1 | 2
+    actionCardIndex: 0 | 1 | 2,
+    lastPosition: Vector2,
+    lastUpdatedTime: Number (nb seconds),
+    currentVelocity: Vector2,
+    finalWantedPosition: Vector2
 }
 
 Card = {
@@ -25,3 +29,7 @@ Card = {
     element: 'ROCK' | 'PAPER' | 'SCISSOR'
 }
 
+Vector2 = {
+    x: Number,
+    y: Number
+}

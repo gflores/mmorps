@@ -11,12 +11,6 @@ import { cleanupMainServerMessages } from '/imports/server/server-messages/main-
 Meteor.methods({
     JoinMainGame: () => {
         addPlayerToRoom(getMainGameData(), Meteor.userId());
-
-        if (getMainGameData().player_keys.length == 2) {
-            LaunchAsync(()=> {
-                launchGame(getMainGameData());
-            });
-        }
     },
 
     ResetMainGame: () => {
@@ -26,6 +20,12 @@ Meteor.methods({
     
     EndMainGame: () => {
         endMainGame();
+    },
+
+    LaunchMainGame: () => {
+        LaunchAsync(()=> {
+            launchGame(getMainGameData());
+        });
     }
     
     
