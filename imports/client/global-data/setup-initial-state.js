@@ -1,12 +1,8 @@
-import { setState, getState } from '/imports/client/global-data/manage-state.js';
+import { setReactState } from '/imports/client/global-data/manage-state.js';
 
-export const setupInitialState = function(){
-    setState({
+export const setupInitialReactState = function(){
+    setReactState({
         loggedIn: false,
-        roomJoined: false,
-        roomLaunched: false,
-        gameStarted: false,
-
-        test: 1
+        gameJoined: false
     });
 };

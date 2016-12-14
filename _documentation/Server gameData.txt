@@ -20,7 +20,7 @@ Player = {
     actionCardIndex: 0 | 1 | 2,
     lastPosition: Vector2,
     lastUpdatedTime: Number (nb seconds),
-    currentVelocity: Vector2,
+    moveSpeed: Number,
     finalWantedPosition: Vector2
 }
 

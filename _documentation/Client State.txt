@@ -1,0 +1,53 @@
+State of client:
+
+React:
+
+"loggedIn": Bool
+"gameJoined": Bool
+
+
+
+Global
+
+{
+    movingPhaseTime: Integer
+    decidingPhaseTime: Integer
+    resultPhaseTime: Integer
+
+    isMovingPhase: Bool
+    isBattlePhase: Bool
+    isDecidingPhase: Bool
+    isResultPhase: Bool
+
+    player: Player
+    opponents: {
+        "id1": Player,
+        "id2": Player,
+        etc...
+    }
+}
+
+
+
+Player = {
+    id: "id",
+    currentHp: Integer,
+    maxHp: Integer,
+    canPlayShield: Bool,
+    currentCards: [Card],
+    actionCardIndex: 0 | 1 | 2,
+    
+    initialPosition: Vector2,
+    finalWantedPosition: Vector2,
+    renderContainer: PixiContainer
+}
+
+Card = {
+    value: Integer,
+    element: 'ROCK' | 'PAPER' | 'SCISSOR'
+}
+
+Vector2 = {
+    x: Number,
+    y: Number
+}
