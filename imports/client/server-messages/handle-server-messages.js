@@ -60,6 +60,10 @@ serverMessagesHandlers = {
             currentPhase: "RESULT_PHASE"
         });
         // duelAnimation(message);
+    },
+    "player-positions": (message) => {
+        console.log("player-positions");
+        console.log(message.players);
     }
 }
 

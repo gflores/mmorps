@@ -4,7 +4,7 @@ import { sendMainServerMessage } from '/imports/server/server-messages/main-serv
 import { constructJoinedGameMessage } from '/imports/server/server-messages/server-message-format.js';
 
 export const addPlayerToRoom = (gameData, userId) => {
-    if (gameData.player_keys[0] != userId && gameData.player_keys.length < 2) {
+    if (gameData.player_keys[0] != userId) {
         var newPlayer = createNewPlayer();
         gameData.players[userId] = newPlayer;
         gameData.player_keys.push(userId);

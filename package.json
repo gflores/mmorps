@@ -11,6 +11,7 @@
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
-    "react-komposer": "^1.13.1"
+    "react-komposer": "^1.13.1",
+    "vector2": "^0.1.1"
   }
 }
