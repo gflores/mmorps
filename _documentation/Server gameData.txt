@@ -13,6 +13,7 @@ gameData = {
 }
 
 Player = {
+    id: "id",
     hp: Integer,
     currentCards: [Card, Card, Card],
     remainingCardsStack: [Card, Card, ...],

@@ -4,8 +4,13 @@ var globalData = {
     mainGame: {
         players: {},
         player_keys: [],
-        canDuelAction: false
+        canDuelAction: false,
+        initialDate: null
     }
+};
+
+export const initGameStartDate = () => {
+    globalData.mainGame.initialDate = new Date();
 };
 
 export const getGlobalData = () => {

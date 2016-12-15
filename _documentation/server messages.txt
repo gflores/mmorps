@@ -48,3 +48,24 @@
         }
     }
 }
+
+{
+    functionId: "player-positions",
+    players: {
+        "id1": {
+            lastPosition: Vector2,
+            lastUpdatedTime: Number (nb seconds),
+            currentVelocity: Vector2,
+            finalWantedPosition: Vector2
+        },
+        "id2": {
+            lastPosition: Vector2,
+            lastUpdatedTime: Number (nb seconds),
+            currentVelocity: Vector2,
+            finalWantedPosition: Vector2
+        },
+        .
+        .
+        .
+    }
+}

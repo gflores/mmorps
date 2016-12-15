@@ -5,13 +5,16 @@ import { computeRoundResult } from '/imports/server/gameplay/compute-round-resul
 import { gameEnd } from '/imports/server/manage-game-room/game-end.js';
 
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
-import { constructNewRoundMessage } from '/imports/server/server-messages/server-message-format.js';
+import { constructNewRoundMessage, constructPlayerPositionMessage } from '/imports/server/server-messages/server-message-format.js';
 
 import { getGlobalVariables, getNewRoundDelay, getEndRoundDelay } from '/imports/shared/global-variables.js';
-import { enableMainGameDuel, disableMainGameDuel, resetMainGameData } from '/imports/server/global-data/global-data.js';
+import { getMainGameData, enableMainGameDuel, disableMainGameDuel, resetMainGameData } from '/imports/server/global-data/global-data.js';
+
+import { getGameEndDebugVar, setGameEndDebugVarTrue, setGameEndDebugVarFalse } from '/imports/server/global-data/debug-variables.js';
 
 positionPhase = function(){
     Wait(getGlobalVariables().movingPhaseTime);
+    sendMainServerMessage(constructPlayerPositionMessage(getMainGameData()));
 }
 
 decidingPhase = function(){
@@ -60,15 +63,18 @@ actionPhase = function(){
 }
 
 export const mainGameLoop = (gameData) => {
-
     
-
-    while(!gameEnd(gameData)) {
+    while (!getGameEndDebugVar()){
+        console.log('in game');
         positionPhase();
-        // actionPhase();
     }
+    
+    // while(!gameEnd(gameData)) {
+    //     positionPhase();
+    //     // actionPhase();
+    // }
     
     console.log("game has ended");
     
-    resetMainGameData();
+    // resetMainGameData();
 }

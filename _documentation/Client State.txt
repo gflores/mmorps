@@ -37,8 +37,8 @@ Player = {
     currentCards: [Card],
     actionCardIndex: 0 | 1 | 2,
     
-    initialPosition: Vector2,
     finalWantedPosition: Vector2,
+    moveSpeed: Number,
     renderContainer: PixiContainer
 }
 

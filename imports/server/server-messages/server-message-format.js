@@ -59,3 +59,22 @@ export const constructEndRoundMessage = (gameData) => {
         players: players
     }
 };
+
+export const constructPlayerPositionMessage = ( gameData ) => {
+    playerKeys = gameData.player_keys;
+    players = {};
+
+    playerKeys.forEach( (playerKey) => {
+        players[playerKey] = {
+            lastPosition: gameData.players[playerKey].lastPosition,
+            lastUpdatedTime: gameData.players[playerKey].lastUpdatedTime,
+            currentVelocity: gameData.players[playerKey].currentVelocity,
+            finalWantedPosition: gameData.players[playerKey].finalWantedPosition
+        }
+    });
+    
+    return {
+        functionId: "player-positions",
+        players: players
+    }
+};

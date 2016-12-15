@@ -2,6 +2,8 @@ import { generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 
 import { getGameStartPlayerHp, getMaxHp } from '/imports/shared/global-variables.js';
 
+import { Vector2 } from '/imports/helpers/vector2.js';
+
 export const createNewPlayer = () => {
     hand = [];
     
@@ -19,9 +21,9 @@ export const createNewPlayer = () => {
         action: null,
         actionCardIndex: null,
         canPlayShield: true,
-        lastPosition: null,
-        lastUpdatedTime: null,
-        currentVelocity: null,
+        lastPosition: new Vector2(0, 0),
+        lastUpdatedTime: new Date(),
+        currentVelocity: new Vector2(0, 0),
         finalWantedPosition: null
     };
     return newPlayer;

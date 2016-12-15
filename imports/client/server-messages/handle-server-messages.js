@@ -27,41 +27,44 @@ function setPlayersStates(message) {
 }
 
 serverMessagesHandlers = {
-    // "joined_game": (message) => {
-    //     console.log("joined_game")
-    //     setState({ roomJoined: true });
-    //     console.log(getState());
-    // },
-    // "game_countdown": (message) => {
-    //     console.log("game_countdown");
-    //     setState({ 
-    //         roomLaunched: true,
-    //         beforeStartCountdown: message.time
-    //     });
-    //     console.log(getState());
-    // },
-    // "game_started": (message) => {
-    //     console.log("game_started");
-    //     setState({ gameStarted: true });
-
-    //     setPlayersStates(message);
-    //     console.log(getState());
-    // },
-    // "new_round": (message) => {
-    //     console.log("new_round");
-    //     setState({
-    //        currentPhase: "DECIDING_PHASE",
-    //         roundTimeLimit: message.timeLimit
-    //     });
-    //     console.log(getState());
-    // },
-    // "end-of-round": (message) => {
-    //     console.log("end-of-round");
-    //     setState({
-    //         currentPhase: "RESULT_PHASE"
-    //     });
-    //     // duelAnimation(message);
-    // }
+    "joined_game": (message) => {
+        console.log("joined_game")
+        setState({ roomJoined: true });
+        console.log(getState());
+    },
+    "game_countdown": (message) => {
+        console.log("game_countdown");
+        setState({ 
+            roomLaunched: true,
+            beforeStartCountdown: message.time
+        });
+        console.log(getState());
+    },
+    "game_started": (message) => {
+        console.log("game_started");
+        setState({ gameStarted: true });
+        setPlayersStates(message);
+        console.log(getState());
+    },
+    "new_round": (message) => {
+        console.log("new_round");
+        setState({
+           currentPhase: "DECIDING_PHASE",
+            roundTimeLimit: message.timeLimit
+        });
+        console.log(getState());
+    },
+    "end-of-round": (message) => {
+        console.log("end-of-round");
+        setState({
+            currentPhase: "RESULT_PHASE"
+        });
+        // duelAnimation(message);
+    },
+    "player-positions": (message) => {
+        console.log("player-positions");
+        console.log(message.players);
+    }
 }
 
 export const handleServerMessages = function(serverMessage){
