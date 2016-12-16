@@ -10,8 +10,8 @@ export const addPlayerToRoom = function(player){
 
     state.gameMap.addChild(player.renderContainer);
 
-    player.renderContainer.x = player.initialPosition.x;
-    player.renderContainer.y = player.initialPosition.y;
+    player.renderContainer.x = player.position.x;
+    player.renderContainer.y = player.position.y;
 
     player.mainSprite = new PIXI.Graphics()
 
@@ -22,3 +22,5 @@ export const addPlayerToRoom = function(player){
     player.mainSprite.drawRect(0, 0, 64, 64);
     player.mainSprite.endFill();
 }
+
+window.addPlayerToRoom = addPlayerToRoom;

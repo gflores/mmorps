@@ -36,7 +36,7 @@ Player = {
     canPlayShield: Bool,
     currentCards: [Card],
     actionCardIndex: 0 | 1 | 2,
-    
+    position: Vector2,
     finalWantedPosition: Vector2,
     moveSpeed: Number,
     renderContainer: PixiContainer

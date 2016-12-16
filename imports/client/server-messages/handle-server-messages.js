@@ -1,6 +1,7 @@
  import { getState, setReactState, getReactState } from '/imports/client/global-data/manage-state.js';
 import { addPlayerToRoom } from '/imports/client/pixi/players/add-player-to-room.js';
-
+import { updatePlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
+import { Vector2 } from "/imports/helpers/vector2.js";
 //state:
 
 serverMessagesHandlers = {
