@@ -38,7 +38,7 @@ export default class DebugMenu extends Component {
                         Launch Game
                     </button>
                     <button onClick={ this.addPlayer.bind(this) }>
-                        Add Player
+                        Join Game
                     </button>
                     <button onClick={ this.endDebugGameTrue.bind(this) }>
                         End Debug Game True
@@ -54,7 +54,7 @@ export default class DebugMenu extends Component {
                     <form role="form" onSubmit={ this.updatePosition.bind(this) }>
                         <input type="text" ref="x" name="x"/>
                         <input type="text" ref="y" name="y"/>
-                        <input type="submit" value="Submit"/>
+                        <input type="submit" value="Move Here"/>
                     </form>
                 </div>
             </div>

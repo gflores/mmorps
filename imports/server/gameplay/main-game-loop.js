@@ -14,7 +14,6 @@ import { getGameEndDebugVar, setGameEndDebugVarTrue, setGameEndDebugVarFalse } f
 
 positionPhase = function(){
     Wait(getGlobalVariables().movingPhaseTime);
-    sendMainServerMessage(constructPlayerPositionMessage(getMainGameData()));
 }
 
 decidingPhase = function(){

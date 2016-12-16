@@ -1,69 +1,61 @@
-// import { getState, setState, setPlayerState, setOpponentState } from '/imports/client/global-data/manage-state.js';
+ import { getState, setReactState, getReactState } from '/imports/client/global-data/manage-state.js';
 import { addPlayerToRoom } from '/imports/client/pixi/players/add-player-to-room.js';
 
 //state:
 
-function setPlayersStates(message) {
-    players = message.players;
-    for (playerId in players){
-        if(playerId == Meteor.userId()){
-            // setPlayerState("CurrentHp", players[playerId].currentHp);
-            // setPlayerState("MaxHp", players[playerId].maxHp);
-            // setPlayerState("Card[0]", players[playerId].currentCards[0]);
-            // setPlayerState("Card[1]", players[playerId].currentCards[1]);
-            // setPlayerState("Card[2]", players[playerId].currentCards[2]);
-            // setPlayerState("CanPlayShield", players[playerId].canPlayShield);
-            // console.log("getting game started message");
-            // console.log(players);
-        } else {
-            // setOpponentState("CurrentHp", players[playerId].currentHp);
-            // setOpponentState("MaxHp", players[playerId].maxHp);
-            // setOpponentState("Card[0]", players[playerId].currentCards[0]);
-            // setOpponentState("Card[1]", players[playerId].currentCards[1]);
-            // setOpponentState("Card[2]", players[playerId].currentCards[2]);
-            // setOpponentState("CanPlayShield", players[playerId].canPlayShield);
-        }
-    }
-}
-
 serverMessagesHandlers = {
     "joined_game": (message) => {
-        console.log("joined_game")
-        setState({ roomJoined: true });
+        console.log("joined_game");
+        if (!getReactState().gameJoined){
+            setReactState({
+                loggedIn: true,
+                gameJoined: true
+            });
+            for (playerKey in message.players){
+                if( playerKey == Meteor.userId()){
+                    getState().player = message.players[playerKey]
+                } else {
+                    getState().otherPlayers[playerKey] = message.players[playerKey];
+                }
+                getState().allPlayers.push(message.players[playerKey]);
+            }
+        }
+
+        console.log(getReactState());
         console.log(getState());
     },
-    "game_countdown": (message) => {
-        console.log("game_countdown");
-        setState({ 
-            roomLaunched: true,
-            beforeStartCountdown: message.time
-        });
+    "add_player": (message) => {
+        console.log("add_player");
+        if(getReactState().gameJoined){
+            getState().otherPlayers[message.player.id] = message.player;
+            getState().allPlayers.push(message.player);
+        }
         console.log(getState());
     },
-    "game_started": (message) => {
-        console.log("game_started");
-        setState({ gameStarted: true });
-        setPlayersStates(message);
-        console.log(getState());
-    },
-    "new_round": (message) => {
-        console.log("new_round");
-        setState({
-           currentPhase: "DECIDING_PHASE",
-            roundTimeLimit: message.timeLimit
-        });
-        console.log(getState());
-    },
-    "end-of-round": (message) => {
-        console.log("end-of-round");
-        setState({
-            currentPhase: "RESULT_PHASE"
-        });
-        // duelAnimation(message);
-    },
-    "player-positions": (message) => {
-        console.log("player-positions");
-        console.log(message.players);
+    "change_player_direction": (message) => {
+        console.log("change_player_direction");
+        
+        if(message.player.id == getState().player.id){
+            getState().player.finalWantedPosition = message.player.finalWantedPosition;
+            getState().player.moveSpeed = message.player.moveSpeed;
+            getState().player.renderContainer = message.player.renderContainer;
+            getState().player.lastUpdatedTime = message.player.lastUpdatedTime;
+        } else {
+            getState().otherPlayers[message.player.id].finalWantedPosition = message.player.finalWantedPosition;
+            getState().otherPlayers[message.player.id].moveSpeed = message.player.moveSpeed;
+            getState().otherPlayers[message.player.id].renderContainer = message.player.renderContainer;
+            getState().otherPlayers[message.player.id].lastUpdatedTime = message.player.lastUpdatedTime;
+        }
+        for (player in getState().allPlayers){
+            if(message.player.id == player.id){
+                player.finalWantedPosition = message.player.finalWantedPosition;
+                player.moveSpeed = message.player.moveSpeed;
+                player.renderContainer = message.player.renderContainer;
+                player.lastUpdatedTime = message.player.lastUpdatedTime;
+            }
+        }
+        console.log(getState().player);
+        console.log(getState().allPlayers);
     }
 }
 

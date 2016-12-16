@@ -23,7 +23,7 @@ export const createNewPlayer = () => {
         canPlayShield: true,
         lastPosition: new Vector2(0, 0),
         lastUpdatedTime: new Date(),
-        currentVelocity: new Vector2(0, 0),
+        moveSpeed: 1,
         finalWantedPosition: null
     };
     return newPlayer;
