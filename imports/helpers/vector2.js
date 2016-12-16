@@ -14,15 +14,24 @@ Vector2.prototype = {
     },
 
     add: function(vector) {
-        return new Vector2(this.x + vector.x, this.y + vector.y);
+        this.x += vector.x;
+        this.y += vector.y;
+
+        return this;
     },
 
     subtract: function(vector) {
-        return new Vector2(this.x - vector.x, this.y - vector.y);
+        this.x -= vector.x;
+        this.y -= vector.y;
+
+        return this;
     },
 
     scale: function(scalar) {
-        return new Vector2(this.x * scalar, this.y * scalar);
+        this.x *= scalar;
+        this.y *= scalar;
+
+        return this;
     },
 
     dot: function(vector) {
@@ -33,7 +42,7 @@ Vector2.prototype = {
         // Linearly interpolates between vectors A and B by t.
         // t = 0 returns A, t = 1 returns B
         t = Math.min(t, 1); // still allow negative t
-        var diff = vector.subtract(this);
+        var diff = vector.clone().subtract(this);
         return this.add(diff.scale(t));
     },
 
@@ -57,15 +66,13 @@ Vector2.prototype = {
 
     normalize: function() {
         var mag = this.magnitude();
-        var vector = this.clone();
         if(Math.abs(mag) < 1e-9) {
-            vector.x = 0;
-            vector.y = 0;
+            this.x = 0;
+            this.y = 0;
         } else {
-            vector.x /= mag;
-            vector.y /= mag;
+            this.x /= mag;
+            this.y /= mag;
         }
-        return vector;
     },
 
     angle: function() {
@@ -75,17 +82,17 @@ Vector2.prototype = {
     rotate: function(alpha) {
         var cos = Math.cos(alpha);
         var sin = Math.sin(alpha);
-        var vector = new Vector2();
-        vector.x = this.x * cos - this.y * sin;
-        vector.y = this.x * sin + this.y * cos;
-        return vector;
+        this.x = this.x * cos - this.y * sin;
+        this.y = this.x * sin + this.y * cos;
+
+        return this;
     },
 
     toPrecision: function(precision) {
-        var vector = this.clone();
-        vector.x = vector.x.toFixed(precision);
-        vector.y = vector.y.toFixed(precision);
-        return vector;
+        this.x = this.x.toFixed(precision);
+        this.y = this.y.toFixed(precision);
+
+        return this;
     },
 
     toString: function () {
