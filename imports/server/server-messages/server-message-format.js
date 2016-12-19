@@ -37,9 +37,9 @@ export const constructAddPlayerMessage = (playerAddedId, playerKeys, player) => 
         lastUpdatedTime: player.lastUpdatedTime
     };
     
-    for (key in playerKeys){
-        if(key != playerAddedId){
-            recipients.push(key);
+    for (index in playerKeys){
+        if(playerKeys[index] != playerAddedId){
+            recipients.push(playerKeys[index]);
         }
     }
     return {
@@ -58,9 +58,9 @@ export const constructChangePlayerDirectionMessage = ( playerChangedDirectionId,
         position: player.lastPosition,
         lastUpdatedTime: player.lastUpdatedTime
     };
-    for (key in playerKeys){
-        if(key != playerChangedDirectionId){
-            recipients.push(key);
+    for (index in playerKeys){
+        if(playerKeys[index] != playerChangedDirectionId){
+            recipients.push(playerKeys[index]);
         }
     }
     return {
