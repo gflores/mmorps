@@ -6,7 +6,7 @@ import { Vector2 } from '/imports/helpers/vector2.js';
 Meteor.methods({
     moveToCoordinates: function(x, y){
         console.log("now moving to x: ", x, "y: ", y);
-        player = getMainGameData().players[Meteor.userId()];
+        var player = getMainGameData().players[Meteor.userId()];
         //player
 
         console.log("---------updating current position-------");
@@ -18,7 +18,6 @@ Meteor.methods({
         //modify the player with the new destination and other stuff
         updateFinalPosition(player, new Vector2(x,y));
         // now update player's position again with new destination
-        
         
     }
 });

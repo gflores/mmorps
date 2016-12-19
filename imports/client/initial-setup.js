@@ -9,5 +9,6 @@ export const initialSetup = function(){
     setupInitialReactState();
     setupReceiveMessages();
     setupAutoLogin();
-    setupGameUi();
+    
+    // setupGameUi();
 }

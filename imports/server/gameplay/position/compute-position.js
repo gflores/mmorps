@@ -10,11 +10,13 @@ export const updateCurrentPosition = function(player){
         return;
     }
 
-    timeDifference = (now.getTime() - player.lastUpdatedTime.getTime())/1000;
+    var timeDifference = (now.getTime() - player.lastUpdatedTime.getTime())/1000;
     
     console.log("time difference", timeDifference);
 
     console.log("calculated past wanted final position", didCalculatedPassFinalPosition(player));
+
+    console.log("player info after calculate position", player);
     if(didCalculatedPassFinalPosition(player)){
         player.lastPosition = player.finalWantedPosition;
         player.lastUpdatedTime = now;
@@ -41,15 +43,13 @@ export const updateCurrentPosition = function(player){
         });
         return;
     }
-    
-    // player.lastPosition;
-    // player.lastTimeUpdated;
-    // player.currentVelocity;
-    // player.finalWantedPosition;    
 };
 
 export const updateFinalPosition = function (player, destination) {
+    
+
     player.finalWantedPosition = destination;
+    console.log(player.finalWantedPosition);
     updateCurrentPosition(player);
     sendMainServerMessage(constructChangePlayerDirectionMessage(player));
 };

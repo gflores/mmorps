@@ -6,8 +6,8 @@ import { Vector2 } from "/imports/helpers/vector2.js";
 
 serverMessagesHandlers = {
     "joined_game": (message) => {
-        console.log("joined_game");
-        if (!getReactState().gameJoined){
+        if (getReactState().gameJoined == false && message.playerJoinedId == Meteor.userId()){
+            console.log("joined_game");
             setReactState({
                 loggedIn: true,
                 gameJoined: true
@@ -26,8 +26,8 @@ serverMessagesHandlers = {
         console.log(getState());
     },
     "add_player": (message) => {
-        console.log("add_player");
-        if(getReactState().gameJoined){
+        if(getReactState().gameJoined && message.player.id != Meteor.userId()){
+            console.log("add_player");
             getState().otherPlayers[message.player.id] = message.player;
             getState().allPlayers.push(message.player);
         }
@@ -39,21 +39,13 @@ serverMessagesHandlers = {
         if(message.player.id == getState().player.id){
             getState().player.finalWantedPosition = message.player.finalWantedPosition;
             getState().player.moveSpeed = message.player.moveSpeed;
-            getState().player.renderContainer = message.player.renderContainer;
+            getState().player.position = message.player.position;
             getState().player.lastUpdatedTime = message.player.lastUpdatedTime;
         } else {
             getState().otherPlayers[message.player.id].finalWantedPosition = message.player.finalWantedPosition;
             getState().otherPlayers[message.player.id].moveSpeed = message.player.moveSpeed;
-            getState().otherPlayers[message.player.id].renderContainer = message.player.renderContainer;
+            getState().otherPlayers[message.player.id].position = message.player.position;
             getState().otherPlayers[message.player.id].lastUpdatedTime = message.player.lastUpdatedTime;
-        }
-        for (player in getState().allPlayers){
-            if(message.player.id == player.id){
-                player.finalWantedPosition = message.player.finalWantedPosition;
-                player.moveSpeed = message.player.moveSpeed;
-                player.renderContainer = message.player.renderContainer;
-                player.lastUpdatedTime = message.player.lastUpdatedTime;
-            }
         }
         console.log(getState().player);
         console.log(getState().allPlayers);

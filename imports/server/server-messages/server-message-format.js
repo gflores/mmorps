@@ -11,12 +11,14 @@ export const constructJoinedGameMessage = (gameData) => {
             canPlayShield: gameData.players[playerkey].canPlayShield,
             finalWantedPosition: gameData.players[playerkey].finalWantedPosition,
             moveSpeed: gameData.players[playerkey].moveSpeed,
-            renderContainer: gameData.players[playerkey].lastPosition,
+            position: gameData.players[playerkey].lastPosition,
             lastUpdatedTime: gameData.players[playerkey].lastUpdatedTime
        }
     });
     return {
         functionId: "joined_game",
+        recipients: [Meteor.userId()],
+        playerJoinedId: Meteor.userId(),
         players: players
     }
 };
@@ -30,7 +32,7 @@ export const constructAddPlayerMessage = (player) => {
         canPlayShield: player.canPlayShield,
         finalWantedPosition: player.finalWantedPosition,
         moveSpeed: player.moveSpeed,
-        renderContainer: player.lastPosition,
+        position: player.lastPosition,
         lastUpdatedTime: player.lastUpdatedTime
     };
     return {
@@ -44,7 +46,7 @@ export const constructChangePlayerDirectionMessage = ( player ) => {
         id: Meteor.userId(),
         finalWantedPosition: player.finalWantedPosition,
         moveSpeed: player.moveSpeed,
-        renderContainer: player.lastPosition,
+        position: player.lastPosition,
         lastUpdatedTime: player.lastUpdatedTime
     };
     return {
