@@ -9,10 +9,10 @@
     "bcrypt": "^0.8.7",
     "gsap": "^1.19.0",
     "meteor-node-stubs": "~0.2.0",
+    "pixi.js": "^4.2.3",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-komposer": "^1.13.1",
-    "pixi.js": "4.2.3",
     "vector2": "^0.1.1"
   }
 }

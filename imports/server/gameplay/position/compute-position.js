@@ -1,4 +1,6 @@
 import { Vector2 } from '/imports/helpers/vector2.js';
+import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
+import { constructChangePlayerDirectionMessage } from '/imports/server/server-messages/server-message-format.js';
 
 export const updateCurrentPosition = function(player){
     var now = new Date();
@@ -9,33 +11,31 @@ export const updateCurrentPosition = function(player){
     }
 
     timeDifference = (now.getTime() - player.lastUpdatedTime.getTime())/1000;
-    positionDifference = player.finalWantedPosition.subtract(player.lastPosition);
     
     console.log("time difference", timeDifference);
-    console.log("position difference", positionDifference);
 
     console.log("calculated past wanted final position", didCalculatedPassFinalPosition(player));
     if(didCalculatedPassFinalPosition(player)){
         player.lastPosition = player.finalWantedPosition;
         player.lastUpdatedTime = now;
-        player.currentVelocity = new Vector2(0, 0);
         player.finalWantedPosition = null;
 
         console.log("player position info", {
             lastPosition: player.lastPosition,
             lastUpdatedTime: player.lastUpdatedTime,
-            currentVelocity: player.currentVelocity,
+            moveSpeed: player.moveSpeed,
             finalWantedPosition: player.finalWantedPosition
         });
         return;
     } else {
-        player.lastPosition = player.lastPosition.add(player.currentVelocity.scale(timeDifference));
+        currentVelocity = player.finalWantedPosition.subtract(player.lastPosition).normalize();
+        player.lastPosition = player.lastPosition.add(currentVelocity.scale(player.moveSpeed).scale(timeDifference));
         player.lastUpdatedTime = now;
 
         console.log("player position info", {
             lastPosition: player.lastPosition,
             lastUpdatedTime: player.lastUpdatedTime,
-            currentVelocity: player.currentVelocity,
+            moveSpeed: player.moveSpeed,
             finalWantedPosition: player.finalWantedPosition
             
         });
@@ -50,17 +50,18 @@ export const updateCurrentPosition = function(player){
 
 export const updateFinalPosition = function (player, destination) {
     player.finalWantedPosition = destination;
-    player.currentVelocity = player.finalWantedPosition.subtract(player.lastPosition).normalize();
     updateCurrentPosition(player);
+    sendMainServerMessage(constructChangePlayerDirectionMessage(player));
 };
 
 const didCalculatedPassFinalPosition = function( player ){
     var now = new Date();
     timeDifference = (now.getTime() - player.lastUpdatedTime.getTime())/1000;
-    calculatedFinalPosition = player.lastPosition.add(player.currentVelocity.scale(timeDifference));
+    currentVelocity = player.finalWantedPosition.subtract(player.lastPosition).normalize();
+    calculatedFinalPosition = player.lastPosition.add(currentVelocity.scale(player.moveSpeed).scale(timeDifference));
 
     console.log("calculated final position", calculatedFinalPosition);
-    if (calculatedFinalPosition.subtract(player.finalWantedPosition).x * player.currentVelocity.x > 0){
+    if (calculatedFinalPosition.subtract(player.finalWantedPosition).x * currentVelocity.x > 0){
         return true;
     } else {
         return false;
