@@ -15,8 +15,8 @@ export const updateCurrentPosition = function(player){
     console.log("time difference", timeDifference);
 
     console.log("calculated past wanted final position", didCalculatedPassFinalPosition(player));
-
-    console.log("player info after calculate position", player);
+    
+    // console.log("player info after calculate position", player);
     if(didCalculatedPassFinalPosition(player)){
         player.lastPosition = player.finalWantedPosition;
         player.lastUpdatedTime = now;
@@ -30,8 +30,8 @@ export const updateCurrentPosition = function(player){
         });
         return;
     } else {
-        currentVelocity = player.finalWantedPosition.subtract(player.lastPosition).normalize();
-        player.lastPosition = player.lastPosition.add(currentVelocity.scale(player.moveSpeed).scale(timeDifference));
+        currentVelocity = player.finalWantedPosition.clone().subtract(player.lastPosition).normalize();
+        player.lastPosition.add(currentVelocity.scale(player.moveSpeed).scale(timeDifference));
         player.lastUpdatedTime = now;
 
         console.log("player position info", {
@@ -45,21 +45,18 @@ export const updateCurrentPosition = function(player){
     }
 };
 
-export const updateFinalPosition = function (player, destination) {
-    
-
+export const updateFinalPosition = function (player, playerKeys, destination) {
     player.finalWantedPosition = destination;
     console.log(player.finalWantedPosition);
     updateCurrentPosition(player);
-    sendMainServerMessage(constructChangePlayerDirectionMessage(player));
+    sendMainServerMessage(constructChangePlayerDirectionMessage(Meteor.userId(), playerKeys, player));
 };
 
 const didCalculatedPassFinalPosition = function( player ){
     var now = new Date();
     timeDifference = (now.getTime() - player.lastUpdatedTime.getTime())/1000;
-    currentVelocity = player.finalWantedPosition.subtract(player.lastPosition).normalize();
-    calculatedFinalPosition = player.lastPosition.add(currentVelocity.scale(player.moveSpeed).scale(timeDifference));
-
+    currentVelocity = player.finalWantedPosition.clone().subtract(player.lastPosition).normalize();
+    calculatedFinalPosition = player.lastPosition.clone().add(currentVelocity.scale(player.moveSpeed).scale(timeDifference));
     console.log("calculated final position", calculatedFinalPosition);
     if (calculatedFinalPosition.subtract(player.finalWantedPosition).x * currentVelocity.x > 0){
         return true;

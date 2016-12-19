@@ -8,8 +8,8 @@ export const addPlayerToRoom = (gameData, userId) => {
         var newPlayer = createNewPlayer();
         gameData.players[userId] = newPlayer;
         gameData.player_keys.push(userId);
-        sendMainServerMessage(constructAddPlayerMessage(gameData.players[userId]));
-        sendMainServerMessage(constructJoinedGameMessage(gameData));
+        sendMainServerMessage(constructAddPlayerMessage(Meteor.userId(), gameData.player_keys, gameData.players[userId]));
+        sendMainServerMessage(constructJoinedGameMessage(Meteor.userId(), gameData));
         console.log(gameData);
     } else {
         console.log(userId, " cannot join room");
