@@ -28,3 +28,6 @@ export const createNewPlayer = () => {
     };
     return newPlayer;
 }
+
+// generateRandomVector(9, 6);
+// generateRandomVector(6, 6);
