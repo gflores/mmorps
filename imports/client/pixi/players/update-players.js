@@ -21,7 +21,7 @@ updatePlayer = function(player){
         if (distanceToFinalWantedPosition == 0)
             return ;
 
-        var moveVector = player.finalWantedPosition.clone().substract(player.position).normalize().scale(player.moveSpeed);        
+        var moveVector = player.finalWantedPosition.clone().subtract(player.position).normalize().scale(player.moveSpeed);
         moveVector.scale(state.currentDeltaTime);
 
         var previousPosition = player.position.clone();
@@ -34,7 +34,7 @@ updatePlayer = function(player){
         }
     }
     
-    updateScreenPosition(player);
+    updatePlayerScreenPosition(player);
 }
 
 export const updatePlayers = function(players){

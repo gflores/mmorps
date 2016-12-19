@@ -4,7 +4,8 @@ import { updatePlayers } from "./players/update-players.js";
 var state = getState();
 
 var screenParameters = {
-    gameDistanceToPixelsRatio: 10
+    gameDistanceToPixelsRatio: 10,
+    dimensions: {width: 600, height: 600}
 }
 
 export const getScreenParameters = function (){
@@ -12,7 +13,7 @@ export const getScreenParameters = function (){
 }
 
 initializePixiContainer = function(){
-    state.renderer = PIXI.autoDetectRenderer(800, 600,{backgroundColor : 0x1099bb});
+    state.renderer = PIXI.autoDetectRenderer(screenParameters.dimensions.width, screenParameters.dimensions.height,{backgroundColor : 0x1099bb});
     document.getElementById('pixi-game-ui').appendChild(state.renderer.view);
 }
 

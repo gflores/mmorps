@@ -73,6 +73,7 @@ Vector2.prototype = {
             this.x /= mag;
             this.y /= mag;
         }
+        return this;
     },
 
     angle: function() {
@@ -100,3 +101,7 @@ Vector2.prototype = {
         return ("[" + vector.x + "; " + vector.y + "]");
     }
 };
+
+if (Meteor.isClient){
+    window.Vector2 = Vector2;    
+}

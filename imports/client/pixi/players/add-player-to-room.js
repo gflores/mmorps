@@ -2,25 +2,51 @@ import { getState } from "/imports/client/global-data/manage-state.js";
 
 var state = getState();
 
-export const addPlayerToRoom = function(player){
+export const addOtherPlayerToRoom = function(player){
     state.otherPlayers[player.id] = player;
     state.allPlayers.push(player);
+
+    player.position = new Vector2(player.position.x, player.position.y);
 
     player.renderContainer = new PIXI.Container();
 
     state.gameMap.addChild(player.renderContainer);
 
-    player.renderContainer.x = player.position.x;
-    player.renderContainer.y = player.position.y;
+    player.mainSprite = new PIXI.Graphics()
+
+    player.renderContainer.addChild(player.mainSprite)
+
+    player.mainSprite.beginFill(0xCC0033);
+    player.mainSprite.drawRect(0, 0, 20, 20);
+
+    player.mainSprite.x = -10; // relative to the renderContainer, effectively placing the center correctly
+    player.mainSprite.y = -10;
+
+    player.mainSprite.endFill();
+}
+
+export const setMainPlayer = function(player){
+    state.player = player;
+    state.allPlayers.push(player);
+
+    player.position = new Vector2(player.position.x, player.position.y);
+
+    player.renderContainer = new PIXI.Container();
+
+    state.gameMap.addChild(player.renderContainer);
 
     player.mainSprite = new PIXI.Graphics()
 
     player.renderContainer.addChild(player.mainSprite)
 
-    player.mainSprite.lineStyle(4, 0xFF3300, 1);
-    player.mainSprite.beginFill(0x66CCFF);
-    player.mainSprite.drawRect(0, 0, 64, 64);
+    player.mainSprite.beginFill(0x3300CC);
+    player.mainSprite.drawRect(0, 0, 20, 20);
+
+    player.mainSprite.x = -10; // relative to the renderContainer, effectively placing the center correctly
+    player.mainSprite.y = -10;
+
     player.mainSprite.endFill();
 }
+window.addOtherPlayerToRoom = addOtherPlayerToRoom;
 
-window.addPlayerToRoom = addPlayerToRoom;
+window.setMainPlayer = setMainPlayer;

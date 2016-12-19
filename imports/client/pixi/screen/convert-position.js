@@ -9,8 +9,12 @@ export const convertAbsoluteToRelativePlayerPosition = function(position){
 }
 
 export const convertToScreenValues = function(vector){
-    vector.x *= getScreenParameters.gameDistanceToPixelsRatio;
-    vector.y *= getScreenParameters.gameDistanceToPixelsRatio;
+    vector.x *= getScreenParameters().gameDistanceToPixelsRatio;
+    vector.y *= getScreenParameters().gameDistanceToPixelsRatio;
 
     vector.y = -vector.y;
+
+    vector.x += getScreenParameters().dimensions.width / 2;
+    vector.y += getScreenParameters().dimensions.height / 2;
+
 }
