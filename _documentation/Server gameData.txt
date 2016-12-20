@@ -9,7 +9,12 @@ gameData = {
         "id1": Player,
         "id2": Player
     },
-    player_keys: [id1, id2]
+    player_keys: [id1, id2],
+
+    isMovingPhase: Bool,
+    isBattlePhase: Bool,
+    isDecidingPhase: Bool,
+    isResultPhase: Bool
 }
 
 Player = {

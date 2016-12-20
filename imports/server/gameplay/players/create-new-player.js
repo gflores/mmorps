@@ -27,7 +27,7 @@ export const createNewPlayer = () => {
         canPlayShield: true,
         lastPosition: randomVector,
         lastUpdatedTime: new Date(),
-        moveSpeed: 1,
+        moveSpeed: 5,
         finalWantedPosition: null
     };
     return newPlayer;

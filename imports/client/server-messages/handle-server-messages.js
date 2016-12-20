@@ -1,6 +1,6 @@
 import { getState, setReactState, getReactState } from '/imports/client/global-data/manage-state.js';
-import { addOtherPlayerToRoom } from '/imports/client/pixi/players/add-player-to-room.js';
-import { updateOtherPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
+import { addOtherPlayerToRoom, setMainPlayer } from '/imports/client/pixi/players/add-player-to-room.js';
+import { updateOtherPlayerFinalWantedPosition, updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
 import { Vector2 } from "/imports/helpers/vector2.js";
 //state:
 
@@ -14,11 +14,10 @@ serverMessagesHandlers = {
             });
             for (playerKey in message.players){
                 if( playerKey == Meteor.userId()){
-                    getState().player = message.players[playerKey]
+                    setMainPlayer(message.players[playerKey]);
                 } else {
-                    getState().otherPlayers[playerKey] = message.players[playerKey];
+                    addOtherPlayerToRoom(message.players[playerKey]);
                 }
-                getState().allPlayers.push(message.players[playerKey]);
             }
         }
 
@@ -28,8 +27,7 @@ serverMessagesHandlers = {
     "add_player": (message) => {
         if(getReactState().gameJoined && message.player.id != Meteor.userId()){
             console.log("add_player");
-            getState().otherPlayers[message.player.id] = message.player;
-            getState().allPlayers.push(message.player);
+            addOtherPlayerToRoom(message.player);
         }
         console.log(getState());
     },
@@ -37,15 +35,9 @@ serverMessagesHandlers = {
         console.log("change_player_direction");
         
         if(message.player.id == getState().player.id){
-            getState().player.finalWantedPosition = message.player.finalWantedPosition;
-            getState().player.moveSpeed = message.player.moveSpeed;
-            getState().player.position = message.player.position;
-            getState().player.lastUpdatedTime = message.player.lastUpdatedTime;
+            updateMainPlayerFinalWantedPosition(message.player.finalWantedPosition);
         } else {
-            getState().otherPlayers[message.player.id].finalWantedPosition = message.player.finalWantedPosition;
-            getState().otherPlayers[message.player.id].moveSpeed = message.player.moveSpeed;
-            getState().otherPlayers[message.player.id].position = message.player.position;
-            getState().otherPlayers[message.player.id].lastUpdatedTime = message.player.lastUpdatedTime;
+            updateOtherPlayerFinalWantedPosition(message.player.id, message.player.finalWantedPosition);
         }
         console.log(getState().player);
         console.log(getState().allPlayers);
