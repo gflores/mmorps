@@ -1,4 +1,4 @@
-export const constructJoinedGameMessage = (gameData) => {
+export const constructJoinedGameMessage = (playerJoinedId, gameData) => {
     var players = {};
     playerKeys = gameData.player_keys;
 
@@ -17,15 +17,16 @@ export const constructJoinedGameMessage = (gameData) => {
     });
     return {
         functionId: "joined_game",
-        recipients: [Meteor.userId()],
+        recipients: [playerJoinedId],
         playerJoinedId: Meteor.userId(),
         players: players
     }
 };
 
-export const constructAddPlayerMessage = (player) => {
-    playerInfo = {
-        id: Meteor.userId(),
+export const constructAddPlayerMessage = (playerAddedId, playerKeys, player) => {
+    var recipients = [];
+    var playerInfo = {
+        id: playerAddedId,
         currentHp: player.currentHp,
         maxHp: player.maxHp,
         currentCards: player.currentCards,
@@ -35,22 +36,36 @@ export const constructAddPlayerMessage = (player) => {
         position: player.lastPosition,
         lastUpdatedTime: player.lastUpdatedTime
     };
+    
+    for (index in playerKeys){
+        if(playerKeys[index] != playerAddedId){
+            recipients.push(playerKeys[index]);
+        }
+    }
     return {
         functionId: "add_player",
+        recipients: recipients,
         player: playerInfo
     }
 };
 
-export const constructChangePlayerDirectionMessage = ( player ) => {
-    playerInfo = {
-        id: Meteor.userId(),
+export const constructChangePlayerDirectionMessage = ( playerChangedDirectionId, playerKeys, player ) => {
+    var recipients = [];
+    var playerInfo = {
+        id: playerChangedDirectionId,
         finalWantedPosition: player.finalWantedPosition,
         moveSpeed: player.moveSpeed,
         position: player.lastPosition,
         lastUpdatedTime: player.lastUpdatedTime
     };
+    for (index in playerKeys){
+        if(playerKeys[index] != playerChangedDirectionId){
+            recipients.push(playerKeys[index]);
+        }
+    }
     return {
         functionId: "change_player_direction",
+        recipients: recipients,
         player: playerInfo
     }
 };

@@ -16,7 +16,7 @@ Meteor.methods({
         
         console.log("---------updating final position---------");
         //modify the player with the new destination and other stuff
-        updateFinalPosition(player, new Vector2(x,y));
+        updateFinalPosition(player, getMainGameData().player_keys,  new Vector2(x,y));
         // now update player's position again with new destination
         
     }
