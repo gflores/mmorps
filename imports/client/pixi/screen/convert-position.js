@@ -16,5 +16,4 @@ export const convertToScreenValues = function(vector){
 
     vector.x += getScreenParameters().dimensions.width / 2;
     vector.y += getScreenParameters().dimensions.height / 2;
-
 }

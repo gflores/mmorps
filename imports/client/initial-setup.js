@@ -10,5 +10,5 @@ export const initialSetup = function(){
     setupReceiveMessages();
     setupAutoLogin();
     
-    // setupGameUi();
+    setupGameUi();
 }
