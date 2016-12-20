@@ -35,7 +35,7 @@ serverMessagesHandlers = {
         console.log("change_player_direction");
         
         if(message.player.id == getState().player.id){
-            updateMainPlayerFinalWantedPosition(message.player.finalWantedPosition);
+            // updateMainPlayerFinalWantedPosition(message.player.finalWantedPosition);
         } else {
             updateOtherPlayerFinalWantedPosition(message.player.id, message.player.finalWantedPosition);
         }
