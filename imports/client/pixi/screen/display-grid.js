@@ -91,7 +91,7 @@ export const setupGrid = function(){
         state.gameMap.addChild(line);        
         state.grid.rightColumns.push(line);
     }
-    for (var i = 0; i != 4; ++i){
+    for (var i = 0; i != 5; ++i){
         var line = new PIXI.Graphics();
 
         state.gameMap.addChild(line);
@@ -103,7 +103,7 @@ export const setupGrid = function(){
         state.gameMap.addChild(line);
         state.grid.topRows.push(line);
     }
-    for (var i = 0; i != 4; ++i){
+    for (var i = 0; i != 5; ++i){
         var line = new PIXI.Graphics();
 
         state.gameMap.addChild(line);
