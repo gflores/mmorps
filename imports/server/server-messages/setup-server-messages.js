@@ -7,7 +7,7 @@ var onStopFunc = function(publisher, publisherArguments){
 }
 
 var getCursorFunc = function(publisher, publisherArguments){
-    return MainServerMessages.find({date: {$gte: new Date}});
+    return MainServerMessages.find({date: {$gte: new Date}, $or: [{recipients: publisher.userId}, {recipients: null}]});
 }
 
 publishCustomCursor("server-messages", "serverMessages", getCursorFunc, {onStopFunc: onStopFunc});
