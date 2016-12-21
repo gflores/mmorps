@@ -7,6 +7,8 @@ export const addOtherPlayerToRoom = function(player){
     state.allPlayers.push(player);
 
     player.position = new Vector2(player.position.x, player.position.y);
+    if (player.finalWantedPosition != null)
+        player.finalWantedPosition = new Vector2(player.finalWantedPosition.x, player.finalWantedPosition.y);
 
     player.renderContainer = new PIXI.Container();
 
