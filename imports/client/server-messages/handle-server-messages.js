@@ -31,6 +31,21 @@ serverMessagesHandlers = {
         }
         console.log(getState());
     },
+    "removed_player": (message) => {
+        console.log("game state before", getState());
+        // remove from allPlayers array
+        var index = null;
+        for (i in getState().allPlayers){
+            if(getState().allPlayers[i].id == message.removedPlayerId){
+                index = i;
+                break;
+            }
+        }
+        getState().allPlayers.splice(index,1);
+        // remove from otherPlayers object
+        delete getState().otherPlayers[message.removedPlayerId];
+        console.log("game state after", getState());
+    },
     "change_player_direction": (message) => {
         console.log("change_player_direction");
         
@@ -41,6 +56,38 @@ serverMessagesHandlers = {
         }
         console.log(getState().player);
         console.log(getState().allPlayers);
+    },
+    "moving_phase_started": (message) => {
+        getState().isMovingPhase = true;
+        console.log(getState());
+    },
+    "moving_phase_ended": (message) => {
+        getState().isMovingPhase = false;
+        console.log(getState());
+    },
+    "battle_phase_started": (message) => {
+        getState().isBattlePhase = true;
+        console.log(getState());
+    },
+    "battle_phase_ended": (message) => {
+        getState().isBattlePhase = false;
+        console.log(getState());
+    },
+    "deciding_phase_started": (message) => {
+        getState().isDecidingPhase = true;
+        console.log(getState());
+    },
+    "deciding_phase_ended": (message) => {
+        getState().isDecidingPhase = false;
+        console.log(getState());
+    },
+    "result_phase_started": (message) => {
+        getState().isResultPhase = true;
+        console.log(getState());
+    },
+    "result_phase_ended": (message) => {
+        getState().isResultPhase = false;
+        console.log(getState());
     }
 }
 

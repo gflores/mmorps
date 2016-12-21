@@ -1,10 +1,11 @@
-import { getPassiveHealAmount } from '/imports/shared/global-variables.js';
+import { getGlobalVariables } from '/imports/shared/global-variables.js';
 
 var globalData = {
     mainGame: {
         players: {},
         player_keys: [],
         canDuelAction: false,
+        canMove: false,
         initialDate: null
     }
 };
@@ -46,6 +47,6 @@ export const endMainGame = () => {
     playerKeys = globalData.mainGame.player_keys;
     players = globalData.mainGame.players;
     playerKeys.forEach( (playerKey) => {
-        players[playerKey].currentHp = 0 - getPassiveHealAmount();
+        players[playerKey].currentHp = 0 - getGlobalVariables().passiveHealAmount;
     });
 };
