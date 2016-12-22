@@ -1,6 +1,6 @@
 var globalVariables = {
     //MOVING PHASE
-    movingPhaseTime: 5000,
+    movingPhaseTime: 999000,
 
     movingToActionPhaseTransitionTime: 2000,
     
