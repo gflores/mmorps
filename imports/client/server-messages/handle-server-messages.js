@@ -1,5 +1,5 @@
 import { getState, setReactState, getReactState } from '/imports/client/global-data/manage-state.js';
-import { addOtherPlayerToRoom, setMainPlayer } from '/imports/client/pixi/players/add-player-to-room.js';
+import { addOtherPlayerToRoom, setMainPlayer, removeOtherPlayer } from '/imports/client/pixi/players/add-player-to-room.js';
 import { updateOtherPlayerFinalWantedPosition, updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
 import { Vector2 } from "/imports/helpers/vector2.js";
 //state:
@@ -32,19 +32,7 @@ serverMessagesHandlers = {
         console.log(getState());
     },
     "removed_player": (message) => {
-        console.log("game state before", getState());
-        // remove from allPlayers array
-        var index = null;
-        for (i in getState().allPlayers){
-            if(getState().allPlayers[i].id == message.removedPlayerId){
-                index = i;
-                break;
-            }
-        }
-        getState().allPlayers.splice(index,1);
-        // remove from otherPlayers object
-        delete getState().otherPlayers[message.removedPlayerId];
-        console.log("game state after", getState());
+        removeOtherPlayer(message.removedPlayerId);
     },
     "change_player_direction": (message) => {
         console.log("change_player_direction");
