@@ -1,6 +1,6 @@
 import { generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 
-import { getGameStartPlayerHp, getMaxHp } from '/imports/shared/global-variables.js';
+import { getGlobalVariables } from '/imports/shared/global-variables.js';
 
 import { Vector2 } from '/imports/helpers/vector2.js';
 import { generateRandomPosition } from '/imports/helpers/generateRandomVector.js';
@@ -18,8 +18,8 @@ export const createNewPlayer = () => {
     
     newPlayer = {
         id: Meteor.userId(),
-        currentHp: getGameStartPlayerHp(), 
-        maxHp: getMaxHp(),
+        currentHp: getGlobalVariables().gameStartPlayerHp, 
+        maxHp: getGlobalVariables().maxHp,
         currentCards: hand,
         remainingCardsStack: deck,
         action: null,

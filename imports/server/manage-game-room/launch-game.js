@@ -4,7 +4,6 @@ import { sendMainServerMessage } from '/imports/server/server-messages/main-serv
 import { constructCountDownMessage, constructGameStartedMessage } from '/imports/server/server-messages/server-message-format.js';
 
 import { Wait } from '/imports/helpers/wait.js';
-import { getCountDownMessageDelay, getGameStartDelay } from '/imports/shared/global-variables.js';
 
 import { initGameStartDate } from '/imports/server/global-data/global-data.js';
 

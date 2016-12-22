@@ -1,3 +1,5 @@
+
+
 export const constructJoinedGameMessage = (playerJoinedId, gameData) => {
     var players = {};
     playerKeys = gameData.player_keys;
@@ -49,6 +51,22 @@ export const constructAddPlayerMessage = (playerAddedId, playerKeys, player) => 
     }
 };
 
+export const constructRemovedPlayerMessage = (removedPlayerId, playerKeys) => {
+    var recipients = [];
+
+    for (index in playerKeys){
+        if(playerKeys[index] != removedPlayerId){
+            recipients.push(playerKeys[index]);
+        }
+    }
+    
+    return {
+        functionId: "removed_player",
+        recipients: recipients,
+        removedPlayerId: removedPlayerId
+    }    
+}
+
 export const constructChangePlayerDirectionMessage = ( playerChangedDirectionId, playerKeys, player ) => {
     var recipients = [];
     var playerInfo = {
@@ -69,6 +87,7 @@ export const constructChangePlayerDirectionMessage = ( playerChangedDirectionId,
         player: playerInfo
     }
 };
+
 
 //
 // export const constructCountDownMessage = (countdownTime) => {

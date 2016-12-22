@@ -1,6 +1,6 @@
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 import { getDuelStartedMessage, constructEndRoundMessage } from '/imports/server/server-messages/server-message-format.js';
-import { getShieldHpCost, getMaxHp, getPassiveHealAmount } from '/imports/shared/global-variables.js';
+import { getGlobalVariables } from '/imports/shared/global-variables.js';
 
 import { getResult, generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 import { isCurrentHandEmpty } from '/imports/server/gameplay/players/is-current-hand-empty.js';
@@ -65,23 +65,23 @@ function dealingNormalDamage(attackingPlayer, damagedPlayer){
 function healingNormalHealth(healer, healedPlayer){
     healingValue = getPlayedCard(healer).value;
     healedPlayer.currentHp += healingValue;
-    if (healedPlayer.currentHp >= getMaxHp()){
-        healedPlayer.currentHp = getMaxHp();
+    if (healedPlayer.currentHp >= getGlobalVariables.maxHp){
+        healedPlayer.currentHp = getGlobalVariables.maxHp;
     }
     discardPlayedCard(healer);
     enablePlayerShield(healer);
 };
 
 function healPassivePlayer(passivePlayer){
-    passivePlayer.currentHp += getPassiveHealAmount();
-    if(passivePlayer.currentHp >= getMaxHp()){
-        passivePlayer.currentHp = getMaxHp();
+    passivePlayer.currentHp += getGlobalVariables().passiveHealAmount;
+    if(passivePlayer.currentHp >= getGlobalVariables.maxHp){
+        passivePlayer.currentHp = getGlobalVariables.maxHp;
     }
     enablePlayerShield(passivePlayer);
 };
 
 function playShield(player) {
-    player.currentHp -= getShieldHpCost();
+    player.currentHp -= getGlobalVariables().shieldHpCost;
     disablePlayerShield(player);
 };
 
