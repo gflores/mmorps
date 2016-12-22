@@ -56,7 +56,7 @@ export const generateStartingCards = () => {
     ref = [card_elements.ROCK, card_elements.PAPER, card_elements.SCISSOR];
     for (i = 0, len = ref.length; i < len; i++) {
         element = ref[i];
-        ref1 = [2, 3, 5, 7, 8];
+        ref1 = [2, 4, 5, 7];
         for (j = 0, len1 = ref1.length; j < len1; j++) {
             value = ref1[j];
             startingCards.push(Construct(value, element));
