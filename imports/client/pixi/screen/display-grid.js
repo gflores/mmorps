@@ -85,25 +85,25 @@ export const setupGrid = function(){
         bottomRows: []
     };
 
-    for (var i = 0; i != 5; ++i){
+    for (var i = 0; i != 7; ++i){
         var line = new PIXI.Graphics();
 
         state.gameMap.addChild(line);        
         state.grid.rightColumns.push(line);
     }
-    for (var i = 0; i != 5; ++i){
+    for (var i = 0; i != 8; ++i){
         var line = new PIXI.Graphics();
 
         state.gameMap.addChild(line);
         state.grid.leftColumns.push(line);
     }
-    for (var i = 0; i != 4; ++i){
+    for (var i = 0; i != 6; ++i){
         var line = new PIXI.Graphics();
 
         state.gameMap.addChild(line);
         state.grid.topRows.push(line);
     }
-    for (var i = 0; i != 5; ++i){
+    for (var i = 0; i != 6; ++i){
         var line = new PIXI.Graphics();
 
         state.gameMap.addChild(line);

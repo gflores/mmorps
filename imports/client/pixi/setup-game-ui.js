@@ -8,7 +8,7 @@ var state = getState();
 
 var screenParameters = {
     gameDistanceToPixelsRatio: 10,
-    dimensions: {width: 600, height: 600},
+    dimensions: {width: 1000, height: 700},
     gridLineEveryDistance: 8
 }
 

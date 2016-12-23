@@ -1,4 +1,5 @@
 import { getState } from "/imports/client/global-data/manage-state.js";
+import { getTextures } from "/imports/client/pixi/textures.js";
 
 var state = getState();
 
@@ -19,10 +20,10 @@ export const addOtherPlayerToRoom = function(player){
     player.renderContainer.addChild(player.mainSprite)
 
     player.mainSprite.beginFill(0xCC0033);
-    player.mainSprite.drawRect(0, 0, 20, 20);
+    player.mainSprite.drawRect(0, 0, 40, 40);
 
-    player.mainSprite.x = -10; // relative to the renderContainer, effectively placing the center correctly
-    player.mainSprite.y = -10;
+    player.mainSprite.x = -20; // relative to the renderContainer, effectively placing the center correctly
+    player.mainSprite.y = -20;
 
     player.mainSprite.endFill();
 }
@@ -37,17 +38,21 @@ export const setMainPlayer = function(player){
 
     state.gameMap.addChild(player.renderContainer);
 
-    player.mainSprite = new PIXI.Graphics()
+
+
+    player.mainSprite = new PIXI.Sprite(getTextures().mainPlayer);
 
     player.renderContainer.addChild(player.mainSprite)
 
-    player.mainSprite.beginFill(0x3300CC);
-    player.mainSprite.drawRect(0, 0, 20, 20);
+    // // player.mainSprite.beginFill(0x3300CC);
+    // // player.mainSprite.drawRect(0, 0, 20, 20);
+    player.mainSprite.height = 40;
+    player.mainSprite.width = 40;
 
-    player.mainSprite.x = -10; // relative to the renderContainer, effectively placing the center correctly
-    player.mainSprite.y = -10;
+    player.mainSprite.x = -20; // relative to the renderContainer, effectively placing the center correctly
+    player.mainSprite.y = -20;
 
-    player.mainSprite.endFill();
+    // player.mainSprite.endFill();
 }
 
 export const removeOtherPlayer = function(playerId){
