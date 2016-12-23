@@ -6,7 +6,8 @@ var globalData = {
         player_keys: [],
         canDuelAction: false,
         canMove: false,
-        initialDate: null
+        initialDate: null,
+        gameLaunched: false
     }
 };
 

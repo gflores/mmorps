@@ -1,3 +1,5 @@
+import { updateAllPlayerPosition } from '/imports/server/gameplay/position/compute-position.js';
+
 export const constructMovingPhaseStartedMessage = (playerKeys) => {
     return {
         functionId: "moving_phase_started",
@@ -5,10 +7,26 @@ export const constructMovingPhaseStartedMessage = (playerKeys) => {
     }
 }
 
-export const constructMovingPhaseEndedMessage = (playerKeys) => {
+export const constructMovingPhaseEndedMessage = (playerKeys, players) => {
+
+    updateAllPlayerPosition(players);
+
+    var playersInfo = {};
+
+    for ( playerId in players ){
+        playersInfo[playerId] = {
+            id: playerId,
+            finalWantedPosition: players[playerId].finalWantedPosition,
+            moveSpeed: players[playerId].moveSpeed,
+            position: players[playerId].lastPosition,
+            lastUpdatedTime: players[playerId].lastUpdatedTime
+        }
+    }
+
     return {
         functionId: "moving_phase_ended",
-        recipients: playerKeys
+        recipients: playerKeys,
+        players: playersInfo
     }
 }
 

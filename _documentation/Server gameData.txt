@@ -22,7 +22,7 @@ Player = {
     hp: Integer,
     currentCards: [Card, Card, Card],
     remainingCardsStack: [Card, Card, ...],
-    action: 'SHIELD' | 'ATTACK'
+    action: 'SHIELD' | 'ATTACK' | 'DRAW'
     actionCardIndex: 0 | 1 | 2,
     lastPosition: Vector2,
     lastUpdatedTime: Number (nb seconds),

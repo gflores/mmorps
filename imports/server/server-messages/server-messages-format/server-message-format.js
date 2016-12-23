@@ -1,8 +1,10 @@
-
+import { updateAllPlayerPosition } from '/imports/server/gameplay/position/compute-position.js';
 
 export const constructJoinedGameMessage = (playerJoinedId, gameData) => {
     var players = {};
     playerKeys = gameData.player_keys;
+
+    updateAllPlayerPosition( gameData.players );
 
     playerKeys.forEach( (playerkey) => {
         players[playerkey] = {

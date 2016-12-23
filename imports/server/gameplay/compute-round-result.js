@@ -1,5 +1,5 @@
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
-import { getDuelStartedMessage, constructEndRoundMessage } from '/imports/server/server-messages/server-message-format.js';
+import { getDuelStartedMessage, constructEndRoundMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 import { getGlobalVariables } from '/imports/shared/global-variables.js';
 
 import { getResult, generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
@@ -18,7 +18,10 @@ function attackToAttack(playerOne, playerTwo) {
     } else if (result == -1) {
         strongerToWeakerPlayer(playerTwo, playerOne);
     }
-    
+
+    playedCardHpCost(playerOne);
+    playedCardHpCost(playerTwo);
+
     enablePlayerShield(playerOne);
     enablePlayerShield(playerTwo);
 }
@@ -59,6 +62,7 @@ function dealingNormalDamage(attackingPlayer, damagedPlayer){
     attackingValue = getPlayedCard(attackingPlayer).value;
     damagedPlayer.currentHp -= attackingValue;
     discardPlayedCard(attackingPlayer);
+    playedCardHpCost(attackingPlayer);
     enablePlayerShield(attackingPlayer);
 };
 
@@ -72,13 +76,24 @@ function healingNormalHealth(healer, healedPlayer){
     enablePlayerShield(healer);
 };
 
-function healPassivePlayer(passivePlayer){
-    passivePlayer.currentHp += getGlobalVariables().passiveHealAmount;
-    if(passivePlayer.currentHp >= getGlobalVariables.maxHp){
-        passivePlayer.currentHp = getGlobalVariables.maxHp;
+function healPlayer(player, healAmount){
+    player.currentHp += healAmount;
+    if(player.currentHp >= getGlobalVariables.maxHp){
+        player.currentHp = getGlobalVariables.maxHp;
     }
-    enablePlayerShield(passivePlayer);
 };
+
+function damagePlayer(player, damageAmount){
+    player.currentHp -= healAmount;
+}
+
+function playedCardHpCost(player){
+    if(isCurrentHandEmpty(player)){
+        healPlayer(player, getGlobalVariables().lastCardPlayedHpGain)
+    } else {
+        damagePlayer(player, getGlobalVariables().notLastCardPlayedHpCost);
+    }
+}
 
 function playShield(player) {
     player.currentHp -= getGlobalVariables().shieldHpCost;
@@ -90,6 +105,7 @@ function attackDeflected(attackingPlayer) {
     attackingPlayer.currentHp -= attackingValue;
 
     discardPlayedCard(attackingPlayer);
+    playedCardHpCost(attackingPlayer);
     enablePlayerShield(attackingPlayer);
 };
 
@@ -106,14 +122,18 @@ function resetPlayerActions(player) {
     player.actionCardIndex = null;
 };
 
+function drawCards(player){
+    newCards = [];
+    newCards.push(player.remainingCardsStack.pop());
+    newCards.push(player.remainingCardsStack.pop());
+    newCards.push(player.remainingCardsStack.pop());
+    player.currentCards = newCards;
+}
+
 function drawCardsIfEmpty(player) {
     // if player's hand is empty, reload 3 new cards
     if(isCurrentHandEmpty(player)){
-        newCards = [];
-        newCards.push(player.remainingCardsStack.pop());
-        newCards.push(player.remainingCardsStack.pop());
-        newCards.push(player.remainingCardsStack.pop());
-        player.currentCards = newCards;
+        drawCards(player);
     }
 };
 
@@ -147,27 +167,35 @@ export const computeRoundResult = (gameData) => {
     } else if (playerOne.action == 'SHIELD' && playerTwo.action == 'SHIELD'){
         playShield(playerOne);
         playShield(playerTwo);
-    } else if (playerOne.action == 'ATTACK' && playerTwo.action == null) {
-        healPassivePlayer(playerTwo);
+    } else if (playerOne.action == 'ATTACK' && (playerTwo.action == null || playerTwo.action == 'DRAW')) {
+        enablePlayerShield(playerTwo);
         dealingNormalDamage(playerOne, playerTwo);
-    } else if (playerOne.action == null && playerTwo.action == 'ATTACK') {
-        healPassivePlayer(playerOne);
+    } else if ((playerOne.action == null || playerOne.action == 'DRAW') && playerTwo.action == 'ATTACK') {
+        enablePlayerShield(playerOne);
         dealingNormalDamage(playerTwo, playerOne);
-    } else if (playerOne.action == 'SHIELD' && playerTwo.action == null ) {
-        healPassivePlayer(playerTwo);
+    } else if (playerOne.action == 'SHIELD' && (playerTwo.action == null || playerTwo.action == 'DRAW') ) {
+        enablePlayerShield(playerTwo);
         playShield(playerOne);
-    } else if (playerOne.action == null && playerTwo.action == 'SHIELD') {
-        healPassivePlayer(playerOne);
+    } else if ((playerOne.action == null || playerOne.action == 'DRAW') && playerTwo.action == 'SHIELD') {
+        enablePlayerShield(playerOne);
         playShield(playerTwo);
-    } else if (playerOne.action == null && playerTwo.action == null) {
-        healPassivePlayer(playerOne);
-        healPassivePlayer(playerTwo);
+    } else if ( (playerOne.action == null || playerOne.action == 'DRAW') &&
+                (playerTwo.action == null || playerTwo.action == 'DRAW')) {
+        enablePlayerShield(playerOne);
+        enablePlayerShield(playerTwo);
     }
 
     // reset players Actions and draw cards if hands are empty
     // prepareForNextRound(playerOne, playerTwo);
     drawCardsIfEmpty(playerOne);
     drawCardsIfEmpty(playerTwo);
+
+    if(playerOne.action == 'DRAW'){
+        drawCards(playerOne);
+    }
+    if(playerTwo.action == 'DRAW'){
+        drawCards(playerTwo);
+    }
 
     generateNewDeckIfEmpty(playerOne);
     generateNewDeckIfEmpty(playerTwo);

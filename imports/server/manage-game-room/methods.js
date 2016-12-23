@@ -23,9 +23,12 @@ Meteor.methods({
     },
 
     LaunchMainGame: () => {
-        LaunchAsync(()=> {
-            launchGame(getMainGameData());
-        });
+        if(getMainGameData().gameLaunched == false) {
+            getMainGameData().gameLaunched = true;
+            LaunchAsync(()=> {
+                launchGame(getMainGameData());
+            });
+        }
     }
     
 });
