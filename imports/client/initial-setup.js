@@ -12,5 +12,4 @@ export const initialSetup = function(){
     
     setupGameUi();
     Meteor.call('LaunchMainGame');
-    Meteor.call('JoinMainGame');
 }
