@@ -30,7 +30,9 @@ export default class DebugMenu extends Component {
         return (
             <div className="debug-menu">
                 <div className="row">
-                    
+                    <button onClick={ this.addPlayer.bind(this) }>
+                        Join Game
+                    </button>
                     <button onClick={ this.endDebugGameTrue.bind(this) }>
                         End Debug Game True
                     </button>
