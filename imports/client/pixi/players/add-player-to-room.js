@@ -49,6 +49,26 @@ export const setMainPlayer = function(player){
 
     player.mainSprite.endFill();
 }
-window.addOtherPlayerToRoom = addOtherPlayerToRoom;
 
+export const removeOtherPlayer = function(playerId){
+    var player = getState().otherPlayers[playerId];
+    if (player == null){
+        console.log("ERROR: no player to remove");
+        return ;
+    }
+    state.gameMap.removeChild(player.renderContainer);
+
+    var index = null;
+    for (i in getState().allPlayers){
+        if(getState().allPlayers[i].id == playerId){
+            index = i;
+            break;
+        }
+    }
+    getState().allPlayers.splice(index,1);
+    // remove from otherPlayers object
+    delete getState().otherPlayers[playerId];
+}
+
+window.addOtherPlayerToRoom = addOtherPlayerToRoom;
 window.setMainPlayer = setMainPlayer;
