@@ -1,6 +1,6 @@
 import { Vector2 } from '/imports/helpers/vector2.js';
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
-import { constructChangePlayerDirectionMessage } from '/imports/server/server-messages/server-message-format.js';
+import { constructChangePlayerDirectionMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 
 export const updateCurrentPosition = function(player){
     var now = new Date();
@@ -43,6 +43,13 @@ export const updateCurrentPosition = function(player){
         });
         return;
     }
+};
+
+export const updateAllPlayerPosition = function ( players ) {
+  for (playerId in players){
+      updateCurrentPosition(players[playerId]);
+  }
+
 };
 
 export const updateFinalPosition = function (player, playerKeys, destination) {

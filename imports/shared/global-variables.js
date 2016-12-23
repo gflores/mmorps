@@ -15,11 +15,15 @@ var globalVariables = {
     gameStartDelay: 500,
     newRoundDelay: 1000,
     endRoundDelay: 1000,
-    shieldHpCost: 4,
-    passiveHealAmount: 1,
     gameStartPlayerHp: 30,
     maxHp: 30,
 
+    // hp costs
+    shieldHpCost: 4,
+    notLastCardPlayedHpCost: 1,
+    lastCardPlayedHpGain: 2,
+
+    dashDistance: 3,
 
     // //CLIENT SIDE VARIABLES
 

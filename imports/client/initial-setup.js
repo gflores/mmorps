@@ -11,4 +11,6 @@ export const initialSetup = function(){
     setupAutoLogin();
     
     setupGameUi();
+    Meteor.call('LaunchMainGame');
+    Meteor.call('JoinMainGame');
 }

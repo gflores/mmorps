@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 
 export default class DebugMenu extends Component {
-    
-    launchGame(){
-        Meteor.call('LaunchMainGame');
-    }
-    
+
     addPlayer(){
         Meteor.call('JoinMainGame');
     }
@@ -34,12 +30,7 @@ export default class DebugMenu extends Component {
         return (
             <div className="debug-menu">
                 <div className="row">
-                    <button onClick={ this.launchGame.bind(this) }>
-                        Launch Game
-                    </button>
-                    <button onClick={ this.addPlayer.bind(this) }>
-                        Join Game
-                    </button>
+                    
                     <button onClick={ this.endDebugGameTrue.bind(this) }>
                         End Debug Game True
                     </button>

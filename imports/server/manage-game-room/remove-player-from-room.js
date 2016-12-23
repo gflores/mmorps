@@ -1,6 +1,6 @@
 import { getMainGameData } from '/imports/server/global-data/global-data.js';
 
-import { constructRemovedPlayerMessage } from '/imports/server/server-messages/server-message-format.js';
+import { constructRemovedPlayerMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 
 export const removePlayerFromRoom = function(playerId){

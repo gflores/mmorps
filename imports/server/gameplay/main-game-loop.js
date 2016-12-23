@@ -5,7 +5,7 @@ import { computeRoundResult } from '/imports/server/gameplay/compute-round-resul
 import { gameEnd } from '/imports/server/manage-game-room/game-end.js';
 
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
-import { constructNewRoundMessage, constructPlayerPositionMessage } from '/imports/server/server-messages/server-message-format.js';
+import { constructNewRoundMessage, constructPlayerPositionMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 import * as phases from '/imports/server/server-messages/server-messages-format/phases.js';
 
 import { getGlobalVariables } from '/imports/shared/global-variables.js';
@@ -25,7 +25,7 @@ movingPhase = function(){
 
     getMainGameData().canMove = false;
     
-    sendMainServerMessage(phases.constructMovingPhaseEndedMessage(getMainGameData().player_keys));
+    sendMainServerMessage(phases.constructMovingPhaseEndedMessage(getMainGameData().player_keys, getMainGameData().players));
 
     // update all player's current positions
     console.log("updating current players now that moving phase ended");

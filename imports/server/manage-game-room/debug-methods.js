@@ -4,7 +4,7 @@ import { getMainGameData, resetMainGameData, endMainGame } from '/imports/server
 import { LaunchAsync } from '/imports/helpers/async.js';
 
 import { updateCurrentPosition } from '/imports/server/gameplay/position/compute-position.js';
-import { constructPlayerPositionMessage } from '/imports/server/server-messages/server-message-format.js';
+import { constructPlayerPositionMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 
 Meteor.methods({
     endGameDebugTrue: () => {
