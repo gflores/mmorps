@@ -6,8 +6,8 @@ import { getMainGameData } from '/imports/server/global-data/global-data.js';
 import { LaunchAsync } from '/imports/helpers/async.js';
 
 Meteor.methods({
-    PlayCard: (cardIndex) => {
-        PlayCard(Meteor.userId(), cardIndex, getMainGameData());
+    PlayCard: (cardIndex, x, y, target) => {
+        PlayCard(Meteor.userId(), cardIndex, getMainGameData(), x, y, target);
     },
 
     PlayShield: () => {

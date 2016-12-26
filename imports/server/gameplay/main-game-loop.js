@@ -9,14 +9,19 @@ import { constructNewRoundMessage, constructPlayerPositionMessage } from '/impor
 import * as phases from '/imports/server/server-messages/server-messages-format/phases.js';
 
 import { getGlobalVariables } from '/imports/shared/global-variables.js';
-import { getMainGameData, enableMainGameDuel, disableMainGameDuel, resetMainGameData } from '/imports/server/global-data/global-data.js';
+import { getMainGameData, enableMainGameDuel, disableMainGameDuel, resetMainGameData, updateNextMovingPhaseTime } from '/imports/server/global-data/global-data.js';
 
 import { getGameEndDebugVar, setGameEndDebugVarTrue, setGameEndDebugVarFalse } from '/imports/server/global-data/debug-variables.js';
 
 import { updateCurrentPosition } from '/imports/server/gameplay/position/compute-position.js';
 
+import { updateAllPlayerDashedPosition } from '/imports/server/gameplay/position/dash.js';
+
 movingPhase = function(){
     console.log("*** moving phase ***");
+    
+    updateNextMovingPhaseTime(new Date());
+    
     sendMainServerMessage(phases.constructMovingPhaseStartedMessage(getMainGameData().player_keys));
 
     getMainGameData().canMove = true;
@@ -39,9 +44,12 @@ movingPhase = function(){
 decidingPhase = function(){
     console.log("deciding phase");
     sendMainServerMessage(phases.constructDecidingPhaseStartedMessage(getMainGameData().player_keys));
+    getMainGameData().canDuelAction = true;
     Wait(getGlobalVariables().decidingPhaseTime);
     
+    getMainGameData().canDuelAction = false;
     sendMainServerMessage(phases.constructDecidingPhaseEndedMessage(getMainGameData().player_keys));
+    
     // sending server message
     // sendMainServerMessage(constructNewRoundMessage(getNewRoundDelay()));
 
@@ -89,6 +97,8 @@ battlePhase = function(){
     sendMainServerMessage(phases.constructBattlePhaseStartedMessage(getMainGameData().player_keys));
     // waiting for user to type in their input
     decidingPhase();
+    
+    updateAllPlayerDashedPosition(getMainGameData().players);
     
     Wait(getGlobalVariables().decidingToResultPhaseTransitionTime);
     

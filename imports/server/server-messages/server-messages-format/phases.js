@@ -52,6 +52,7 @@ export const constructDecidingPhaseStartedMessage = (playerKeys) => {
 }
 
 export const constructDecidingPhaseEndedMessage = (playerKeys) => {
+    
     return {
         functionId: "deciding_phase_ended",
         recipients: playerKeys
