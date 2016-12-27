@@ -3,6 +3,15 @@ import { getScreenParameters } from "/imports/client/pixi/setup-game-ui.js";
 
 import { convertAbsoluteToRelativePlayerPosition, convertToScreenValues } from "/imports/client/pixi/screen/convert-position.js";
 
+updatePlayerHealth = function(player){
+    var ratio = player.currentHp / player.maxHp;
+
+    var damageWidth = (player.healthbarSprite.width - 2) * (1 - ratio);
+
+    player.healthbarDamageSprite.width = damageWidth;
+    player.healthbarDamageSprite.x = player.healthbarSprite.x + player.healthbarSprite.width - damageWidth - 2;
+}
+
 updatePlayerScreenPosition = function(player){
 
     player.renderContainer.x = player.position.x;
@@ -11,7 +20,6 @@ updatePlayerScreenPosition = function(player){
 
     convertAbsoluteToRelativePlayerPosition(player.renderContainer);
     convertToScreenValues(player.renderContainer);
-
 }
 
 updatePlayer = function(player){
@@ -35,6 +43,7 @@ updatePlayer = function(player){
     }
     
     updatePlayerScreenPosition(player);
+    updatePlayerHealth(player);
 }
 
 export const updatePlayers = function(players){
