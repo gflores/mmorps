@@ -13,7 +13,6 @@ export const dash = function (player){
             player.lastPosition.add(dashVector);
         }
         player.wantedDashedPosition = null;
-        console.log("dash updated ", player);
     } else {
         console.log(player.id, "no dash positions available");
     }

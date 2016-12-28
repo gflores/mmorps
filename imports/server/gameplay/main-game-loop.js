@@ -1,17 +1,16 @@
 import { Wait } from '/imports/helpers/wait.js';
 import { LaunchAsync } from '/imports/helpers/async.js';
 
-import { computeRoundResult } from '/imports/server/gameplay/compute-round-result';
-import { gameEnd } from '/imports/server/manage-game-room/game-end.js';
+import { computeRoundResults } from '/imports/server/gameplay/compute-round-results/compute-round-result.js';
 
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 import { constructNewRoundMessage, constructPlayerPositionMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 import * as phases from '/imports/server/server-messages/server-messages-format/phases.js';
 
 import { getGlobalVariables } from '/imports/shared/global-variables.js';
-import { getMainGameData, enableMainGameDuel, disableMainGameDuel, resetMainGameData, updateNextMovingPhaseTime } from '/imports/server/global-data/global-data.js';
+import { getMainGameData, updateNextMovingPhaseTime } from '/imports/server/global-data/global-data.js';
 
-import { getGameEndDebugVar, setGameEndDebugVarTrue, setGameEndDebugVarFalse } from '/imports/server/global-data/debug-variables.js';
+import { getGameEndDebugVar } from '/imports/server/global-data/debug-variables.js';
 
 import { updateCurrentPosition } from '/imports/server/gameplay/position/compute-position.js';
 
@@ -35,9 +34,7 @@ movingPhase = function(){
     // update all player's current positions
     console.log("updating current players now that moving phase ended");
     for (key in getMainGameData().players){
-        console.log("before: ", getMainGameData().players[key]);
         updateCurrentPosition(getMainGameData().players[key]);
-        console.log("after: ", getMainGameData().players[key]);
     }
 }
 
@@ -85,7 +82,7 @@ resultPhase = function(){
     sendMainServerMessage(phases.constructResultPhaseEndedMessage(getMainGameData().player_keys));
     // console.log("computing result");
     // disableMainGameDuel();
-    // computeRoundResult(gameData);
+    // computeDuelResult(gameData);
     
     // Wait(getEndRoundDelay());
     // console.log("finished animation");
@@ -94,17 +91,15 @@ resultPhase = function(){
 
 battlePhase = function(){
     console.log("*** action phase ***");
-    sendMainServerMessage(phases.constructBattlePhaseStartedMessage(getMainGameData().player_keys));
     // waiting for user to type in their input
     decidingPhase();
     
     updateAllPlayerDashedPosition(getMainGameData().players);
-    
+    computeRoundResults(getMainGameData());
     Wait(getGlobalVariables().decidingToResultPhaseTransitionTime);
     
     resultPhase();
     
-    sendMainServerMessage(phases.constructBattlePhaseEndedMessage(getMainGameData().player_keys));
 }
 
 export const mainGameLoop = (gameData) => {

@@ -26,18 +26,29 @@ export default class DebugMenu extends Component {
         x = parseFloat(this.refs.x.value);
         y = parseFloat(this.refs.y.value);
         console.log("updating position", x, y);
-        Meteor.call('dash', x, y);
+        Meteor.call('Dash', x, y);
     }
     
     playCard(e){
         e.preventDefault();
         x = parseFloat(this.refs.x.value);
         y = parseFloat(this.refs.y.value);
-        Meteor.call('PlayCard', 0, 0, 0, getState().allPlayers[0].id);
+        Meteor.call('PlayCard', 0);
     }
 
-    target(){
-        Meteor.call('target');
+    playShield(){
+        Meteor.call('PlayShield');
+    }
+    
+    pickTarget(){
+        var targetPlayerId = null;
+        for(key in getState().otherPlayers){
+            if(key != Meteor.userId()){
+                targetPlayerId = key;
+                break;
+            }
+        }
+        Meteor.call('PickTarget', targetPlayerId);
     }
     
     render(){
@@ -58,14 +69,21 @@ export default class DebugMenu extends Component {
                     </button>
                 </div>
                 <div className="row">
-                    <form role="form" onSubmit={ this.playCard.bind(this) }>
+                    <button onClick={ this.playCard.bind(this) }>
+                        Play Card
+                    </button>
+                    <button onClick={ this.pickTarget.bind(this) }>
+                        Target Player
+                    </button>
+                    <button onClick={ this.playShield.bind(this) }>
+                        Play Shield
+                    </button>
+                    <form role="form" onSubmit={ this.dash.bind(this) }>
                         <input type="text" ref="x" name="x"/>
                         <input type="text" ref="y" name="y"/>
                         <input type="submit" value="Play Card with Dash Position"/>
                     </form>
-                    <button onClick={ this.target.bind(this) }>
-                        Target
-                    </button>
+                    
                 </div>
 
             </div>
