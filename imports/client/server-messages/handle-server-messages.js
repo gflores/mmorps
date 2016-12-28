@@ -53,14 +53,6 @@ serverMessagesHandlers = {
         getState().isMovingPhase = false;
         console.log(getState());
     },
-    "battle_phase_started": (message) => {
-        getState().isBattlePhase = true;
-        console.log(getState());
-    },
-    "battle_phase_ended": (message) => {
-        getState().isBattlePhase = false;
-        console.log(getState());
-    },
     "deciding_phase_started": (message) => {
         getState().isDecidingPhase = true;
         console.log(getState());
@@ -81,5 +73,6 @@ serverMessagesHandlers = {
 
 export const handleServerMessages = function(serverMessage){
     console.log("ServerMessageHandler received: ", serverMessage);
-    serverMessagesHandlers[serverMessage.functionId](serverMessage)
+    if (serverMessagesHandlers[serverMessage.functionId] != null)
+        serverMessagesHandlers[serverMessage.functionId](serverMessage)
 }
