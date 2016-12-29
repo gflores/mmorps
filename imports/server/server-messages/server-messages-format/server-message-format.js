@@ -22,7 +22,7 @@ export const constructJoinedGameMessage = (playerJoinedId, gameData) => {
     return {
         functionId: "joined_game",
         recipients: [playerJoinedId],
-        playerJoinedId: Meteor.userId(),
+        playerJoinedId: playerJoinedId,
         players: players
     }
 };

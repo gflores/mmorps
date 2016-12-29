@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { getState } from '/imports/client/global-data/manage-state.js';
+
 export default class DebugMenu extends Component {
 
     addPlayer(){
@@ -15,15 +17,38 @@ export default class DebugMenu extends Component {
     }
 
     getMainGameStatus(){
-        Meteor.call('getGameDataStatus');
+        console.log("client state status", getState());
+        // Meteor.call('getGameDataStatus');
     }
 
-    updatePosition(e){
+    dash(e){
         e.preventDefault();
         x = parseFloat(this.refs.x.value);
         y = parseFloat(this.refs.y.value);
         console.log("updating position", x, y);
-        Meteor.call('moveToCoordinates', x, y);
+        Meteor.call('Dash', x, y);
+    }
+    
+    playCard(e){
+        e.preventDefault();
+        x = parseFloat(this.refs.x.value);
+        y = parseFloat(this.refs.y.value);
+        Meteor.call('PlayCard', 0);
+    }
+
+    playShield(){
+        Meteor.call('PlayShield');
+    }
+    
+    pickTarget(){
+        var targetPlayerId = null;
+        for(key in getState().otherPlayers){
+            if(key != Meteor.userId()){
+                targetPlayerId = key;
+                break;
+            }
+        }
+        Meteor.call('PickTarget', targetPlayerId);
     }
     
     render(){
@@ -44,12 +69,23 @@ export default class DebugMenu extends Component {
                     </button>
                 </div>
                 <div className="row">
-                    <form role="form" onSubmit={ this.updatePosition.bind(this) }>
+                    <button onClick={ this.playCard.bind(this) }>
+                        Play Card
+                    </button>
+                    <button onClick={ this.pickTarget.bind(this) }>
+                        Target Player
+                    </button>
+                    <button onClick={ this.playShield.bind(this) }>
+                        Play Shield
+                    </button>
+                    <form role="form" onSubmit={ this.dash.bind(this) }>
                         <input type="text" ref="x" name="x"/>
                         <input type="text" ref="y" name="y"/>
-                        <input type="submit" value="Move Here"/>
+                        <input type="submit" value="Play Card with Dash Position"/>
                     </form>
+                    
                 </div>
+
             </div>
             
         )

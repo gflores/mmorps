@@ -5,7 +5,7 @@ import { getGlobalVariables } from '/imports/shared/global-variables.js';
 import { Vector2 } from '/imports/helpers/vector2.js';
 import { generateRandomPosition } from '/imports/helpers/generateRandomVector.js';
 
-export const createNewPlayer = () => {
+export const createNewPlayer = (userId) => {
     hand = [];
     
     deck = generateStartingCards();
@@ -17,7 +17,8 @@ export const createNewPlayer = () => {
     var randomVector = generateRandomPosition(6, 6);
     
     newPlayer = {
-        id: Meteor.userId(),
+        id: userId,
+        targetPlayerId: null,
         currentHp: getGlobalVariables().gameStartPlayerHp, 
         maxHp: getGlobalVariables().maxHp,
         currentCards: hand,
@@ -28,7 +29,8 @@ export const createNewPlayer = () => {
         lastPosition: randomVector,
         lastUpdatedTime: new Date(),
         moveSpeed: 5,
-        finalWantedPosition: null
+        finalWantedPosition: null,
+        wantedDashedPosition: null
     };
     return newPlayer;
 }

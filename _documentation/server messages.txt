@@ -69,3 +69,22 @@
         .
     }
 }
+
+
+Moving phase ended:
+
+battleResults: [
+    {
+        attacker: player,
+        target: player
+    },
+    {
+        attacker: player,
+        target: player
+    },
+    {
+        attacker: player,
+        target: player
+    },
+    ...
+]

@@ -3,17 +3,31 @@ import { createNewPlayer } from '/imports/server/gameplay/players/create-new-pla
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 import { constructJoinedGameMessage, constructAddPlayerMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 
+import { LaunchAsync } from '/imports/helpers/async.js';
+import { Wait } from '/imports/helpers/wait.js';
+
+import { getGlobalVariables } from '/imports/shared/global-variables.js';
+
 import { updateAllPlayerPosition } from '/imports/server/gameplay/position/compute-position.js';
 
 export const addPlayerToRoom = (gameData, userId) => {
     if (duplicateKey(gameData.player_keys, userId) == false) {
-        var newPlayer = createNewPlayer();
-        gameData.players[userId] = newPlayer;
-        gameData.player_keys.push(userId);
+        LaunchAsync(()=> {
+            var newPlayer = createNewPlayer(userId);
+            gameData.players[userId] = newPlayer;
+            gameData.player_keys.push(userId);
+            
+            var timeTillNextMovingPhase = gameData.nextMovingPhaseTime.getTime() - (new Date()).getTime();
+
+            console.log("time till next moving phase", timeTillNextMovingPhase);
+            Wait(timeTillNextMovingPhase);
+            sendMainServerMessage(constructAddPlayerMessage(userId, gameData.player_keys, gameData.players[userId]));
+            sendMainServerMessage(constructJoinedGameMessage(userId, gameData));
+            
+            console.log(gameData);
+        });
+
         
-        sendMainServerMessage(constructAddPlayerMessage(Meteor.userId(), gameData.player_keys, gameData.players[userId]));
-        sendMainServerMessage(constructJoinedGameMessage(Meteor.userId(), gameData));
-        console.log(gameData);
     } else {
         console.log(userId, " cannot join room");
     }

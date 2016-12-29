@@ -6,6 +6,8 @@ import { LaunchAsync } from '/imports/helpers/async.js';
 import { updateCurrentPosition } from '/imports/server/gameplay/position/compute-position.js';
 import { constructPlayerPositionMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 
+import { dash } from '/imports/server/gameplay/position/dash.js';
+import { target } from '/imports/server/gameplay/duels/target.js';
 Meteor.methods({
     endGameDebugTrue: () => {
         LaunchAsync(()=> {
@@ -26,14 +28,19 @@ Meteor.methods({
             console.log(getMainGameData());
         });
     },
-    testTimeDifference: () => {
+    dash: (x, y) => {
+        var userId = Meteor.userId();
         LaunchAsync(()=> {
-            console.log('get time difference');
-            playerPositions = getMainGameData().players;
-            for(playerId in playerPositions){
-                updateCurrentPosition(playerPositions[playerId]);    
-            }
-            
+            console.log("dash player information", getMainGameData().players[userId]);
+            dash(getMainGameData().players[userId], x, y);
         });
-    }
+    },
+    // playCard: (cardIndex, x, y, target) => {
+    //    
+    // }
+    // target: (targetPlayerId) -> {
+    //     LaunchAsync(()=>{
+    //         target(getMainGameData().players[Meteor.userId()], targetPlayerId);
+    //     })
+    // }
 });

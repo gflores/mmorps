@@ -45,28 +45,12 @@ serverMessagesHandlers = {
         console.log(getState().player);
         console.log(getState().allPlayers);
     },
-    "moving_phase_started": (message) => {
-        getState().isMovingPhase = true;
-        console.log(getState());
-    },
     "moving_phase_ended": (message) => {
         getState().isMovingPhase = false;
         console.log(getState());
     },
-    "deciding_phase_started": (message) => {
-        getState().isDecidingPhase = true;
-        console.log(getState());
-    },
     "deciding_phase_ended": (message) => {
         getState().isDecidingPhase = false;
-        console.log(getState());
-    },
-    "result_phase_started": (message) => {
-        getState().isResultPhase = true;
-        console.log(getState());
-    },
-    "result_phase_ended": (message) => {
-        getState().isResultPhase = false;
         console.log(getState());
     }
 }
