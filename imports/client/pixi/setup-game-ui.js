@@ -4,7 +4,7 @@ import { displayGrid, setupGrid } from "/imports/client/pixi/screen/display-grid
 import { convertScreenPositionToAbsolutePosition } from "/imports/client/pixi/screen/convert-position.js";
 import { updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
 import { setupFade } from '/imports/client/pixi/screen/fade-in-out.js';
-import { computeCoroutines, addCoroutine } from '/imports/client/pixi/coroutines/coroutine-system.js';
+import { computeCoroutines, addCoroutine, constructCoroutine } from '/imports/client/pixi/coroutines/coroutine-system.js';
 
 var state = getState();
 
@@ -71,12 +71,12 @@ export const setupGameUi = function(){
     setupFade();
 
 
-    addCoroutine(() => {
+    addCoroutine(constructCoroutine(null, () => {
         displayGrid();
         updatePlayers(state.allPlayers);
 
         return true;
-    });
+    }));
 
     requestAnimationFrame(animationFunc);
 }
