@@ -45,6 +45,21 @@ setHealthBar = function(player){
     player.healthbarDamageSprite.y = -39;
 }
 
+setPlayerCards = function(player){
+    player.cardSprites = [ new PIXI.Graphics(), new PIXI.Graphics(),  new PIXI.Graphics()];
+
+    //each card (present or not): circle
+    //If present:
+
+    //Paper: green
+    //Scissor: Red
+    //Rock: Brown
+    //Display value in the circle
+
+    //If not present: gray circle
+
+}
+
 export const addOtherPlayerToRoom = function(player){
     state.otherPlayers[player.id] = player;
     state.allPlayers.push(player);

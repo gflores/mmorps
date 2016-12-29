@@ -22,6 +22,10 @@ updatePlayerScreenPosition = function(player){
     convertToScreenValues(player.renderContainer);
 }
 
+updatePlayerCards = function(player){
+    
+}
+
 updatePlayer = function(player){
     if (player.finalWantedPosition != null){
         var distanceToFinalWantedPosition = player.position.distance(player.finalWantedPosition);
@@ -44,6 +48,7 @@ updatePlayer = function(player){
     
     updatePlayerScreenPosition(player);
     updatePlayerHealth(player);
+    updatePlayerCards(player);
 }
 
 export const updatePlayers = function(players){
