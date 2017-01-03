@@ -50,6 +50,10 @@ export default class DebugMenu extends Component {
         }
         Meteor.call('PickTarget', targetPlayerId);
     }
+
+    drawCards() {
+        Meteor.call('DrawCards');
+    }
     
     render(){
         return (
@@ -78,6 +82,10 @@ export default class DebugMenu extends Component {
                     <button onClick={ this.playShield.bind(this) }>
                         Play Shield
                     </button>
+                    <button onClick={ this.drawCards.bind(this) }>
+                        Draw Cards
+                    </button>
+
                     <form role="form" onSubmit={ this.dash.bind(this) }>
                         <input type="text" ref="x" name="x"/>
                         <input type="text" ref="y" name="y"/>

@@ -18,11 +18,8 @@ export const initGameStartDate = () => {
 
 export const updateNextMovingPhaseTime = (previousMovingPhaseTime) => {
     var roundTime = getGlobalVariables().movingPhaseTime +
-                    getGlobalVariables().movingToActionPhaseTransitionTime +
                     getGlobalVariables().decidingPhaseTime +
-                    getGlobalVariables().decidingToResultPhaseTransitionTime +
-                    getGlobalVariables().resultPhaseTime +
-                    getGlobalVariables().actionToMovingPhaseTransitionTime;
+                    getGlobalVariables().resultPhaseTime;
     console.log("previous time", previousMovingPhaseTime);
     previousMovingPhaseTime.setTime(previousMovingPhaseTime.getTime() + roundTime);
     globalData.mainGame.nextMovingPhaseTime = previousMovingPhaseTime;

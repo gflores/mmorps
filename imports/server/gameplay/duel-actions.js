@@ -40,3 +40,12 @@ export const PlayShield = (playerId, gameData) => {
     }
 
 }
+
+export const DrawCard = (playerId, gameData) => {
+    if (gameData.canDuelAction == true){
+        gameData.players[playerId].action = 'DRAW';
+        console.log("Drawing new set of cards");
+    } else {
+        console.log(playerId, " Cannot Draw");
+    }
+}

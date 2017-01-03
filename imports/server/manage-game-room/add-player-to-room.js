@@ -18,9 +18,9 @@ export const addPlayerToRoom = (gameData, userId) => {
             gameData.player_keys.push(userId);
             
             var timeTillNextMovingPhase = gameData.nextMovingPhaseTime.getTime() - (new Date()).getTime();
-
             console.log("time till next moving phase", timeTillNextMovingPhase);
             Wait(timeTillNextMovingPhase);
+            
             sendMainServerMessage(constructAddPlayerMessage(userId, gameData.player_keys, gameData.players[userId]));
             sendMainServerMessage(constructJoinedGameMessage(userId, gameData));
             

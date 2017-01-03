@@ -5,7 +5,7 @@ var globalVariables = {
 
     movingToActionPhaseTransitionTime: 100,
     
-    decidingPhaseTime: 100,
+    decidingPhaseTime: 3000,
     decidingToResultPhaseTransitionTime: 100,
     
     resultPhaseTime: 100,
