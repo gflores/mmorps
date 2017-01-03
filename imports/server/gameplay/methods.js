@@ -1,4 +1,4 @@
-import { PlayCard, PlayShield, Dash, PickTarget } from '/imports/server/gameplay/duel-actions.js';
+import { PlayCard, PlayShield, Dash, PickTarget, DrawCard } from '/imports/server/gameplay/duel-actions.js';
 
 import { getMainGameData } from '/imports/server/global-data/global-data.js';
 
@@ -17,5 +17,8 @@ Meteor.methods({
     },
     PlayShield: () => {
         PlayShield(Meteor.userId(), getMainGameData());
+    },
+    DrawCards: () => {
+        DrawCard(Meteor.userId(), getMainGameData());
     }
 })
