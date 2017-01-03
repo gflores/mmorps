@@ -20,6 +20,7 @@ serverMessagesHandlers = {
                 }
             }
         }
+        getState().isMovingPhase = true;
 
         console.log(getReactState());
         console.log(getState());
@@ -51,6 +52,7 @@ serverMessagesHandlers = {
     },
     "deciding_phase_ended": (message) => {
         getState().isDecidingPhase = false;
+        getState().isMovingPhase = true;
         console.log(getState());
     }
 }

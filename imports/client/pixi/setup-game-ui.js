@@ -43,7 +43,8 @@ initializeMap = function(){
             var currentMousePosition = state.renderer.plugins.interaction.mouse.global;
             convertScreenPositionToAbsolutePosition(currentMousePosition);
 
-            // updateMainPlayerFinalWantedPosition(currentMousePosition);
+            updateMainPlayerFinalWantedPosition(currentMousePosition);
+
             Meteor.call('moveToCoordinates', currentMousePosition.x, currentMousePosition.y);
         }
     });
