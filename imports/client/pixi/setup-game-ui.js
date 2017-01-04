@@ -5,12 +5,16 @@ import { convertScreenPositionToAbsolutePosition } from "/imports/client/pixi/sc
 import { updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
 import { setupFade } from '/imports/client/pixi/screen/fade-in-out.js';
 import { computeCoroutines, addCoroutine, constructCoroutine } from '/imports/client/pixi/coroutines/coroutine-system.js';
+import { setupBattleController } from '/imports/client/pixi/controllers/battle-controller.js';
 
 var state = getState();
 
 var screenParameters = {
     gameDistanceToPixelsRatio: 10,
     dimensions: {width: 700, height: 620},
+    gameMapDimensions: {width: 700, height: 470},
+    battleControllerDimensions: {width: 700, height: 150},
+
     gridLineEveryDistance: 8
 }
 
@@ -32,7 +36,7 @@ initializeMap = function(){
 
     state.mapBackground = new PIXI.Graphics();
     state.mapBackground.beginFill(0x0, 0);
-    state.mapBackground.drawRect(0, 0, screenParameters.dimensions.width, screenParameters.dimensions.height);
+    state.mapBackground.drawRect(0, 0, screenParameters.gameMapDimensions.width, screenParameters.gameMapDimensions.height);
     state.mapBackground.endFill();
 
     state.gameMap.addChild(state.mapBackground);
@@ -69,6 +73,7 @@ export const setupGameUi = function(){
     initializeMap();
 
     setupGrid();
+    setupBattleController();
     setupFade();
 
 

@@ -1,16 +1,16 @@
 var globalVariables = {
     //MOVING PHASE
 
-    movingPhaseTime: 3000,
+    movingPhaseTime: 6000,
 
-    movingToActionPhaseTransitionTime: 100,
+    movingPhaseBufferTime: 1000,
     
-    decidingPhaseTime: 3000,
-    decidingToResultPhaseTransitionTime: 100,
+    decidingPhaseTime: 6000,
+    decidingPhaseBufferTime: 1000,
     
-    resultPhaseTime: 100,
+    resultPhaseTime: 6000,
 
-    actionToMovingPhaseTransitionTime: 100,
+    resultPhaseBufferTime: 1000,
 
     countDownMessageDelay: 500,
     gameStartDelay: 500,

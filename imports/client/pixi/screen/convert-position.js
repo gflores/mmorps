@@ -14,13 +14,13 @@ export const convertToScreenValues = function(vector){
 
     vector.y = -vector.y;
 
-    vector.x += getScreenParameters().dimensions.width / 2;
-    vector.y += getScreenParameters().dimensions.height / 2;
+    vector.x += getScreenParameters().gameMapDimensions.width / 2;
+    vector.y += getScreenParameters().gameMapDimensions.height / 2;
 }
 
 export const convertScreenPositionToAbsolutePosition = function(position){
-    position.x -= getScreenParameters().dimensions.width / 2;
-    position.y -= getScreenParameters().dimensions.height / 2;
+    position.x -= getScreenParameters().gameMapDimensions.width / 2;
+    position.y -= getScreenParameters().gameMapDimensions.height / 2;
 
     position.y = -position.y;
 

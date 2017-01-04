@@ -7,8 +7,8 @@ import { handleServerMessages } from '/imports/client/server-messages/handle-ser
 export const setupReceiveMessages = function() {
     ServerMessages.find().observeChanges({
         added: (id, message) => {
-            handleServerMessages(message);
             console.log("[SERVER MESSAGE] nb: " + ServerMessages.find().count());
+            handleServerMessages(message);
         }
     });
 

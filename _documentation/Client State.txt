@@ -51,3 +51,19 @@ Vector2 = {
     x: Number,
     y: Number
 }
+
+-screenContainer
+    -gameMap
+        -mapBackground
+
+        -line
+        -line
+        -line...
+
+        -playerRenderContainer
+            -mainSprite
+            -healthbareSprite
+            -healthbarDamageSprite
+    -battleController
+    -fadePlane
+
