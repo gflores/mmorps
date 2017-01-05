@@ -35,6 +35,8 @@ export const transitionFromMovingToDecidingPhase = function(){
             state.battleController.y = getScreenParameters().dimensions.height - getScreenParameters().battleControllerDimensions.height;
             getScreenParameters().gameDistanceToPixelsRatio = battlePhaseDistanceToPixelsRatio;
             getScreenParameters().gameMapDimensions.height = battlePhaseGameMapHeight;
+
+            state.battleController.alpha = 1;
             return false;
         }
 
@@ -44,7 +46,7 @@ export const transitionFromMovingToDecidingPhase = function(){
 }
 
 export const transitionFromDecidingToResultPhase = function(){
-
+    state.battleController.alpha = 0.6;
 }
 
 export const transitionFromResultToMovingPhase = function(){
@@ -70,6 +72,8 @@ export const transitionFromResultToMovingPhase = function(){
             state.battleController.y = getScreenParameters().dimensions.height;
             getScreenParameters().gameDistanceToPixelsRatio = movingPhaseDistanceToPixelsRatio;
             getScreenParameters().gameMapDimensions.height = movingPhaseGameMapHeight;
+
+            state.battleController.alpha = 1;
             return false;
         }
 
