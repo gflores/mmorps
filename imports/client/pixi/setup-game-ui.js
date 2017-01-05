@@ -81,6 +81,8 @@ export const setupGameUi = function(){
         displayGrid();
         updatePlayers(state.allPlayers);
 
+        //updateDisplayBattleController
+
         return true;
     }));
 

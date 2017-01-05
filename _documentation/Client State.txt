@@ -65,5 +65,11 @@ Vector2 = {
             -healthbareSprite
             -healthbarDamageSprite
     -battleController
+        -battleControllerBackground
+
+        -battleCardContainer
+            -battleCardSprite
+            -value
+
     -fadePlane
 
