@@ -19,10 +19,15 @@ export const addPlayerToRoom = (gameData, userId) => {
             
             var timeTillNextMovingPhase = gameData.nextMovingPhaseTime.getTime() - (new Date()).getTime();
             console.log("time till next moving phase", timeTillNextMovingPhase);
-            Wait(timeTillNextMovingPhase);
-            
-            sendMainServerMessage(constructAddPlayerMessage(userId, gameData.player_keys, gameData.players[userId]));
-            sendMainServerMessage(constructJoinedGameMessage(userId, gameData));
+
+            if(timeTillNextMovingPhase > (getGlobalVariables().decidingPhaseTime + getGlobalVariables().resultPhaseTime) ){
+                Wait(timeTillNextMovingPhase);
+                sendMainServerMessage(constructAddPlayerMessage(userId, gameData.player_keys, gameData.players[userId]));
+                sendMainServerMessage(constructJoinedGameMessage(userId, gameData, getGlobalVariables().movingPhaseTime));
+            } else {
+                sendMainServerMessage(constructAddPlayerMessage(userId, gameData.player_keys, gameData.players[userId]));
+                sendMainServerMessage(constructJoinedGameMessage(userId, gameData, timeTillNextMovingPhase - getGlobalVariables().decidingPhaseTime - getGlobalVariables().resultPhaseTime));
+            }
             
             console.log(gameData);
         });

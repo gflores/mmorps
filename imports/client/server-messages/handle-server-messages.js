@@ -6,6 +6,7 @@ import { Vector2 } from "/imports/helpers/vector2.js";
 
 serverMessagesHandlers = {
     "joined_game": (message) => {
+        console.log("before", getState());
         if (getReactState().gameJoined == false && message.playerJoinedId == Meteor.userId()){
             console.log("joined_game");
             setReactState({
@@ -22,14 +23,15 @@ serverMessagesHandlers = {
         }
 
         console.log(getReactState());
-        console.log(getState());
+        console.log("after", getState());
     },
     "add_player": (message) => {
+        console.log("before", getState());
         if(getReactState().gameJoined && message.player.id != Meteor.userId()){
             console.log("add_player");
             addOtherPlayerToRoom(message.player);
         }
-        console.log(getState());
+        console.log("after", getState());
     },
     "removed_player": (message) => {
         removeOtherPlayer(message.removedPlayerId);
@@ -46,12 +48,47 @@ serverMessagesHandlers = {
         console.log(getState().allPlayers);
     },
     "moving_phase_ended": (message) => {
+        console.log("before", getState());
         getState().isMovingPhase = false;
-        console.log(getState());
+        for (playerId in message.players){
+            if(getReactState().gameJoined && message.players[playerId].id == Meteor.userId()){
+                getState().player.moveSpeed = message.players[playerId].moveSpeed;
+                getState().player.position = new Vector2(message.players[playerId].position.x, message.players[playerId].position.y);
+                getState().player.finalWantedPosition = message.players[playerId].finalWantedPosition;
+            } else {
+                getState().otherPlayers[playerId] = message.players[playerId];
+                getState().otherPlayers[playerId].moveSpeed = message.players[playerId].moveSpeed;
+                getState().otherPlayers[playerId].position = new Vector2(message.players[playerId].position.x, message.players[playerId].position.y);
+                getState().otherPlayers[playerId].finalWantedPosition = message.players[playerId].finalWantedPosition;
+            }
+        }
+        console.log("after", getState());
     },
     "deciding_phase_ended": (message) => {
+        console.log("before", getState());
         getState().isDecidingPhase = false;
-        console.log(getState());
+        if(getReactState().gameJoined){
+            for (playerId in message.players){
+                if(message.players[playerId].id == Meteor.userId()){
+                    getState().player.canPlayShield = message.players[playerId].canPlayShield;
+                    getState().player.currentCards = message.players[playerId].currentCards;
+                    getState().player.currentHp = message.players[playerId].currentHp;
+                    getState().player.maxHp = message.players[playerId].maxHp;
+                    getState().player.moveSpeed = message.players[playerId].moveSpeed;
+                    getState().player.position = new Vector2(message.players[playerId].lastPosition.x, message.players[playerId].lastPosition.y);
+                } else {
+                    getState().otherPlayers[playerId].canPlayShield = message.players[playerId].canPlayShield;
+                    getState().otherPlayers[playerId].currentCards = message.players[playerId].currentCards;
+                    getState().otherPlayers[playerId].currentHp = message.players[playerId].currentHp;
+                    getState().otherPlayers[playerId].maxHp = message.players[playerId].maxHp;
+                    getState().otherPlayers[playerId].moveSpeed = message.players[playerId].moveSpeed;
+                    getState().otherPlayers[playerId].position = new Vector2(message.players[playerId].lastPosition.x, message.players[playerId].lastPosition.y);
+                }
+            }    
+        }
+        
+
+        console.log("after", getState());
     }
 }
 

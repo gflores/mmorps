@@ -58,6 +58,7 @@ battlePhase = function(){
     decidingPhase();
     
     updateAllPlayerDashedPosition(getMainGameData().players);
+    
     computeRoundResults(getMainGameData());
     Wait(getGlobalVariables().decidingToResultPhaseTransitionTime);
     
