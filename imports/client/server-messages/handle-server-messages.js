@@ -21,6 +21,7 @@ serverMessagesHandlers = {
                 }
             }
         }
+        getState().isMovingPhase = true;
 
         console.log(getReactState());
         console.log("after", getState());
@@ -66,6 +67,7 @@ serverMessagesHandlers = {
     },
     "deciding_phase_ended": (message) => {
         console.log("before", getState());
+        getState().isMovingPhase = true;
         getState().isDecidingPhase = false;
         if(getReactState().gameJoined){
             for (playerId in message.players){
@@ -89,6 +91,8 @@ serverMessagesHandlers = {
         
 
         console.log("after", getState());
+        
+        
     }
 }
 

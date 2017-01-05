@@ -89,7 +89,7 @@ export const constructChangePlayerDirectionMessage = ( playerChangedDirectionId,
     }
     return {
         functionId: "change_player_direction",
-        recipients: playerKeys,
+        recipients: recipients,
         player: playerInfo
     }
 };
