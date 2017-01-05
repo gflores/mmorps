@@ -77,6 +77,7 @@ export const addOtherPlayerToRoom = function(player){
 }
 
 export const setMainPlayer = function(player){
+    console.log("set main player called");
     state.player = player;
     state.allPlayers.push(player);
 

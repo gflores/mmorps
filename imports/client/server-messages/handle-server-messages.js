@@ -9,6 +9,7 @@ import { getGlobalVariables } from '/imports/shared/global-variables.js';
 
 serverMessagesHandlers = {
     "joined_game": (message) => {
+        console.log("before", getState());
         if (getReactState().gameJoined == false && message.playerJoinedId == Meteor.userId()){
             console.log("joined_game");
             setReactState({
@@ -37,14 +38,14 @@ serverMessagesHandlers = {
         
 
         console.log(getReactState());
-        console.log(getState());
+        console.log("after", getState());
     },
     "add_player": (message) => {
         if (getReactState().gameJoined && message.player.id != Meteor.userId()){
             console.log("add_player");
             addOtherPlayerToRoom(message.player);
         }
-        console.log(getState());
+        console.log("after", getState());
     },
     "removed_player": (message) => {
         if (getReactState().gameJoined == false)
@@ -111,7 +112,7 @@ serverMessagesHandlers = {
 
 
             }, getGlobalVariables().resultPhaseBufferTime);
-        }, getGlobalVariables().resultPhaseTime - getGlobalVariables().resultPhaseBufferTime)
+        }, getGlobalVariables().resultPhaseTime - getGlobalVariables().resultPhaseBufferTime);
     }
 }
 

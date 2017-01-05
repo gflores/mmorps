@@ -24,9 +24,7 @@ export const constructMovingPhaseEndedMessage = (playerKeys, players) => {
 }
 
 export const constructDecidingPhaseEndedMessage = (playerKeys, players) => {
-
     
-
     return {
         functionId: "deciding_phase_ended",
         recipients: playerKeys,

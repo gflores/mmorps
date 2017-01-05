@@ -19,6 +19,7 @@ export const createNewPlayer = (userId) => {
     newPlayer = {
         id: userId,
         targetPlayerId: null,
+        distanceFromTargetPlayer: null,
         currentHp: getGlobalVariables().gameStartPlayerHp, 
         maxHp: getGlobalVariables().maxHp,
         currentCards: hand,

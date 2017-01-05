@@ -2,7 +2,7 @@ import { updateAllPlayerPosition } from '/imports/server/gameplay/position/compu
 import { getGlobalVariables } from '/imports/shared/global-variables.js';
 
 
-export const constructJoinedGameMessage = (playerJoinedId, gameData) => {
+export const constructJoinedGameMessage = (playerJoinedId, gameData, timeTillMovingPhaseEnd) => {
     var players = {};
     playerKeys = gameData.player_keys;
 
@@ -27,7 +27,7 @@ export const constructJoinedGameMessage = (playerJoinedId, gameData) => {
         recipients: [playerJoinedId],
         playerJoinedId: playerJoinedId,
         players: players,
-        timeUntilMovingPhaseEnds: getGlobalVariables().movingPhaseTime
+        timeUntilMovingPhaseEnds: timeTillMovingPhaseEnd
     }
 };
 

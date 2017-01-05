@@ -9,8 +9,12 @@ export const computeRoundResults = function(gameData) {
     var attacker = null;
     var targetedPlayer = null;
     var player = null;
-    for ( playerId in gameData.players ){
-        attacker = gameData.players[playerId];
+    updateAllPlayerDistanceFromTarget( gameData.players );
+
+    var battleArray = sortBattleOrder( gameData.players );
+
+    for ( index in battleArray ){
+        attacker = battleArray[index];
         targetedPlayer = gameData.players[attacker.targetPlayerId];
         console.log("before: attacker", attacker);
         console.log("before: targetedPlayer", targetedPlayer);
@@ -29,3 +33,31 @@ export const computeRoundResults = function(gameData) {
     }
     
 };
+
+function updateAllPlayerDistanceFromTarget( players ){
+    for ( playerId in players ){
+        updateDistanceFromTarget(players[playerId], players);
+    }
+}
+
+function updateDistanceFromTarget( player, players) {
+    var currentPosition = player.position;
+    // var enemyPosition = players[player.targetPlayerId].position;
+    console.log("update distance from target", players[player.targetPlayerId]);
+    player.distanceFromTargetPlayer = 6;
+}
+
+function sortBattleOrder( players ){
+
+    var battleArray = [];
+
+    for (playerId in players){
+        battleArray.push(players[playerId]);
+    }
+
+    battleArray.sort((playerA, playerB)=> {
+        return playerA.distanceFromTargetPlayer - playerB.distanceFromTargetPlayer;
+    });
+
+    return battleArray;
+}
