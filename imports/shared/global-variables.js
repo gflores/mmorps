@@ -2,8 +2,6 @@ var globalVariables = {
     //MOVING PHASE
 
     movingPhaseTime: 6000,
-
-    movingPhaseBufferTime: 1000,
     
     decidingPhaseTime: 6000,
     decidingPhaseBufferTime: 1000,

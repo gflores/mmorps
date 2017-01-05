@@ -29,14 +29,6 @@ serverMessagesHandlers = {
 
         getState().isMovingPhase = true;
 
-        Meteor.setTimeout(() => {
-            console.log("JOINED_GAME buffer stop moving phase");
-            getState().isMovingPhase = false;
-            transitionFromMovingToDecidingPhase();
-
-        }, message.timeUntilMovingPhaseEnds - getGlobalVariables().movingPhaseBufferTime)
-        
-
         console.log(getReactState());
         console.log("after", getState());
     },
@@ -73,8 +65,21 @@ serverMessagesHandlers = {
 
         console.log("ACTUAL DECIDING PHASE START");
 
+        getState().isMovingPhase = false;
+        transitionFromMovingToDecidingPhase();
+
         getState().isBattlePhase = true;
         getState().isDecidingPhase = true;
+
+        for (playerKey in message.players){
+            if (playerKey == Meteor.userId()){
+                getState().player.position.x = message.players[playerKey].position.x;
+                getState().player.position.y = message.players[playerKey].position.y;
+            } else {
+                getState().otherPlayers[playerKey].position.x = message.players[playerKey].position.x;
+                getState().otherPlayers[playerKey].position.y = message.players[playerKey].position.y;
+            }
+        }
 
         Meteor.setTimeout(() => {
             console.log("buffer stop deciding phase");
@@ -102,14 +107,6 @@ serverMessagesHandlers = {
 
                 console.log("ACTUAL MOVING PHASE START");
                 getState().isMovingPhase = true;
-
-                Meteor.setTimeout(() => {
-                    console.log("buffer stop moving phase");
-                    getState().isMovingPhase = false;
-                    transitionFromMovingToDecidingPhase();
-
-                }, getGlobalVariables().movingPhaseTime - getGlobalVariables().movingPhaseBufferTime)
-
 
             }, getGlobalVariables().resultPhaseBufferTime);
         }, getGlobalVariables().resultPhaseTime - getGlobalVariables().resultPhaseBufferTime);

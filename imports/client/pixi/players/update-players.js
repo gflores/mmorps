@@ -27,7 +27,7 @@ updatePlayerCards = function(player){
 }
 
 updatePlayer = function(player){
-    if (player.finalWantedPosition != null){
+    if (state.isMovingPhase == true && player.finalWantedPosition != null){
         var distanceToFinalWantedPosition = player.position.distance(player.finalWantedPosition);
 
         if (distanceToFinalWantedPosition == 0)

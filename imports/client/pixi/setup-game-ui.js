@@ -12,7 +12,7 @@ var state = getState();
 var screenParameters = {
     gameDistanceToPixelsRatio: 10,
     dimensions: {width: 700, height: 620},
-    gameMapDimensions: {width: 700, height: 470},
+    gameMapDimensions: {width: 700, height: 620},
     battleControllerDimensions: {width: 700, height: 150},
 
     gridLineEveryDistance: 8
