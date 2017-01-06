@@ -2,6 +2,12 @@ import { Vector2 } from '/imports/helpers/vector2.js';
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 import { constructChangePlayerDirectionMessage } from '/imports/server/server-messages/server-messages-format/server-message-format.js';
 
+export const clearFinalPosition = function (players) {
+    for (playerId in players){
+        players[playerId].finalWantedPosition = null;
+    }
+}
+
 export const updateCurrentPosition = function(player){
     var now = new Date();
     if(player.finalWantedPosition == null){

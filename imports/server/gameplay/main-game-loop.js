@@ -12,12 +12,14 @@ import { getMainGameData, updateNextMovingPhaseTime } from '/imports/server/glob
 
 import { getGameEndDebugVar } from '/imports/server/global-data/debug-variables.js';
 
-import { updateCurrentPosition } from '/imports/server/gameplay/position/compute-position.js';
+import { updateCurrentPosition, clearFinalPosition } from '/imports/server/gameplay/position/compute-position.js';
 
 import { updateAllPlayerDashedPosition } from '/imports/server/gameplay/position/dash.js';
 
 movingPhase = function(){
     console.log("*** moving phase ***");
+    
+    clearFinalPosition(getMainGameData().players);
     
     updateNextMovingPhaseTime(new Date());
 
