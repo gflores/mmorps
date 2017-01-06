@@ -75,9 +75,11 @@ serverMessagesHandlers = {
             if (playerKey == Meteor.userId()){
                 getState().player.position.x = message.players[playerKey].position.x;
                 getState().player.position.y = message.players[playerKey].position.y;
+                getState().player.finalWantedPosition = null;
             } else {
                 getState().otherPlayers[playerKey].position.x = message.players[playerKey].position.x;
                 getState().otherPlayers[playerKey].position.y = message.players[playerKey].position.y;
+                getState().otherPlayers[playerKey].finalWantedPosition = null;
             }
         }
 
