@@ -12,7 +12,16 @@ setMainSprite = function(player, texture){
     player.mainSprite.width = 40;
 
     player.mainSprite.x = -20; // relative to the renderContainer, effectively placing the center correctly
-    player.mainSprite.y = -20;    
+    player.mainSprite.y = -20;
+
+    player.mainSprite.interactive = true;
+    player.mainSprite.on('mousedown', () => {
+        if(state.isDecidingPhase == true){
+            console.log("clicking target, ", player.id, " in deciding phase");
+            Meteor.call('PickTarget', player.id);
+        }
+    });
+    
 }
 
 setHealthBar = function(player){
@@ -74,6 +83,8 @@ export const addOtherPlayerToRoom = function(player){
 
     setMainSprite(player, new PIXI.Sprite(getTextures().otherPlayer));
     setHealthBar(player);
+
+    
 }
 
 export const setMainPlayer = function(player){
@@ -86,7 +97,7 @@ export const setMainPlayer = function(player){
     player.renderContainer = new PIXI.Container();
 
     state.gameMap.addChild(player.renderContainer);
-
+    
     setMainSprite(player, new PIXI.Sprite(getTextures().mainPlayer));
     setHealthBar(player);
 }

@@ -44,8 +44,7 @@ decidingPhase = function(){
     Wait(getGlobalVariables().decidingPhaseTime);
     
     getMainGameData().canDuelAction = false;
-    sendMainServerMessage(phases.constructDecidingPhaseEndedMessage(getMainGameData().player_keys, getMainGameData().players));
-
+    
 }
 
 resultPhase = function(){
@@ -59,9 +58,12 @@ battlePhase = function(){
     // waiting for user to type in their input
     decidingPhase();
     
-    updateAllPlayerDashedPosition(getMainGameData().players);
     
+    updateAllPlayerDashedPosition(getMainGameData().players);
     computeRoundResults(getMainGameData());
+    
+    sendMainServerMessage(phases.constructDecidingPhaseEndedMessage(getMainGameData().player_keys, getMainGameData().players));
+    
     Wait(getGlobalVariables().decidingToResultPhaseTransitionTime);
     
     resultPhase();

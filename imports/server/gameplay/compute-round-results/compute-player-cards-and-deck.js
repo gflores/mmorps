@@ -2,7 +2,6 @@
 import { isCurrentHandEmpty } from '/imports/server/gameplay/players/is-current-hand-empty.js';
 import { generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 
-
 export const computePlayerCardsAndDeck = (player) => {
     // reset players Actions and draw cards if hands are empty
     // prepareForNextRound(playerOne, playerTwo);
@@ -23,4 +22,12 @@ function generateNewDeckIfEmpty(player){
     if(player.remainingCardsStack.length == 0){
         player.remainingCardsStack = generateStartingCards();
     }
+}
+
+function drawCards(player){
+    newCards = [];
+    newCards.push(player.remainingCardsStack.pop());
+    newCards.push(player.remainingCardsStack.pop());
+    newCards.push(player.remainingCardsStack.pop());
+    player.currentCards = newCards;
 }
