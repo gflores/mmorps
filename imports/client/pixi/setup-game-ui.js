@@ -6,6 +6,7 @@ import { updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/player
 import { setupFade } from '/imports/client/pixi/screen/fade-in-out.js';
 import { computeCoroutines, addCoroutine, constructCoroutine } from '/imports/client/pixi/coroutines/coroutine-system.js';
 import { setupBattleController } from '/imports/client/pixi/controllers/battle-controller.js';
+import { setupBattleEffects } from '/imports/client/pixi/battle/battle-effects.js';
 
 var state = getState();
 
@@ -76,6 +77,7 @@ export const setupGameUi = function(){
     setupBattleController();
     setupFade();
 
+    setupBattleEffects();
 
     addCoroutine(constructCoroutine(null, () => {
         displayGrid();

@@ -44,3 +44,5 @@ export const computeCoroutines = function(){
         }
     }
 }
+
+window.addCoroutine = addCoroutine;
