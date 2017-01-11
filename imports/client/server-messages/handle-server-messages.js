@@ -4,6 +4,7 @@ import { updateOtherPlayerFinalWantedPosition, updateMainPlayerFinalWantedPositi
 import { transitionFromMovingToDecidingPhase, transitionFromDecidingToResultPhase, transitionFromResultToMovingPhase} from '/imports/client/pixi/screen/transitions.js';
 import { Vector2 } from "/imports/helpers/vector2.js";
 
+import { getTextures } from '/imports/client/pixi/textures.js';
 import { getGlobalVariables } from '/imports/shared/global-variables.js';
 //state:
 
@@ -19,11 +20,14 @@ serverMessagesHandlers = {
             for (playerKey in message.players){
                 if( playerKey == Meteor.userId()){
                     setMainPlayer(message.players[playerKey]);
+                    setMainPlayerCards(message.players[playerKey].currentCards);
                 } else {
                     addOtherPlayerToRoom(message.players[playerKey]);
                 }
             }
         }
+
+
 
         console.log("ACTUAL MOVING PHASE START");
 
@@ -105,6 +109,7 @@ serverMessagesHandlers = {
             getState().isResultPhase = false;
             getState().isBattlePhase = false;
             transitionFromResultToMovingPhase();
+            setMainPlayerCards(message.players[Meteor.userId()].currentCards);
             Meteor.setTimeout(() => {
 
                 console.log("ACTUAL MOVING PHASE START");
@@ -119,4 +124,46 @@ export const handleServerMessages = function(serverMessage){
     console.log("ServerMessageHandler received: ", serverMessage);
     if (serverMessagesHandlers[serverMessage.functionId] != null)
         serverMessagesHandlers[serverMessage.functionId](serverMessage)
+}
+
+function setMainPlayerCards (currentCards){
+    console.log("player current cards", currentCards);
+    state.currentCardOne.texture = getCardTexture(currentCards[0])
+    if(currentCards[0]){
+        state.currentCardOneValueTop.text = (currentCards[0].value).toString();
+        state.currentCardOneValueBot.text = (currentCards[0].value).toString();
+    } else {
+        state.currentCardOneValueTop.text = "";
+        state.currentCardOneValueBot.text = "";
+    }
+    
+    state.currentCardTwo.texture = getCardTexture(currentCards[1]);
+    if(currentCards[1]){
+        state.currentCardTwoValueTop.text = (currentCards[1].value).toString();
+        state.currentCardTwoValueBot.text = (currentCards[1].value).toString();    
+    } else {
+        state.currentCardTwoValueTop.text = "";
+        state.currentCardTwoValueBot.text = "";
+    }
+    
+    state.currentCardThree.texture = getCardTexture(currentCards[2]);
+    if(currentCards[2]){
+        state.currentCardThreeValueTop.text = (currentCards[2].value).toString();
+        state.currentCardThreeValueBot.text = (currentCards[2].value).toString();    
+    } else {
+        state.currentCardThreeValueTop.text = "";
+        state.currentCardThreeValueBot.text = "";
+    }
+}
+
+function getCardTexture (card){
+    if(card == null){
+      return getTextures().emptyCard;
+    } else if(card.element == 'PAPER'){
+        return getTextures().paperCard;
+    } else if (card.element == 'SCISSOR'){
+        return getTextures().scissorCard;
+    } else if (card.element == 'ROCK'){
+        return getTextures().rockCard;
+    }
 }

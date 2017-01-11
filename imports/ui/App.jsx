@@ -20,7 +20,7 @@ class App extends Component {
         app = this;
 
         this.setState({});
-    }
+    } 
     componentDidMount(){
         initialSetup();
         this.setState({isAppMounted: true});

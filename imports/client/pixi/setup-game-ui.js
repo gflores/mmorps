@@ -51,6 +51,10 @@ initializeMap = function(){
             updateMainPlayerFinalWantedPosition(currentMousePosition);
 
             Meteor.call('moveToCoordinates', currentMousePosition.x, currentMousePosition.y);
+        } else if (state.isDecidingPhase == true){
+            var currentMousePosition = state.renderer.plugins.interaction.mouse.global;
+            convertScreenPositionToAbsolutePosition(currentMousePosition);
+            Meteor.call('Dash', currentMousePosition.x, currentMousePosition.y);
         }
     });
 }

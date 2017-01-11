@@ -9,12 +9,24 @@ export const computeRoundResults = function(gameData) {
     var attacker = null;
     var targetedPlayer = null;
     var player = null;
-    updateAllPlayerDistanceFromTarget( gameData.players );
+    // updateAllPlayerDistanceFromTarget( gameData.players );
+    //
+    // var battleArray = sortBattleOrder( gameData.players );
 
-    var battleArray = sortBattleOrder( gameData.players );
+    // for ( index in battleArray ){
+    //     attacker = battleArray[index];
+    //     targetedPlayer = gameData.players[attacker.targetPlayerId];
+    //     console.log("before: attacker", attacker);
+    //     console.log("before: targetedPlayer", targetedPlayer);
+    //     if (targetedPlayer && targetedPlayer != attacker){
+    //         computeDuelResult(attacker, targetedPlayer);
+    //     }
+    //     console.log("after: attacker", attacker);
+    //     console.log("after: targetedPlayer", targetedPlayer);
+    // }
 
-    for ( index in battleArray ){
-        attacker = battleArray[index];
+    for ( playerId in gameData.players ){
+        attacker = gameData.players[playerId];
         targetedPlayer = gameData.players[attacker.targetPlayerId];
         console.log("before: attacker", attacker);
         console.log("before: targetedPlayer", targetedPlayer);
@@ -24,7 +36,7 @@ export const computeRoundResults = function(gameData) {
         console.log("after: attacker", attacker);
         console.log("after: targetedPlayer", targetedPlayer);
     }
-
+    
     for ( playerId in gameData.players ){
         player = gameData.players[playerId];
         computeActionHpCosts(player);
