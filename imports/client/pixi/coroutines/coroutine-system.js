@@ -38,7 +38,9 @@ export const computeCoroutines = function(){
 
             if (coroutine.nextCoroutines != null && coroutine.nextCoroutines.length != 0){
                 var nextCoroutine = coroutine.nextCoroutines.shift();
-                chainCoroutines(nextCoroutine, coroutine.nextCoroutines);
+                if (coroutine.nextCoroutines != null && coroutine.nextCoroutines.length != 0)
+                    chainCoroutines(nextCoroutine, coroutine.nextCoroutines);
+                
                 addCoroutine(nextCoroutine);
             }
         }
@@ -46,3 +48,5 @@ export const computeCoroutines = function(){
 }
 
 window.addCoroutine = addCoroutine;
+window.chainCoroutines = chainCoroutines;
+window.constructCoroutine = constructCoroutine;

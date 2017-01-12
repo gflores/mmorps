@@ -33,5 +33,11 @@ export const setReactState = function(fields){
     getApp().setState(fields);
 }
 
+export const getPlayer = function(id){
+    return state.player.id == id ? state.player : state.otherPlayers[id];
+}
+
 
 window.getState = getState;
+
+window.getPlayer = getPlayer;

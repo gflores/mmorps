@@ -103,6 +103,9 @@ serverMessagesHandlers = {
         console.log("ACTUAL RESULT PHASE START");
 
         getState().isResultPhase = true;
+        for (playerKey in message.players){
+            playerDoBattleEffect(message, message.players[playerKey]);
+        }
 
         Meteor.setTimeout(() => {
             console.log("buffer stop result phase");

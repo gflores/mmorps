@@ -29,4 +29,34 @@ export const constructMoveToCoroutine = function(object, fromPosition, toPositio
     });
 }
 
+export const constructShakeObjectCoroutine = function(object, intensity, duration){
+    return constructCoroutine(() => {
+        var initialPositionX = object.x;
+        var initialPositionY = object.y;
+
+        return {
+            initialPositionX: initialPositionX,
+            initialPositionY: initialPositionY
+        };
+    }, (data, currentTime) => {
+        var randomRatioX = Math.random() - 0.5;
+        var randomRatioY = Math.random() - 0.5;
+
+
+        object.x = data.initialPositionX + randomRatioX * intensity;
+        object.y = data.initialPositionY + randomRatioY * intensity;
+
+        if (currentTime >= duration){
+            object.x = data.initialPositionX;
+            object.y = data.initialPositionY;
+
+            return false;
+        }
+
+        return true;
+    });
+}
+
 window.constructMoveToCoroutine = constructMoveToCoroutine;
+
+window.constructShakeObjectCoroutine = constructShakeObjectCoroutine;
