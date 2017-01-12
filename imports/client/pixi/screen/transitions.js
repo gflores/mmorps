@@ -47,6 +47,40 @@ export const transitionFromMovingToDecidingPhase = function(){
 
 export const transitionFromDecidingToResultPhase = function(){
     state.battleController.alpha = 0.6;
+    battleControllerSpritesReset();
+}
+
+function battleControllerSpritesReset(){
+    state.shieldSprite.y = 15;
+    state.shieldSprite.width = 100;
+    state.shieldSprite.height = 120;
+
+    state.shieldSpriteColorMatrix.reset();
+    
+    state.deckSprite.y = 15;
+    state.deckSprite.width = 100;
+    state.deckSprite.height = 120;
+
+    state.deckSpriteColorMatrix.reset();
+    
+    state.currentCardOne.x = 0;
+    state.currentCardOne.y = 15;
+    state.currentCardOne.width = 100;
+    state.currentCardOne.height = 120;
+
+    state.currentCardOneColorMatrix.reset();
+    
+    state.currentCardTwo.y = 15;
+    state.currentCardTwo.width = 100;
+    state.currentCardTwo.height = 120;
+
+    state.currentCardTwoColorMatrix.reset();
+    
+    state.currentCardThree.y = 15;
+    state.currentCardThree.width = 100;
+    state.currentCardThree.height = 120;
+    
+    state.currentCardThreeColorMatrix.reset();
 }
 
 export const transitionFromResultToMovingPhase = function(){

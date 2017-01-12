@@ -16,6 +16,7 @@ export const PlayCard = (playerId, cardIndex, gameData) => {
 
 export const Dash = (playerId, gameData, x, y) => {
     if(gameData.players[playerId].action == 'ATTACK'){
+        console.log("setting dash position");
         setDashPosition(gameData.players[playerId], x, y);
     } else {
         console.log(playerId, "Cannot Dash");
