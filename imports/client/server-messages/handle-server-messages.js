@@ -91,6 +91,10 @@ serverMessagesHandlers = {
         console.log("player position", getState().player.position);
         Meteor.setTimeout(() => {
             console.log("buffer stop deciding phase");
+            getState().isSelectTargetPhase = false;
+            getState().isSelectDashPositionPhase = false;
+            getState().isSelectActionPhase = false;
+            
             getState().isDecidingPhase = false;
             transitionFromDecidingToResultPhase();
 

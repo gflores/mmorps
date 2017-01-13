@@ -16,11 +16,11 @@ Global
 
     isMovingPhase: Bool
     isBattlePhase: Bool
-    isDecidingPhase: Bool
-    isSelectActionPhase: Bool
-    isSelectDashPositionPhase: Bool
-    isSelectTargetPhase: Bool
-    isResultPhase: Bool
+        isDecidingPhase: Bool
+            isSelectActionPhase: Bool
+            isSelectDashPositionPhase: Bool
+            isSelectTargetPhase: Bool
+        isResultPhase: Bool
 
     player: Player
     opponents: {
