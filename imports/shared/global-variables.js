@@ -24,7 +24,7 @@ var globalVariables = {
     notLastCardPlayedHpCost: 1,
     lastCardPlayedHpGain: 2,
 
-    dashDistance: 3,
+    dashDistance: 10,
 
     // //CLIENT SIDE VARIABLES
 

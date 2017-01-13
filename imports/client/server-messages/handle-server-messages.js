@@ -74,6 +74,7 @@ serverMessagesHandlers = {
 
         getState().isBattlePhase = true;
         getState().isDecidingPhase = true;
+        getState().isSelectActionPhase = true;
 
         for (playerKey in message.players){
             if (playerKey == Meteor.userId()){
@@ -114,17 +115,17 @@ serverMessagesHandlers = {
             getState().isBattlePhase = false;
             transitionFromResultToMovingPhase();
 
-            for (playerKey in message.players){
-                if (playerKey == Meteor.userId()){
-                    getState().player.position.x = message.players[playerKey].lastPosition.x;
-                    getState().player.position.y = message.players[playerKey].lastPosition.y;
-                    getState().player.finalWantedPosition = null;
-                } else {
-                    getState().otherPlayers[playerKey].position.x = message.players[playerKey].lastPosition.x;
-                    getState().otherPlayers[playerKey].position.y = message.players[playerKey].lastPosition.y;
-                    getState().otherPlayers[playerKey].finalWantedPosition = null;
-                }
-            }
+            // for (playerKey in message.players){
+            //     if (playerKey == Meteor.userId()){
+            //         getState().player.position.x = message.players[playerKey].lastPosition.x;
+            //         getState().player.position.y = message.players[playerKey].lastPosition.y;
+            //         getState().player.finalWantedPosition = null;
+            //     } else {
+            //         getState().otherPlayers[playerKey].position.x = message.players[playerKey].lastPosition.x;
+            //         getState().otherPlayers[playerKey].position.y = message.players[playerKey].lastPosition.y;
+            //         getState().otherPlayers[playerKey].finalWantedPosition = null;
+            //     }
+            // }
             
             console.log("player position", getState().player.position);
             

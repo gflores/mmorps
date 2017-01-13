@@ -27,8 +27,8 @@ getDashCoroutine = function(statePlayer, playerAction){
     };
 
     var finalPosition = {
-        x: playerAction.wantedDashedPosition.x,
-        y: playerAction.wantedDashedPosition.y
+        x: playerAction.lastPosition.x,
+        y: playerAction.lastPosition.y
     };
 
     var dashDistance = Math.sqrt(Math.pow(finalPosition.x - initialPosition.x, 2) + Math.pow(finalPosition.y - initialPosition.y, 2));
