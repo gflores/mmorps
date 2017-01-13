@@ -62,8 +62,6 @@ battlePhase = function(){
     updateAllPlayerDashedPosition(getMainGameData().players);
     computeRoundResults(getMainGameData());
     
-    sendMainServerMessage(phases.constructDecidingPhaseEndedMessage(getMainGameData().player_keys, getMainGameData().players));
-    
     Wait(getGlobalVariables().decidingToResultPhaseTransitionTime);
     
     resultPhase();

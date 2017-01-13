@@ -52,6 +52,7 @@ initializeMap = function(){
 
             Meteor.call('moveToCoordinates', currentMousePosition.x, currentMousePosition.y);
         } else if (state.isDecidingPhase == true){
+            console.log("activating dash");
             var currentMousePosition = state.renderer.plugins.interaction.mouse.global;
             convertScreenPositionToAbsolutePosition(currentMousePosition);
             Meteor.call('Dash', currentMousePosition.x, currentMousePosition.y);

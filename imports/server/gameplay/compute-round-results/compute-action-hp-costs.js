@@ -12,7 +12,7 @@ export const computeActionHpCosts = ( player ) => {
         drawCards(player);
     }
 
-    resetPlayerActions(player);
+    
 }
 
 function drawCards(player){
@@ -58,8 +58,3 @@ function healPlayer(player, healAmount){
 function damagePlayer(player, damageAmount){
     player.currentHp -= damageAmount;
 }
-
-function resetPlayerActions(player) {
-    player.action = null;
-    player.actionCardIndex = null;
-};

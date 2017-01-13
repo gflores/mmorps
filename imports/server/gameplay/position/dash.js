@@ -25,6 +25,8 @@ export const setDashPosition = function (player, x, y){
 export const updateAllPlayerDashedPosition = function (players) {
     console.log("----------updating dash positions------");
     for (index in players){
+        console.log("before update dash", players[index]);
         dash(players[index]);
+        console.log("after update dash", players[index]);
     }
 };

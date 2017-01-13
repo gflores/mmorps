@@ -1,8 +1,12 @@
 import { computeActionHpCosts } from '/imports/server/gameplay/compute-round-results/compute-action-hp-costs.js';
 import { computeDuelResult } from '/imports/server/gameplay/compute-round-results/compute-duel-results.js';
 import { computePlayerCardsAndDeck } from '/imports/server/gameplay/compute-round-results/compute-player-cards-and-deck.js';
+import { resetPlayerActions } from '/imports/server/gameplay/compute-round-results/reset-player-actions'
 
 import { getMainGameData } from '/imports/server/global-data/global-data';
+
+import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
+import * as phases from '/imports/server/server-messages/server-messages-format/phases.js';
 
 export const computeRoundResults = function(gameData) {
     console.log("computing round result");
@@ -41,6 +45,13 @@ export const computeRoundResults = function(gameData) {
         player = gameData.players[playerId];
         computeActionHpCosts(player);
         computePlayerCardsAndDeck(player);
+    }
+    
+    sendMainServerMessage(phases.constructDecidingPhaseEndedMessage(getMainGameData().player_keys, getMainGameData().players));
+    
+    // resetting player actions
+    for ( playerId in gameData.players ){
+        resetPlayerActions(gameData.players[playerId]);
         console.log("end of round for ", playerId, player);
     }
     

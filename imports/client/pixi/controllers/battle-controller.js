@@ -24,6 +24,9 @@ export const setupBattleController = function(){
     state.shieldSprite.y = 15;
     state.shieldSprite.width = 100;
     state.shieldSprite.height = 120;
+
+    state.shieldSpriteColorMatrix = new PIXI.filters.ColorMatrixFilter();
+    state.shieldSprite.filters = [state.shieldSpriteColorMatrix];
     
     state.shieldContainer.addChild(state.shieldSprite);
     state.battleControllerBackground.addChild(state.shieldContainer);
@@ -45,6 +48,9 @@ export const setupBattleController = function(){
     state.deckSprite.width = 100;
     state.deckSprite.height = 120;
 
+    state.deckSpriteColorMatrix = new PIXI.filters.ColorMatrixFilter();
+    state.deckSprite.filters = [state.deckSpriteColorMatrix];
+    
     state.deckContainer.addChild(state.deckSprite);
     state.battleControllerBackground.addChild(state.deckContainer);
 
@@ -74,6 +80,9 @@ export const setupBattleController = function(){
     state.currentCardOne.width = 100;
     state.currentCardOne.height = 120;
 
+    state.currentCardOneColorMatrix = new PIXI.filters.ColorMatrixFilter();
+    state.currentCardOne.filters = [state.currentCardOneColorMatrix];
+    
     state.currentCardOneValueTop = new PIXI.Text('', textStyle);
     state.currentCardOneValueTop.x = 5;
     state.currentCardOneValueTop.y = 15;
@@ -81,8 +90,6 @@ export const setupBattleController = function(){
     state.currentCardOneValueBot = new PIXI.Text('', textStyle);
     state.currentCardOneValueBot.x = 80;
     state.currentCardOneValueBot.y = 105;
-    
-
 
     state.currentCardOneContainer.addChild(state.currentCardOne);
     state.currentCardOneContainer.addChild(state.currentCardOneValueTop);
@@ -96,6 +103,9 @@ export const setupBattleController = function(){
     state.currentCardTwo.y = 15;
     state.currentCardTwo.width = 100;
     state.currentCardTwo.height = 120;
+
+    state.currentCardTwoColorMatrix = new PIXI.filters.ColorMatrixFilter();
+    state.currentCardTwo.filters = [state.currentCardTwoColorMatrix];
     
     state.currentCardTwoValueTop = new PIXI.Text('', textStyle);
     state.currentCardTwoValueTop.x = 5;
@@ -119,6 +129,9 @@ export const setupBattleController = function(){
     state.currentCardThree.width = 100;
     state.currentCardThree.height = 120;
 
+    state.currentCardThreeColorMatrix = new PIXI.filters.ColorMatrixFilter();
+    state.currentCardThree.filters = [state.currentCardThreeColorMatrix];
+    
     state.currentCardThreeValueTop = new PIXI.Text('', textStyle);
     state.currentCardThreeValueTop.x = 5;
     state.currentCardThreeValueTop.y = 15;
@@ -158,5 +171,162 @@ export const setupBattleController = function(){
         }
     });
 
+
+    // hover states
+    state.shieldContainer.on('mouseover', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x*1.1, state.currentCardOne.scale.y*1.1);
+
+            var centerX = state.shieldSprite.x + state.shieldSprite.width/2;
+            var centerY = state.shieldSprite.y + state.shieldSprite.height/2;
+
+            state.shieldSprite.scale.x = state.shieldSprite.scale.x * 1.1;
+            state.shieldSprite.scale.y = state.shieldSprite.scale.y * 1.1;
+            state.shieldSprite.x = centerX - state.shieldSprite.width /2;
+            state.shieldSprite.y = centerY - state.shieldSprite.height /2;
+
+            state.shieldSpriteColorMatrix.brightness(.3);
+        }
+    });
+    state.shieldContainer.on('mouseout', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x/1.1, state.currentCardOne.scale.y/1.1);
+            var centerX = state.shieldSprite.x + state.shieldSprite.width/2;
+            var centerY = state.shieldSprite.y + state.shieldSprite.height/2;
+
+            state.shieldSprite.scale.x = state.shieldSprite.scale.x / 1.1;
+            state.shieldSprite.scale.y = state.shieldSprite.scale.y / 1.1;
+            state.shieldSprite.x = centerX - state.shieldSprite.width /2;
+            state.shieldSprite.y = centerY - state.shieldSprite.height /2;
+
+            state.shieldSpriteColorMatrix.reset();
+        }
+    });
+
+    state.deckContainer.on('mouseover', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x*1.1, state.currentCardOne.scale.y*1.1);
+
+            var centerX = state.deckSprite.x + state.deckSprite.width/2;
+            var centerY = state.deckSprite.y + state.deckSprite.height/2;
+
+            state.deckSprite.scale.x = state.deckSprite.scale.x * 1.1;
+            state.deckSprite.scale.y = state.deckSprite.scale.y * 1.1;
+            state.deckSprite.x = centerX - state.deckSprite.width /2;
+            state.deckSprite.y = centerY - state.deckSprite.height /2;
+
+            state.deckSpriteColorMatrix.brightness(.3);
+        }
+    });
+    state.deckContainer.on('mouseout', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x/1.1, state.currentCardOne.scale.y/1.1);
+            var centerX = state.deckSprite.x + state.deckSprite.width/2;
+            var centerY = state.deckSprite.y + state.deckSprite.height/2;
+
+            state.deckSprite.scale.x = state.deckSprite.scale.x / 1.1;
+            state.deckSprite.scale.y = state.deckSprite.scale.y / 1.1;
+            state.deckSprite.x = centerX - state.deckSprite.width /2;
+            state.deckSprite.y = centerY - state.deckSprite.height /2;
+
+
+            state.deckSpriteColorMatrix.reset();
+        }
+    });
+
+
+    state.currentCardOneContainer.on('mouseover', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x*1.1, state.currentCardOne.scale.y*1.1);
+            
+            var centerX = state.currentCardOne.x + state.currentCardOne.width/2;
+            var centerY = state.currentCardOne.y + state.currentCardOne.height/2;
+
+            state.currentCardOne.scale.x = state.currentCardOne.scale.x * 1.1;
+            state.currentCardOne.scale.y = state.currentCardOne.scale.y * 1.1;
+            state.currentCardOne.x = centerX - state.currentCardOne.width /2;
+            state.currentCardOne.y = centerY - state.currentCardOne.height /2;
+
+
+            state.currentCardOneColorMatrix.brightness(.3);
+        }
+    });
+    state.currentCardOneContainer.on('mouseout', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x/1.1, state.currentCardOne.scale.y/1.1);
+            var centerX = state.currentCardOne.x + state.currentCardOne.width/2;
+            var centerY = state.currentCardOne.y + state.currentCardOne.height/2;
+
+            state.currentCardOne.scale.x = state.currentCardOne.scale.x / 1.1;
+            state.currentCardOne.scale.y = state.currentCardOne.scale.y / 1.1;
+            state.currentCardOne.x = centerX - state.currentCardOne.width /2;
+            state.currentCardOne.y = centerY - state.currentCardOne.height /2;
+
+            state.currentCardOneColorMatrix.reset();
+        }
+    });
+
+    state.currentCardTwoContainer.on('mouseover', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x*1.1, state.currentCardOne.scale.y*1.1);
+
+            var centerX = state.currentCardTwo.x + state.currentCardTwo.width/2;
+            var centerY = state.currentCardTwo.y + state.currentCardTwo.height/2;
+
+            state.currentCardTwo.scale.x = state.currentCardTwo.scale.x * 1.1;
+            state.currentCardTwo.scale.y = state.currentCardTwo.scale.y * 1.1;
+            state.currentCardTwo.x = centerX - state.currentCardTwo.width /2;
+            state.currentCardTwo.y = centerY - state.currentCardTwo.height /2;
+
+            
+            state.currentCardTwoColorMatrix.brightness(.3);
+
+
+        }
+    });
+    state.currentCardTwoContainer.on('mouseout', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x/1.1, state.currentCardOne.scale.y/1.1);
+            var centerX = state.currentCardTwo.x + state.currentCardTwo.width/2;
+            var centerY = state.currentCardTwo.y + state.currentCardTwo.height/2;
+
+            state.currentCardTwo.scale.x = state.currentCardTwo.scale.x / 1.1;
+            state.currentCardTwo.scale.y = state.currentCardTwo.scale.y / 1.1;
+            state.currentCardTwo.x = centerX - state.currentCardTwo.width /2;
+            state.currentCardTwo.y = centerY - state.currentCardTwo.height /2;
+
+            state.currentCardTwoColorMatrix.reset();
+        }
+    });
+
+    state.currentCardThreeContainer.on('mouseover', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x*1.1, state.currentCardOne.scale.y*1.1);
+
+            var centerX = state.currentCardThree.x + state.currentCardThree.width/2;
+            var centerY = state.currentCardThree.y + state.currentCardThree.height/2;
+
+            state.currentCardThree.scale.x = state.currentCardThree.scale.x * 1.1;
+            state.currentCardThree.scale.y = state.currentCardThree.scale.y * 1.1;
+            state.currentCardThree.x = centerX - state.currentCardThree.width /2;
+            state.currentCardThree.y = centerY - state.currentCardThree.height /2;
+
+            state.currentCardThreeColorMatrix.brightness(.3);
+        }
+    });
+    state.currentCardThreeContainer.on('mouseout', () => {
+        if (state.isDecidingPhase == true){
+            // state.currentCardOne.setTransform(state.currentCardOne.x, state.currentCardOne.y, state.currentCardOne.scale.x/1.1, state.currentCardOne.scale.y/1.1);
+            var centerX = state.currentCardThree.x + state.currentCardThree.width/2;
+            var centerY = state.currentCardThree.y + state.currentCardThree.height/2;
+
+            state.currentCardThree.scale.x = state.currentCardThree.scale.x / 1.1;
+            state.currentCardThree.scale.y = state.currentCardThree.scale.y / 1.1;
+            state.currentCardThree.x = centerX - state.currentCardThree.width /2;
+            state.currentCardThree.y = centerY - state.currentCardThree.height /2;
+
+            state.currentCardThreeColorMatrix.reset();
+        }
+    });
 
 }
