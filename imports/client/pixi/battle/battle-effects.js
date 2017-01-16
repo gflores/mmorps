@@ -113,12 +113,14 @@ export const playerDoBattleEffect = function(message, playerAction){
     if (playerAction.action == "ATTACK"){
 
         var dashCoroutine = getDashCoroutine(statePlayer, playerAction);
-        var projectileCoroutine = getProjectileCoroutine(message, statePlayer, playerAction);
-        chainCoroutines(dashCoroutine,
-            [
-                projectileCoroutine
-            ]
-        );
+        if (playerAction.targetPlayerId != null){
+            var projectileCoroutine = getProjectileCoroutine(message, statePlayer, playerAction);
+            chainCoroutines(dashCoroutine,
+                [
+                    projectileCoroutine
+                ]
+            );            
+        }
         addCoroutine(dashCoroutine);
     }
 }
