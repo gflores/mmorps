@@ -21,7 +21,7 @@ setMainSprite = function(player, texture){
             Meteor.call('PickTarget', player.id);
         }
     });
-    
+
 }
 
 setHealthBar = function(player){
@@ -55,18 +55,58 @@ setHealthBar = function(player){
 }
 
 setPlayerCards = function(player){
-    player.cardSprites = [ new PIXI.Graphics(), new PIXI.Graphics(),  new PIXI.Graphics()];
+    if (player.currentCards){
+      //Create & position cards
+      player.currentCardSprites = [ new PIXI.Graphics(), new PIXI.Graphics(),  new PIXI.Graphics() ];
+      player.currentCardSprites[0].x = 50;
+      player.currentCardSprites[0].y = -15;
+      player.currentCardSprites[1].x = 83;
+      player.currentCardSprites[1].y = -15;
+      player.currentCardSprites[2].x = 66.5;
+      player.currentCardSprites[2].y = 14;
 
-    //each card (present or not): circle
-    //If present:
+      //Style card values
+      var textStyle = {
+          fill: '#ffec00',
+          fontSize: '18px',
+          fontWeight: 'bold'
+      };
 
-    //Paper: green
-    //Scissor: Red
-    //Rock: Brown
-    //Display value in the circle
+      //Create & position cards
+      player.currentCardValues = [
+        new PIXI.Text(player.currentCards[0].value, textStyle),
+        new PIXI.Text(player.currentCards[1].value, textStyle),
+        new PIXI.Text(player.currentCards[2].value, textStyle)
+      ];
+      player.currentCardValues[0].x = 45;
+      player.currentCardValues[0].y = -25;
+      player.currentCardValues[1].x = 78;
+      player.currentCardValues[1].y = -25;
+      player.currentCardValues[2].x = 61.5;
+      player.currentCardValues[2].y = 4;
 
-    //If not present: gray circle
+      for (var i = 0; i != player.currentCards.length; ++i){
+        player.renderContainer.addChild(player.currentCardSprites[i]);
+        player.renderContainer.addChild(player.currentCardValues[i]);
 
+        //Draw & style card sprite
+        switch(player.currentCards[i].element) {
+          case 'ROCK':
+            player.currentCardSprites[i].beginFill(0xA52A2A);
+            break;
+          case 'PAPER':
+            player.currentCardSprites[i].beginFill(0x6AA84F);
+            break;
+          case 'SCISSOR':
+            player.currentCardSprites[i].beginFill(0xE50000);
+            break;
+          default:
+            player.currentCardSprites[i].beginFill(0x808080);
+        }
+        player.currentCardSprites[i].drawCircle(0, 0, 16);
+        player.currentCardSprites[i].endFill();
+      }
+    }
 }
 
 export const addOtherPlayerToRoom = function(player){
@@ -83,8 +123,7 @@ export const addOtherPlayerToRoom = function(player){
 
     setMainSprite(player, new PIXI.Sprite(getTextures().otherPlayer));
     setHealthBar(player);
-
-    
+    setPlayerCards(player);
 }
 
 export const setMainPlayer = function(player){
@@ -97,9 +136,10 @@ export const setMainPlayer = function(player){
     player.renderContainer = new PIXI.Container();
 
     state.gameMap.addChild(player.renderContainer);
-    
+
     setMainSprite(player, new PIXI.Sprite(getTextures().mainPlayer));
     setHealthBar(player);
+    setPlayerCards(player);
 }
 
 export const removeOtherPlayer = function(playerId){
