@@ -1,5 +1,5 @@
 import { getState, setReactState, getReactState } from '/imports/client/global-data/manage-state.js';
-import { addOtherPlayerToRoom, setMainPlayer, removeOtherPlayer } from '/imports/client/pixi/players/add-player-to-room.js';
+import { addOtherPlayerToRoom, setMainPlayer, removeOtherPlayer, updatePlayersCardMapUI } from '/imports/client/pixi/players/add-player-to-room.js';
 import { updateOtherPlayerFinalWantedPosition, updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
 import { transitionFromMovingToDecidingPhase, transitionFromDecidingToResultPhase, transitionFromResultToMovingPhase} from '/imports/client/pixi/screen/transitions.js';
 import { Vector2 } from "/imports/helpers/vector2.js";
@@ -134,6 +134,8 @@ serverMessagesHandlers = {
             console.log("player position", getState().player.position);
             
             setMainPlayerCards(message.players[Meteor.userId()].currentCards);
+            updatePlayersCardMapUI(getState().player);
+            
             Meteor.setTimeout(() => {
 
                 console.log("ACTUAL MOVING PHASE START");
