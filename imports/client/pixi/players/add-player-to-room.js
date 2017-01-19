@@ -1,5 +1,8 @@
 import { getState } from "/imports/client/global-data/manage-state.js";
 import { getTextures } from "/imports/client/pixi/textures.js";
+import { updateBattleController } from '/imports/client/pixi/controllers/battle-controller.js'
+
+import { decidePlayerTarget } from '/imports/client/gameplay/player-actions.js';
 
 var state = getState();
 
@@ -14,14 +17,35 @@ setMainSprite = function(player, texture){
     player.mainSprite.x = -20; // relative to the renderContainer, effectively placing the center correctly
     player.mainSprite.y = -20;
 
+}
+
+setOtherPlayerMainSpriteListeners = function(player) {
     player.mainSprite.interactive = true;
     player.mainSprite.on('mousedown', () => {
         if(state.isDecidingPhase == true){
             console.log("clicking target, ", player.id, " in deciding phase");
-            Meteor.call('PickTarget', player.id);
+            decidePlayerTarget(player.id);
+            // Meteor.call('PickTarget', player.id);
         }
     });
+    player.mainSprite.on('mouseover', () => {
+       if(state.isSelectTargetPhase == true){
+           player.mainSprite.height = player.mainSprite.height * 1.1;
+           player.mainSprite.width = player.mainSprite.width * 1.1;
+           player.mainSprite.x = - (player.mainSprite.width / 2);
+           player.mainSprite.y = - (player.mainSprite.height /2);
+       }
+    });
 
+    player.mainSprite.on('mouseout', () => {
+        if(state.isSelectTargetPhase == true){
+            player.mainSprite.height = player.mainSprite.height / 1.1;
+            player.mainSprite.width = player.mainSprite.width / 1.1;
+            player.mainSprite.x = - (player.mainSprite.width / 2);
+            player.mainSprite.y = - (player.mainSprite.height /2);
+        }
+
+    })
 }
 
 setHealthBar = function(player){
@@ -143,6 +167,7 @@ export const addOtherPlayerToRoom = function(player){
     state.gameMap.addChild(player.renderContainer);
 
     setMainSprite(player, new PIXI.Sprite(getTextures().otherPlayer));
+    setOtherPlayerMainSpriteListeners(player);
     setHealthBar(player);
     setPlayerCards(player);
     updatePlayersCardMapUI(player);
@@ -160,8 +185,11 @@ export const setMainPlayer = function(player){
     state.gameMap.addChild(player.renderContainer);
 
     setMainSprite(player, new PIXI.Sprite(getTextures().mainPlayer));
+    setOtherPlayerMainSpriteListeners(player); // for testing since battle effect has a bug
     setHealthBar(player);
     setPlayerCards(player);
+
+    updateBattleController(player);
     updatePlayersCardMapUI(player);
 }
 

@@ -3,8 +3,8 @@ import { addOtherPlayerToRoom, setMainPlayer, removeOtherPlayer, updatePlayersCa
 import { updateOtherPlayerFinalWantedPosition, updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
 import { transitionFromMovingToDecidingPhase, transitionFromDecidingToResultPhase, transitionFromResultToMovingPhase} from '/imports/client/pixi/screen/transitions.js';
 import { Vector2 } from "/imports/helpers/vector2.js";
+import { updateBattleController } from '/imports/client/pixi/controllers/battle-controller.js'
 
-import { getTextures } from '/imports/client/pixi/textures.js';
 import { getGlobalVariables } from '/imports/shared/global-variables.js';
 //state:
 
@@ -20,7 +20,6 @@ serverMessagesHandlers = {
             for (playerKey in message.players){
                 if( playerKey == Meteor.userId()){
                     setMainPlayer(message.players[playerKey]);
-                    setMainPlayerCards(message.players[playerKey].currentCards);
                 } else {
                     addOtherPlayerToRoom(message.players[playerKey]);
                 }
@@ -70,6 +69,8 @@ serverMessagesHandlers = {
         console.log("ACTUAL DECIDING PHASE START");
 
         getState().isMovingPhase = false;
+        console.log("player position", getState().player.position);
+        
         transitionFromMovingToDecidingPhase();
 
         getState().isBattlePhase = true;
@@ -113,6 +114,8 @@ serverMessagesHandlers = {
             playerDoBattleEffect(message, message.players[playerKey]);
         }
 
+
+
         Meteor.setTimeout(() => {
             console.log("buffer stop result phase");
             getState().isResultPhase = false;
@@ -133,9 +136,11 @@ serverMessagesHandlers = {
             
             console.log("player position", getState().player.position);
             
-            setMainPlayerCards(message.players[Meteor.userId()].currentCards);
-            updatePlayersCardMapUI(getState().player);
-            
+            for (playerKey in message.players){
+                playerSetFinalState(message.players[playerKey]);
+            }
+            updateBattleController(getState().player);
+
             Meteor.setTimeout(() => {
 
                 console.log("ACTUAL MOVING PHASE START");
@@ -150,46 +155,4 @@ export const handleServerMessages = function(serverMessage){
     console.log("ServerMessageHandler received: ", serverMessage);
     if (serverMessagesHandlers[serverMessage.functionId] != null)
         serverMessagesHandlers[serverMessage.functionId](serverMessage)
-}
-
-function setMainPlayerCards (currentCards){
-    console.log("player current cards", currentCards);
-    state.currentCardOne.texture = getCardTexture(currentCards[0])
-    if(currentCards[0]){
-        state.currentCardOneValueTop.text = (currentCards[0].value).toString();
-        state.currentCardOneValueBot.text = (currentCards[0].value).toString();
-    } else {
-        state.currentCardOneValueTop.text = "";
-        state.currentCardOneValueBot.text = "";
-    }
-    
-    state.currentCardTwo.texture = getCardTexture(currentCards[1]);
-    if(currentCards[1]){
-        state.currentCardTwoValueTop.text = (currentCards[1].value).toString();
-        state.currentCardTwoValueBot.text = (currentCards[1].value).toString();    
-    } else {
-        state.currentCardTwoValueTop.text = "";
-        state.currentCardTwoValueBot.text = "";
-    }
-    
-    state.currentCardThree.texture = getCardTexture(currentCards[2]);
-    if(currentCards[2]){
-        state.currentCardThreeValueTop.text = (currentCards[2].value).toString();
-        state.currentCardThreeValueBot.text = (currentCards[2].value).toString();    
-    } else {
-        state.currentCardThreeValueTop.text = "";
-        state.currentCardThreeValueBot.text = "";
-    }
-}
-
-function getCardTexture (card){
-    if(card == null){
-      return getTextures().emptyCard;
-    } else if(card.element == 'PAPER'){
-        return getTextures().paperCard;
-    } else if (card.element == 'SCISSOR'){
-        return getTextures().scissorCard;
-    } else if (card.element == 'ROCK'){
-        return getTextures().rockCard;
-    }
 }

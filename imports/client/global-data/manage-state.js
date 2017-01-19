@@ -7,8 +7,15 @@ gameState = {
     resultPhaseTime: null,
 
     isMovingPhase: false,
+
     isBattlePhase: false,
+
     isDecidingPhase: false,
+
+    isSelectActionPhase: false,
+    isSelectDashPositionPhase: false,
+    isSelectTargetPhase: false,
+    
     isResultPhase: false,
 
     renderer: null,

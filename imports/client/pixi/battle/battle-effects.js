@@ -2,6 +2,7 @@ import { getState } from "/imports/client/global-data/manage-state.js";
 import { getScreenParameters } from '/imports/client/pixi/setup-game-ui.js';
 import { constructMoveToCoroutine } from '/imports/client/pixi/screen/position-helper.js';
 import { convertAbsoluteToRelativePlayerPosition, convertToScreenValues } from "/imports/client/pixi/screen/convert-position.js";
+import { updatePlayersCardMapUI } from '/imports/client/pixi/players/add-player-to-room.js';
 
 var state = getState();
 
@@ -125,5 +126,14 @@ export const playerDoBattleEffect = function(message, playerAction){
     }
 }
 
+export const playerSetFinalState = function(playerAction){
+    var statePlayer = getPlayer(playerAction.id);
+
+    statePlayer.currentCards = playerAction.currentCards;
+    statePlayer.canPlayShield = playerAction.canPlayShield;
+    updatePlayersCardMapUI(statePlayer);    
+}
+
 
 window.playerDoBattleEffect = playerDoBattleEffect;
+window.playerSetFinalState = playerSetFinalState;

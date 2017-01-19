@@ -1,6 +1,7 @@
 import { getState } from "/imports/client/global-data/manage-state.js";
 import { getScreenParameters } from '/imports/client/pixi/setup-game-ui.js';
 import { getTextures } from '/imports/client/pixi/textures.js';
+import { decidePlayCard, decidePlayShield, decidePlayDrawCards } from '/imports/client/gameplay/player-actions.js';
 
 var state = getState();
 
@@ -36,14 +37,14 @@ export const setupBattleController = function(){
     state.shieldContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
             console.log("clicked shield");
-            Meteor.call('PlayShield');
+            decidePlayShield();
         }
     });
 
     // draw card container
     state.deckContainer = new PIXI.Container();
     state.deckContainer.x = getScreenParameters().battleControllerDimensions.width / 5;
-    state.deckSprite = new PIXI.Sprite(getTextures().shield);
+    state.deckSprite = new PIXI.Sprite(getTextures().drawCard);
     state.deckSprite.y = 15;
     state.deckSprite.width = 100;
     state.deckSprite.height = 120;
@@ -59,7 +60,7 @@ export const setupBattleController = function(){
     state.deckContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('clicked deck');
-          Meteor.call('DrawCards');
+          decidePlayDrawCards();
         }
     });
 
@@ -153,21 +154,21 @@ export const setupBattleController = function(){
     state.currentCardOneContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('play card 1');
-          Meteor.call('PlayCard', 0);
+          decidePlayCard(0);
         }
     });
     state.currentCardTwoContainer.interactive = true;
     state.currentCardTwoContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('play card 2');
-          Meteor.call('PlayCard', 1);
+          decidePlayCard(1);
         }
     });
     state.currentCardThreeContainer.interactive = true;
     state.currentCardThreeContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('play card 3');
-          Meteor.call('PlayCard', 2);
+          decidePlayCard(2);
         }
     });
 
@@ -329,4 +330,63 @@ export const setupBattleController = function(){
         }
     });
 
+}
+
+
+
+
+export const updateBattleController = function(player){
+    updatePlayerShieldBattleController(player.canPlayShield);
+    updatePlayerCardsBattleController(player.currentCards);
+}
+
+
+function updatePlayerCardsBattleController(currentCards){
+    console.log("player current cards", currentCards);
+    state.currentCardOne.texture = getCardTexture(currentCards[0])
+    if(currentCards[0]){
+        state.currentCardOneValueTop.text = (currentCards[0].value).toString();
+        state.currentCardOneValueBot.text = (currentCards[0].value).toString();
+    } else {
+        state.currentCardOneValueTop.text = "";
+        state.currentCardOneValueBot.text = "";
+    }
+    
+    state.currentCardTwo.texture = getCardTexture(currentCards[1]);
+    if(currentCards[1]){
+        state.currentCardTwoValueTop.text = (currentCards[1].value).toString();
+        state.currentCardTwoValueBot.text = (currentCards[1].value).toString();    
+    } else {
+        state.currentCardTwoValueTop.text = "";
+        state.currentCardTwoValueBot.text = "";
+    }
+    
+    state.currentCardThree.texture = getCardTexture(currentCards[2]);
+    if(currentCards[2]){
+        state.currentCardThreeValueTop.text = (currentCards[2].value).toString();
+        state.currentCardThreeValueBot.text = (currentCards[2].value).toString();    
+    } else {
+        state.currentCardThreeValueTop.text = "";
+        state.currentCardThreeValueBot.text = "";
+    }
+}
+
+function getCardTexture(card){
+    if(card == null){
+      return getTextures().blank;
+    } else if(card.element == 'PAPER'){
+        return getTextures().paperCard;
+    } else if (card.element == 'SCISSOR'){
+        return getTextures().scissorCard;
+    } else if (card.element == 'ROCK'){
+        return getTextures().rockCard;
+    }
+}
+
+function updatePlayerShieldBattleController(canPlayShield){
+    if(canPlayShield){
+        state.shieldSprite.texture = getTextures().shield;
+    } else {
+        state.shieldSprite.texture = getTextures().blank;
+    }
 }

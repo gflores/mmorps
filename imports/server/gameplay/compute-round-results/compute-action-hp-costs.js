@@ -6,10 +6,15 @@ export const computeActionHpCosts = ( player ) => {
     if (player.action == 'ATTACK'){
         playedCard(player);
         discardPlayedCard(player);
+        enablePlayerShield(player);
     } else if (player.action == 'SHIELD'){
         playShield(player);
+        disablePlayerShield(player);
     } else if (player.action == 'DRAW'){
         drawCards(player);
+        enablePlayerShield(player);
+    } else {
+        enablePlayerShield(player);
     }
 
     
@@ -29,7 +34,7 @@ function discardPlayedCard(player) {
 
 function playShield(player) {
     player.currentHp -= getGlobalVariables().shieldHpCost;
-    disablePlayerShield(player);
+    
 };
 
 function playedCard(player){
@@ -38,7 +43,7 @@ function playedCard(player){
     } else {
         damagePlayer(player, getGlobalVariables().notLastCardPlayedHpCost);
     }
-    enablePlayerShield(player);
+    
 }
 
 function enablePlayerShield(player){
