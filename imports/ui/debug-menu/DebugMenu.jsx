@@ -91,7 +91,6 @@ export default class DebugMenu extends Component {
                         <input type="text" ref="y" name="y"/>
                         <input type="submit" value="Play Card with Dash Position"/>
                     </form>
-                    
                 </div>
 
             </div>

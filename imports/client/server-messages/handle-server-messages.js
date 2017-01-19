@@ -70,6 +70,8 @@ serverMessagesHandlers = {
         console.log("ACTUAL DECIDING PHASE START");
 
         getState().isMovingPhase = false;
+        console.log("player position", getState().player.position);
+        
         transitionFromMovingToDecidingPhase();
 
         getState().isBattlePhase = true;
@@ -133,7 +135,10 @@ serverMessagesHandlers = {
             
             console.log("player position", getState().player.position);
             
+            updatePlayerShield(message.players[Meteor.userId()].canPlayShield);
             setMainPlayerCards(message.players[Meteor.userId()].currentCards);
+
+
             Meteor.setTimeout(() => {
 
                 console.log("ACTUAL MOVING PHASE START");
@@ -182,12 +187,20 @@ function setMainPlayerCards (currentCards){
 
 function getCardTexture (card){
     if(card == null){
-      return getTextures().emptyCard;
+      return getTextures().blank;
     } else if(card.element == 'PAPER'){
         return getTextures().paperCard;
     } else if (card.element == 'SCISSOR'){
         return getTextures().scissorCard;
     } else if (card.element == 'ROCK'){
         return getTextures().rockCard;
+    }
+}
+
+function updatePlayerShield(canPlayShield){
+    if(canPlayShield){
+        state.shieldSprite.texture = getTextures().shield;
+    } else {
+        state.shieldSprite.texture = getTextures().blank;
     }
 }

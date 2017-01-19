@@ -1,6 +1,8 @@
 import { getState } from "/imports/client/global-data/manage-state.js";
 import { getScreenParameters } from '/imports/client/pixi/setup-game-ui.js';
 import { getTextures } from '/imports/client/pixi/textures.js';
+import { decidePlayCard, decidePlayShield, decidePlayDrawCards } from '/imports/client/gameplay/player-actions.js';
+
 
 var state = getState();
 
@@ -36,14 +38,14 @@ export const setupBattleController = function(){
     state.shieldContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
             console.log("clicked shield");
-            Meteor.call('PlayShield');
+            decidePlayShield();
         }
     });
 
     // draw card container
     state.deckContainer = new PIXI.Container();
     state.deckContainer.x = getScreenParameters().battleControllerDimensions.width / 5;
-    state.deckSprite = new PIXI.Sprite(getTextures().shield);
+    state.deckSprite = new PIXI.Sprite(getTextures().drawCard);
     state.deckSprite.y = 15;
     state.deckSprite.width = 100;
     state.deckSprite.height = 120;
@@ -59,7 +61,7 @@ export const setupBattleController = function(){
     state.deckContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('clicked deck');
-          Meteor.call('DrawCards');
+          decidePlayDrawCards();
         }
     });
 
@@ -153,21 +155,21 @@ export const setupBattleController = function(){
     state.currentCardOneContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('play card 1');
-          Meteor.call('PlayCard', 0);
+          decidePlayCard(0);
         }
     });
     state.currentCardTwoContainer.interactive = true;
     state.currentCardTwoContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('play card 2');
-          Meteor.call('PlayCard', 1);
+          decidePlayCard(1);
         }
     });
     state.currentCardThreeContainer.interactive = true;
     state.currentCardThreeContainer.on('mousedown', () => {
         if (state.isDecidingPhase == true){
           console.log('play card 3');
-          Meteor.call('PlayCard', 2);
+          decidePlayCard(2);
         }
     });
 

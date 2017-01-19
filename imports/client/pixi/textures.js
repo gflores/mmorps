@@ -5,7 +5,8 @@ var textures = {
     rockCard: PIXI.Texture.fromImage("images/card_rock.png"),
     scissorCard: PIXI.Texture.fromImage("images/card_scissor.png"),
     shield: PIXI.Texture.fromImage("images/mirror_shield.png"),
-    emptyCard: PIXI.Texture.fromImage("")
+    drawCard: PIXI.Texture.fromImage("images/draw_card.png"),
+    blank: PIXI.Texture.fromImage("images/blank.png")
 };
 
 export const getTextures = function(){

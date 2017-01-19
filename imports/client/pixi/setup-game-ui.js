@@ -1,12 +1,16 @@
 import { getState } from "/imports/client/global-data/manage-state.js";
 import { updatePlayers } from "./players/update-players.js";
 import { displayGrid, setupGrid } from "/imports/client/pixi/screen/display-grid.js";
-import { convertScreenPositionToAbsolutePosition } from "/imports/client/pixi/screen/convert-position.js";
+import { convertScreenPositionToAbsolutePosition, convertToScreenValues} from "/imports/client/pixi/screen/convert-position.js";
 import { updateMainPlayerFinalWantedPosition } from '/imports/client/pixi/players/player-location.js';
 import { setupFade } from '/imports/client/pixi/screen/fade-in-out.js';
 import { computeCoroutines, addCoroutine, constructCoroutine } from '/imports/client/pixi/coroutines/coroutine-system.js';
 import { setupBattleController } from '/imports/client/pixi/controllers/battle-controller.js';
 import { setupBattleEffects } from '/imports/client/pixi/battle/battle-effects.js';
+
+import { decidePlayDash } from '/imports/client/gameplay/player-actions.js';
+import { getGlobalVariables } from '/imports/shared/global-variables.js';
+import { Vector2 } from '/imports/helpers/vector2.js';
 
 var state = getState();
 
@@ -55,9 +59,75 @@ initializeMap = function(){
             console.log("activating dash");
             var currentMousePosition = state.renderer.plugins.interaction.mouse.global;
             convertScreenPositionToAbsolutePosition(currentMousePosition);
-            Meteor.call('Dash', currentMousePosition.x, currentMousePosition.y);
+            decidePlayDash(currentMousePosition.x, currentMousePosition.y);
+            // Meteor.call('Dash', currentMousePosition.x, currentMousePosition.y);
         }
     });
+
+    
+    // for target lines
+    state.targetLine = new PIXI.Graphics();
+    state.dashLine = new PIXI.Graphics();
+    state.gameMap.addChild(state.targetLine);
+    state.gameMap.addChild(state.dashLine);
+    state.mapBackground.on('pointermove', () => {
+        // should be isDecidingPhase
+        if(state.isSelectDashPositionPhase == true ){
+
+            state.mapBackground.buttonMode = true;
+            state.mapBackground.defaultCursor = 'crosshair';
+
+            var currentMousePosition = state.renderer.plugins.interaction.mouse.global;
+            var playerPosition = new Vector2(0, 0); // center of screen
+            convertToScreenValues(playerPosition);
+            renderTargetLine(playerPosition, currentMousePosition);
+            renderDashLine(playerPosition, currentMousePosition);
+
+            state.player.mainSprite.alpha = .7;
+            
+            for (id in state.otherPlayers){
+                state.otherPlayers[id].mainSprite.alpha = .7;
+            }
+        }
+        
+        if( state.isSelectTargetPhase == true ) {
+            state.targetLine.clear();
+            state.dashLine.clear();
+
+            state.player.mainSprite.alpha = 1;
+            for (id in state.otherPlayers){
+                state.otherPlayers[id].mainSprite.alpha = 1;
+            }
+        }
+    })
+}
+
+function renderTargetLine(playerPosition, currentMousePosition){
+    state.targetLine.clear();
+    state.targetLine.lineStyle(1, 0x6666FF, 1);
+    state.targetLine.moveTo(playerPosition.x, playerPosition.y);
+    state.targetLine.lineTo(currentMousePosition.x, currentMousePosition.y);
+}
+
+function renderDashLine(playerPosition, currentMousePosition){
+    
+    var playerPositionVector = new Vector2(playerPosition.x, playerPosition.y);
+    var currentMousePositionVector = new Vector2(currentMousePosition.x, currentMousePosition.y);
+    
+    state.dashLine.clear();
+    state.dashLine.lineStyle(2, 0x66CC33, 1);
+    state.dashLine.moveTo(playerPosition.x, playerPosition.y);
+    
+    var distance = currentMousePositionVector.distance(playerPositionVector);
+    
+    if (distance <= getGlobalVariables().dashDistance) {
+        state.dashLine.lineTo(currentMousePositionVector.x, currentMousePositionVector.y);
+    } else {
+        // move 3 units to dashed position
+        var dashVector = currentMousePositionVector.clone().subtract(playerPositionVector).normalize().scale(getGlobalVariables().dashDistance);
+        var dashLimitPosition = playerPositionVector.clone().add(dashVector);
+        state.dashLine.lineTo(dashLimitPosition.x, dashLimitPosition.y);
+    }
 }
 
 animationFunc = function(currentTimeFrame) {
