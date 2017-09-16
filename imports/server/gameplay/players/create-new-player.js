@@ -1,6 +1,7 @@
 import { generateStartingCards } from '/imports/server/gameplay/cards/cards.js';
 
-import { getGameStartPlayerHp, getMaxHp } from '/imports/shared/global-variables.js';
+import { gameStartPlayerHp, maxHp } from '/imports/shared/global-variables.js';
+import globalVariables from '/imports/shared/global-variables.js';
 
 export const createNewPlayer = () => {
     hand = [];
@@ -11,9 +12,10 @@ export const createNewPlayer = () => {
     hand.push(deck.pop());
     hand.push(deck.pop());
 
+    console.log("gameStartPlayerHp: ", gameStartPlayerHp, " maxhp: ", maxHp);
     newPlayer = {
-        currentHp: getGameStartPlayerHp(), 
-        maxHp: getMaxHp(),
+        currentHp: gameStartPlayerHp, 
+        maxHp: maxHp,
         currentCards: hand,
         remainingCardsStack: deck,
         action: null,

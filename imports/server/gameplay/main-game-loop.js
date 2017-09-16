@@ -7,7 +7,7 @@ import { gameEnd } from '/imports/server/manage-game-room/game-end.js';
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 import { constructNewRoundMessage } from '/imports/server/server-messages/server-message-format.js';
 
-import { getNewRoundDelay, getEndRoundDelay } from '/imports/shared/global-variables.js';
+import { newRoundDelay, endRoundDelay } from '/imports/shared/global-variables.js';
 import { enableMainGameDuel, disableMainGameDuel, resetMainGameData } from '/imports/server/global-data/global-data.js';
 
 export const mainGameLoop = (gameData) => {
@@ -17,11 +17,11 @@ export const mainGameLoop = (gameData) => {
     while(!gameEnd(gameData)) {
         console.log("new round");
         // sending server message
-        sendMainServerMessage(constructNewRoundMessage(getNewRoundDelay()));
+        sendMainServerMessage(constructNewRoundMessage(newRoundDelay));
 
         enableMainGameDuel();
 
-        console.log("player ", gameData.player_keys[0] ,gameData.players[gameData.player_keys[0]].currentCards);
+        console.log("player 1 hand", gameData.player_keys[0] ,gameData.players[gameData.player_keys[0]].currentCards);
         console.log("player 2 hand", gameData.player_keys[1], gameData.players[gameData.player_keys[1]].currentCards);
         LaunchAsync(()=> {
             console.log("awaiting players input");
@@ -40,14 +40,14 @@ export const mainGameLoop = (gameData) => {
             Wait(1000);
             console.log("1");
         });
-        Wait(getNewRoundDelay());
+        Wait(newRoundDelay);
         // waiting for user to type in their input
 
         console.log("computing result");
         disableMainGameDuel();
         computeRoundResult(gameData);
         
-        Wait(getEndRoundDelay());
+        Wait(endRoundDelay);
         console.log("finished animation");
         console.log("result: ", gameData);
     }

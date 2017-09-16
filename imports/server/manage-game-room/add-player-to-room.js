@@ -9,7 +9,7 @@ export const addPlayerToRoom = (gameData, userId) => {
         gameData.players[userId] = newPlayer;
         gameData.player_keys.push(userId);
         sendMainServerMessage(constructJoinedGameMessage());
-        console.log(gameData);
+        console.log("current gamedata: ", gameData);
     } else {
         console.log(userId, " cannot join room");
     }

@@ -1,17 +1,17 @@
 import gsap from 'gsap';
 
 import { getState, getOpponentState, getPlayerState} from '/imports/client/global-data/manage-state.js';
-import { getPassiveHealAmount, getMaxHp,
-         getPlayAreaMinimizedTime, getPlayAreaMaximizedTime,
-         getHandMinimizedTime, getHandMaximizedTime,
-         getActionSelectedTime, getActionMoveToCenterTime,
-         getActionDoMoveTime, getActionDoBackTime,
-         getHealthbarShakeTime, getPlayActionContainerDisappearTime,
-         getActionReappearTime } from '/imports/shared/global-variables.js';
+import { passiveHealAmount, maxHp,
+         playAreaMinimizedTime, playAreaMaximizedTime,
+         handMinimizedTime, handMaximizedTime,
+         actionSelectedTime, actionMoveToCenterTime,
+         actionDoMoveTime, actionDoBackTime,
+         healthbarShakeTime, playActionContainerDisappearTime,
+         actionReappearTime } from '/imports/shared/global-variables.js';
 
 export const opponentAreaMinimized = () => {
     var opponentHand = new TimelineLite();
-    opponentHand.to(".opponent-side .player-controler", getHandMinimizedTime(), {
+    opponentHand.to(".opponent-side .player-controler", handMinimizedTime, {
         opacity: .5,
         top: -180,
         position: 'relative'
@@ -23,7 +23,7 @@ export const opponentAreaMinimized = () => {
 
 export const opponentActionCardAreaMinimized = (opponentAction, opponentLifeDifference, opponentNewLife) => {
     var timeline = new TimelineLite();
-    timeline.to(".opponent-side .action-card-container", getPlayAreaMinimizedTime(), {
+    timeline.to(".opponent-side .action-card-container", playAreaMinimizedTime, {
         y: '-=' + 180,
         position: 'relative'
     });
@@ -38,9 +38,9 @@ export const opponentActionCardAreaMinimized = (opponentAction, opponentLifeDiff
       });  
     } else if (opponentAction == null){
         timeline.add(() => {
-            if(getOpponentState().CurrentHp < getMaxHp()) {
-                newLife = getOpponentState().CurrentHp + getPassiveHealAmount();
-                executeHealNumberFeedbackForOpponent(getPassiveHealAmount());
+            if(getOpponentState().CurrentHp < maxHp) {
+                newLife = getOpponentState().CurrentHp + passiveHealAmount;
+                executeHealNumberFeedbackForOpponent(passiveHealAmount);
                 setOpponentState("CurrentHp", newLife);
             }
         })
@@ -50,7 +50,7 @@ export const opponentActionCardAreaMinimized = (opponentAction, opponentLifeDiff
 
 export const opponentAreaMaximized = () => {
     var opponentHand = new TimelineLite();
-    opponentHand.to(".opponent-side .player-controler", getHandMaximizedTime(), {
+    opponentHand.to(".opponent-side .player-controler", handMaximizedTime, {
         opacity: 1,
         top: 0,
         position: 'relative',
@@ -64,7 +64,7 @@ export const opponentAreaMaximized = () => {
 
 export const opponentActionCardAreaMaximized = () => {
     var timeline = new TimelineLite();
-    timeline.to(".opponent-side .action-card-container", getPlayAreaMaximizedTime(), {
+    timeline.to(".opponent-side .action-card-container", playAreaMaximizedTime, {
         y: '+=' + 180,
         position: 'relative',
         onComplete: () => {
@@ -84,7 +84,7 @@ const opponentShowSelectedShield = () => {
         y: actionCardAtHandPosition.top - fakeCardPosition.top,
         x: actionCardAtHandPosition.left - fakeCardPosition.left,
         zIndex: 10
-    }).to('.opponent-side .action-card-container .mirror-shield-action', getActionSelectedTime(), {
+    }).to('.opponent-side .action-card-container .mirror-shield-action', actionSelectedTime, {
         autoAlpha: 1,
         scale: 1.5
     });
@@ -102,7 +102,7 @@ const opponentShowSelectedCard = () => {
         y: actionCardAtHandPosition.top - fakeCardPosition.top,
         x: actionCardAtHandPosition.left - fakeCardPosition.left,
         zIndex: 10
-    }).to('.opponent-side .action-card-container .game-card', getActionSelectedTime(), {
+    }).to('.opponent-side .action-card-container .game-card', actionSelectedTime, {
         autoAlpha: 1,
         scale: 1.5
     });
@@ -124,7 +124,7 @@ export const opponentSelectedShieldMoveCenter = () => {
     var timeline = new TimelineLite();
     var fakeCardPosition = $('.opponent-side .action-card-container .mirror-shield-action').position();
     var actionCardAtHandPosition = $('.opponent-side .player-controler .mirror-shield-action').position();
-    timeline.to('.opponent-side .action-card-container .mirror-shield-action', getActionMoveToCenterTime(), {
+    timeline.to('.opponent-side .action-card-container .mirror-shield-action', actionMoveToCenterTime, {
         scale: .8,
         y: '+=' + (fakeCardPosition.top - actionCardAtHandPosition.top),
         x: '+=' + (fakeCardPosition.left - actionCardAtHandPosition.left)
@@ -137,7 +137,7 @@ const opponentSelectedCardMoveCenter = () => {
     var fakeCardPosition = $('.opponent-side .action-card-container .game-card').position();
     var actionCardAtHandPosition = $('.opponent-side .player-controler .playable-cards ' +
         '.playable-game-card:nth-child(' + (getOpponentState().ActionCardIndex+1) +') .game-card').position();
-    timeline.to('.opponent-side .action-card-container .game-card', getActionMoveToCenterTime(), {
+    timeline.to('.opponent-side .action-card-container .game-card', actionMoveToCenterTime, {
         scale: 1,
         y: '+=' + (fakeCardPosition.top - actionCardAtHandPosition.top),
         x: '+=' + (fakeCardPosition.left - actionCardAtHandPosition.left)
@@ -159,7 +159,7 @@ export const opponentSelectedActionMoveCenter = (opponentAction) => {
 
 const opponentCardDoMove = () => {
     var timeline = new TimelineLite();
-    timeline.to('.opponent-side .action-card-container .game-card', getActionDoMoveTime(), {
+    timeline.to('.opponent-side .action-card-container .game-card', actionDoMoveTime, {
         y: '+=' + 150,
         autoAlpha: 0
     });
@@ -196,7 +196,7 @@ export const opponentActionDoMove = (opponentAction, playerAction, playerLifeDif
 export const playerHealthbarShake = (opponentAction) => {
     var timeline = new TimelineLite();
     if(opponentAction == 'ATTACK'){
-        timeline.to('.player-side .healthbar-container .healthbar', getHealthbarShakeTime(), {
+        timeline.to('.player-side .healthbar-container .healthbar', healthbarShakeTime, {
             x: "+=20",
             yoyo: true,
             repeat: 5
@@ -212,9 +212,9 @@ export const playerHealthbarShake = (opponentAction) => {
 const opponentCardDoBack = () => {
     var timeline = new TimelineLite();
 
-    timeline.to('.opponent-side .action-card-container .game-card', getActionReappearTime(), {
+    timeline.to('.opponent-side .action-card-container .game-card', actionReappearTime, {
         autoAlpha: 1
-    }).to('.opponent-side .action-card-container .game-card', getActionDoBackTime(), {
+    }).to('.opponent-side .action-card-container .game-card', actionDoBackTime, {
         y: '-=' + 150
     });
 
@@ -231,7 +231,7 @@ export const opponentActionDoBack = (opponentAction) => {
 
 const opponentShieldDisappear = () => {
     var timeline = new TimelineLite();
-    timeline.to('.opponent-side .action-card-container .mirror-shield-action', getPlayActionContainerDisappearTime(), {
+    timeline.to('.opponent-side .action-card-container .mirror-shield-action', playActionContainerDisappearTime, {
         autoAlpha: 0
     });
     return timeline;
@@ -239,7 +239,7 @@ const opponentShieldDisappear = () => {
 
 const opponentActionCardDisappear = () => {
     var timeline = new TimelineLite();
-    timeline.to('.opponent-side .action-card-container .game-card', getPlayActionContainerDisappearTime(), {
+    timeline.to('.opponent-side .action-card-container .game-card', playActionContainerDisappearTime, {
         autoAlpha: 0
     });
     return timeline;
