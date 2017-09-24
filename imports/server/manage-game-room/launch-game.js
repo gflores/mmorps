@@ -1,4 +1,4 @@
-import { mainGameLoop } from '/imports/server/gameplay/main-game-loop.js';
+import { gameLoop } from '/imports/server/gameplay/game-loop.js';
 
 import { sendMainServerMessage } from '/imports/server/server-messages/main-server-messages.js';
 import { constructCountDownMessage, constructGameStartedMessage } from '/imports/server/server-messages/server-message-format.js';
@@ -7,14 +7,18 @@ import { Wait } from '/imports/helpers/wait.js';
 import { countDownMessageDelay, gameStartDelay } from '/imports/shared/global-variables.js';
 
 export const launchGame = (gameData) => {
+    if (gameData.isGameLaunched == false){
+        gameData.isGameLaunched = true;
+        sendMainServerMessage(constructCountDownMessage(countDownMessageDelay));
 
-    sendMainServerMessage(constructCountDownMessage(countDownMessageDelay));
+        Wait(countDownMessageDelay);
 
-    Wait(countDownMessageDelay);
+        sendMainServerMessage(constructGameStartedMessage(gameData));
 
-    sendMainServerMessage(constructGameStartedMessage(gameData));
+        Wait(gameStartDelay);
 
-    Wait(gameStartDelay);
-
-    mainGameLoop(gameData);
+        gameLoop(gameData);
+    } else {
+        console.log("That game room is already launched");
+    }
 };

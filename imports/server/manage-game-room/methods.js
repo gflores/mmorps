@@ -1,4 +1,6 @@
-import { getMainGameData, resetMainGameData, endMainGame } from '/imports/server/global-data/global-data.js';
+import { initializeRoom } from '/imports/server/manage-game-room/setup-room.js';
+
+import { getMainGameData } from '/imports/server/global-data/global-data.js';
 
 import { addPlayerToRoom } from '/imports/server/manage-game-room/add-player-to-room.js';
 
@@ -10,22 +12,26 @@ import { cleanupMainServerMessages } from '/imports/server/server-messages/main-
 
 Meteor.methods({
     JoinMainGame: () => {
-        addPlayerToRoom(getMainGameData(), Meteor.userId());
+        var gameData = getMainGameData();
+        
+        addPlayerToRoom(gameData, Meteor.userId());
 
-        if (getMainGameData().player_keys.length == 2) {
+        if (gameData.player_keys.length == 2) {
             LaunchAsync(()=> {
-                launchGame(getMainGameData());
+                launchGame(gameData);
             });
         }
     },
 
     ResetMainGame: () => {
-        resetMainGameData();
+        initializeRoom(getMainGameData());
         cleanupMainServerMessages();
     },
     
     EndMainGame: () => {
-        endMainGame();
+        var gameData = getMainGameData();
+
+        gameData.players[gameData.player_keys[0]].currentHp = -9999;
     }
     
     

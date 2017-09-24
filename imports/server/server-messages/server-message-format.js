@@ -11,7 +11,7 @@ export const constructCountDownMessage = (countdownTime) => {
     }
 };
 
-export const constructGameStartedMessage = (gameData) => {
+export const constructGameStartedMessage = (gameData) => { // out of business in the coop mode
     var players = {};
     playerKeys = gameData.player_keys;
     
@@ -24,13 +24,36 @@ export const constructGameStartedMessage = (gameData) => {
        } 
     });
 
-    
-
     return {
         functionId: "game_started",
         players: players
     }
 };
+
+export const constructGameSnapshotMessage = (gameData) => { // when a user wants to get the latest state of the game
+    var players = {};
+    playerKeys = gameData.player_keys;
+    
+    playerKeys.forEach( (playerkey) => {
+        players[playerkey] = {
+           currentHp: gameData.players[playerkey].currentHp,
+           maxHp: gameData.players[playerkey].maxHp,
+           currentCards: gameData.players[playerkey].currentCards,
+           canPlayShield: gameData.players[playerkey].canPlayShield
+       } 
+    });
+
+    var now = new Date();
+
+    return {
+        functionId: "game_started",
+        players: players,
+        canDuelAction: gameData.canDuelAction,
+        decidingPhaseRoundTime: gameData.canDuelAction ? (now.getTime() - gameData.currentRoundStartTime.getTime()) * 1000 : null
+    }
+};
+
+
 
 export const constructNewRoundMessage = (timeLimit) => {
     return {

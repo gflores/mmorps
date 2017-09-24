@@ -4,13 +4,14 @@ import { sendMainServerMessage } from '/imports/server/server-messages/main-serv
 import { constructJoinedGameMessage } from '/imports/server/server-messages/server-message-format.js';
 
 export const addPlayerToRoom = (gameData, userId) => {
-    if (gameData.player_keys[0] != userId && gameData.player_keys.length < 2) {
+    if (_.contains(gameData.player_keys, userId) == true || gameData.player_keys.length == 2)
+        console.log(`${userId} is already inside, or room is already full`)
+    else {
         var newPlayer = createNewPlayer();
+        
         gameData.players[userId] = newPlayer;
         gameData.player_keys.push(userId);
         sendMainServerMessage(constructJoinedGameMessage());
         console.log("current gamedata: ", gameData);
-    } else {
-        console.log(userId, " cannot join room");
     }
 }
