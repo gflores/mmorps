@@ -1,11 +1,11 @@
 module.exports = {
   servers: {
     one: {
-      "host": "104.131.175.201",
+      "host": "159.65.12.187",
       "username": "root",
       // "password": "password"
       // or pem file (ssh based authentication)
-      "pem": "/home/leoss/.ssh/id_rsa"
+      "pem": "/home/gael/.ssh/id_rsa"
     }
   },
 
@@ -16,6 +16,9 @@ module.exports = {
     docker: {
       image: 'abernix/meteord:base', // use this image if using Meteor 1.4+
       args:[ // lets you add/overwrite any parameter on the docker run command (optional)
+      ],
+      buildInstructions: [
+        'RUN npm install node-pre-gyp -g'
       ]
     },
 
